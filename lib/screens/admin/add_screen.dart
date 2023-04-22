@@ -138,7 +138,7 @@ class _AddScreenState extends State<AddScreen> {
                 height: 20,
               ),
               TextField(
-                maxLines: 10,
+                maxLines: 12,
                   decoration: InputDecoration(
                     
                       hintText: 'Directions',
