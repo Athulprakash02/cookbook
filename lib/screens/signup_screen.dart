@@ -1,6 +1,6 @@
 // import 'package:cookbook/db/functions/db_functions.dart';
 
-import 'package:cookbook/db/model/functions/db_functions.dart';
+import 'package:cookbook/db/functions/db_functions.dart';
 import 'package:cookbook/widgets/textfield.dart';
 import 'package:flutter/material.dart';
 
