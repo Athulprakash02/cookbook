@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:cookbook/screens/admin/admin_home.dart';
 import 'package:cookbook/widgets/add_ingredients.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddScreen extends StatefulWidget {
   const AddScreen({super.key});
@@ -22,6 +25,8 @@ class _AddScreenState extends State<AddScreen> {
   TextEditingController _youtubeLink = TextEditingController();
   late String category;
 
+  String? imagePath;
+
   String dropDownValue = 'Category';
 
   var items = ['Category', 'Breakfast', 'Lunch', 'Dinner'];
@@ -33,6 +38,17 @@ class _AddScreenState extends State<AddScreen> {
     for (int i = 0; i < _controllers.length; i++) {
       _controllers.add(TextEditingController());
     }
+  }
+
+  Future<void> imagePick() async {
+    final imagePicked =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (imagePicked != null) {
+      setState(() {
+        imagePath = imagePicked.path;
+      });
+    }
+    print('object');
   }
 
   @override
@@ -52,34 +68,49 @@ class _AddScreenState extends State<AddScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Center(
-                child: ClipRRect(
-                  child: Container(
-                    width: 200,
-                    height: 160,
-                    decoration: BoxDecoration(
-                        border: Border.all(),
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(
-                          Icons.add,
-                          size: 30,
+                
+                child: Stack(
+                  children: [
+                    Container(
+                      width: 200,
+                      height: 120,
+                      decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(20),
+                          image: DecorationImage(
+                              image: imagePath == null
+                                  ? const AssetImage('') as ImageProvider
+                                  : FileImage(File(imagePath!)))),
+                      child: Visibility(
+                        visible: imagePath == null,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                                onPressed: () => imagePick(),
+                                icon: const Icon(
+                                  Icons.add_box_outlined,
+                                  size: 30,
+                                )),
+                            const Text(
+                              'Tap to add Recipe Image',
+                              style: TextStyle(fontSize: 14),
+                            )
+                          ],
                         ),
-                        Text(
-                          'Tap to add Recipe Image',
-                          style: TextStyle(fontSize: 18),
-                        )
-                      ],
+                      ),
+                     
                     ),
-                  ),
+                  
+                  ],
                 ),
               ),
-              szdBox(),
              
-              recipeText(_recipeNameController, 'Recipe name'),
               szdBox(),
-             recipeText(_durationController, 'Cooking time'),
+
+              recipeText(_recipeNameController, 'Recipe name', 1),
+              szdBox(),
+              recipeText(_durationController, 'Cooking time', 1),
               const SizedBox(
                 height: 20,
               ),
@@ -87,7 +118,6 @@ class _AddScreenState extends State<AddScreen> {
                 height: 55,
                 width: double.maxFinite,
                 child: DropdownButtonFormField(
-                  
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10))),
@@ -114,24 +144,23 @@ class _AddScreenState extends State<AddScreen> {
                   Row(
                     children: [
                       Expanded(
-                          child: recipeText(_ingredientsController, 'Add ingredients')),
+                          child: recipeText(
+                              _ingredientsController, 'Add ingredients')),
                       IconButton(
-                        iconSize: 35,
+                          iconSize: 35,
                           onPressed: () => addTextField(_textfields.length),
-                          icon: const Icon(
-                            
-                            Icons.add_box_outlined))
+                          icon: const Icon(Icons.add_box_outlined))
                     ],
                   ),
                   ..._textfields
                 ],
               ),
               szdBox(),
-              recipeText(_directionController, 'Directions for Cook',10),
+              recipeText(_directionController, 'Directions for Cook', 10),
               const SizedBox(
                 height: 20,
               ),
-              recipeText(_youtubeLink, 'Link to the video'),
+              recipeText(_youtubeLink, 'Link to the video', 1),
 
               ElevatedButton.icon(
                   onPressed: () {
@@ -162,7 +191,7 @@ class _AddScreenState extends State<AddScreen> {
 
   void removeTextField(GlobalKey key) {
     setState(() {
-      print("object $key");
+      
       int index = _textKeys.indexOf(key);
       // _controllers[index].dispose();
       _controllers.removeAt(index);
@@ -171,9 +200,6 @@ class _AddScreenState extends State<AddScreen> {
       _ingredientsList.removeAt(index);
     });
   }
-
-
-
 
   Widget addIngredients([GlobalKey? key]) {
     ObjectKey keys = const ObjectKey({});
@@ -186,12 +212,12 @@ class _AddScreenState extends State<AddScreen> {
           children: [
             Expanded(
               child: TextField(
-                 controller: _controllers[index],
-                 onChanged: (value) {
-                   setState(() {
-                     _ingredientsList[index]=value;
-                   });
-                 },
+                controller: _controllers[index],
+                onChanged: (value) {
+                  setState(() {
+                    _ingredientsList[index] = value;
+                  });
+                },
                 key: keys,
                 decoration: InputDecoration(
                     suffixIcon: IconButton(
@@ -219,12 +245,10 @@ class _AddScreenState extends State<AddScreen> {
     );
   }
 
-
-
-  void prints(){
+  void prints() {
     print(_recipeNameController.text);
     print(_durationController.text);
-    
+
     print(category);
     print(_ingredientsController.text);
     _ingredientsList.forEach((element) {

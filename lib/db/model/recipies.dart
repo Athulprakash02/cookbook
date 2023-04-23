@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 
+part 'recipies.g.dart';
 @HiveType(typeId: 2)
 class Recipes extends HiveObject {
   @HiveField(0)
@@ -23,11 +24,15 @@ class Recipes extends HiveObject {
   @HiveField(6)
   final String directions;
 
+  @HiveField(7)
+  final String url;
+
   Recipes(
       {required this.imagePath,
       required this.recipeName,
       required this.cookingTime,
       required this.catogory,
       required this.ingredients,
-      required this.directions});
+      required this.directions,
+      required this.url});
 }

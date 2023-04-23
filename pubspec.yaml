@@ -40,6 +40,7 @@ dependencies:
   shared_preferences: ^2.1.0
   marquee: ^2.2.3
   indexed: ^0.0.8
+  image_picker: ^0.8.7+4
   # flutter_marquee: ^2.0.1
   
  
