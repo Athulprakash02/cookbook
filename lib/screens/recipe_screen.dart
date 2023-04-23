@@ -1,6 +1,6 @@
 import 'package:cookbook/screens/user/review_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:marquee/marquee.dart';
+
 
 class RecipeScreen extends StatefulWidget {
   const RecipeScreen({super.key});

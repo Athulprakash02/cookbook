@@ -13,6 +13,14 @@ class _AddScreenState extends State<AddScreen> {
   List<GlobalKey> _textKeys = [];
   List<Widget> _textfields = [];
   List<TextEditingController> _controllers = [];
+  List<String> _ingredientsList = [];
+  TextEditingController _recipeNameController = TextEditingController();
+  TextEditingController _durationController = TextEditingController();
+  TextEditingController _categoryController = TextEditingController();
+  TextEditingController _directionController = TextEditingController();
+  TextEditingController _ingredientsController = TextEditingController();
+  TextEditingController _youtubeLink = TextEditingController();
+  late String category;
 
   String dropDownValue = 'Category';
 
@@ -67,22 +75,11 @@ class _AddScreenState extends State<AddScreen> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              TextField(
-                  decoration: InputDecoration(
-                      hintText: 'Recipe Name',
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)))),
-              const SizedBox(
-                height: 20,
-              ),
-              TextField(
-                  decoration: InputDecoration(
-                      hintText: 'Cooking Time',
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)))),
+              szdBox(),
+             
+              recipeText(_recipeNameController, 'Recipe name'),
+              szdBox(),
+             recipeText(_durationController, 'Cooking time'),
               const SizedBox(
                 height: 20,
               ),
@@ -90,6 +87,7 @@ class _AddScreenState extends State<AddScreen> {
                 height: 55,
                 width: double.maxFinite,
                 child: DropdownButtonFormField(
+                  
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10))),
@@ -105,24 +103,18 @@ class _AddScreenState extends State<AddScreen> {
                   onChanged: (value) {
                     setState(() {
                       dropDownValue = value!;
+                      category = value;
                     });
                   },
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              szdBox(),
               Column(
                 children: [
                   Row(
                     children: [
                       Expanded(
-                          child: TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Add ingredients',
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10))),
-                      )),
+                          child: recipeText(_ingredientsController, 'Add ingredients')),
                       IconButton(
                         iconSize: 35,
                           onPressed: () => addTextField(_textfields.length),
@@ -134,21 +126,16 @@ class _AddScreenState extends State<AddScreen> {
                   ..._textfields
                 ],
               ),
+              szdBox(),
+              recipeText(_directionController, 'Directions for Cook',10),
               const SizedBox(
                 height: 20,
               ),
-              TextField(
-                maxLines: 12,
-                  decoration: InputDecoration(
-                    
-                      hintText: 'Directions',
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)))),
-              const SizedBox(
-                height: 20,
-              ),
+              recipeText(_youtubeLink, 'Link to the video'),
+
               ElevatedButton.icon(
                   onPressed: () {
+                    prints();
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (context) => const AdminHome(),
                     ));
@@ -166,8 +153,10 @@ class _AddScreenState extends State<AddScreen> {
     setState(() {
       // print('1');
       GlobalKey key = GlobalKey();
+      _controllers.add(TextEditingController());
       _textKeys.add(key);
       _textfields.add(addIngredients(key));
+      _ingredientsList.add('');
     });
   }
 
@@ -175,13 +164,20 @@ class _AddScreenState extends State<AddScreen> {
     setState(() {
       print("object $key");
       int index = _textKeys.indexOf(key);
+      // _controllers[index].dispose();
+      _controllers.removeAt(index);
       _textfields.removeAt(index);
       _textKeys.removeAt(index);
+      _ingredientsList.removeAt(index);
     });
   }
 
+
+
+
   Widget addIngredients([GlobalKey? key]) {
     ObjectKey keys = const ObjectKey({});
+    int index = _ingredientsList.length;
     return Padding(
       padding: const EdgeInsets.only(top: 4, bottom: 4),
       child: SizedBox(
@@ -190,7 +186,12 @@ class _AddScreenState extends State<AddScreen> {
           children: [
             Expanded(
               child: TextField(
-                // controller: _controllers[1],
+                 controller: _controllers[index],
+                 onChanged: (value) {
+                   setState(() {
+                     _ingredientsList[index]=value;
+                   });
+                 },
                 key: keys,
                 decoration: InputDecoration(
                     suffixIcon: IconButton(
@@ -216,5 +217,20 @@ class _AddScreenState extends State<AddScreen> {
         ),
       ),
     );
+  }
+
+
+
+  void prints(){
+    print(_recipeNameController.text);
+    print(_durationController.text);
+    
+    print(category);
+    print(_ingredientsController.text);
+    _ingredientsList.forEach((element) {
+      print(element);
+    });
+    print(_directionController.text);
+    print(_youtubeLink.text);
   }
 }
