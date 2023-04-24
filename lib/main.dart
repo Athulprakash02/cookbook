@@ -2,12 +2,12 @@ import 'package:cookbook/db/model/login_model.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+
 import 'package:hive_flutter/hive_flutter.dart';
 
 
 
-const SAVE_KEY_NAME = 'UserLoggedIn';
+const SAVE_KEY_NAME = 'adminLoggedIn';
 const adminMail = 'admin@gmail.com';
 const adminPass = '0000';
 void main(List<String> args) async{
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       title: 'CookBook',
       theme: ThemeData(
        primarySwatch: Colors.grey
-      ),
+      ),  
       home: const ScreenSplash(),
       debugShowCheckedModeBanner: false,
     );

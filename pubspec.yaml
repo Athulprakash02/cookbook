@@ -41,6 +41,8 @@ dependencies:
   marquee: ^2.2.3
   indexed: ^0.0.8
   image_picker: ^0.8.7+4
+  url_launcher: ^6.1.10
+  
   # flutter_marquee: ^2.0.1
   
  

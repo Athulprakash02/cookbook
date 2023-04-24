@@ -15,16 +15,16 @@ class AddScreen extends StatefulWidget {
 }
 
 class _AddScreenState extends State<AddScreen> {
-  List<GlobalKey> _textKeys = [];
-  List<Widget> _textfields = [];
-  List<TextEditingController> _controllers = [];
-  List<String> _ingredientsList = [];
-  TextEditingController _recipeNameController = TextEditingController();
-  TextEditingController _durationController = TextEditingController();
-  TextEditingController _categoryController = TextEditingController();
-  TextEditingController _directionController = TextEditingController();
-  TextEditingController _ingredientsController = TextEditingController();
-  TextEditingController _youtubeLink = TextEditingController();
+  final List<GlobalKey> _textKeys = [];
+  final List<Widget> _textfields = [];
+  final List<TextEditingController> _controllers = [];
+  final List<String> _ingredientsList = [];
+  final TextEditingController _recipeNameController = TextEditingController();
+  final TextEditingController _durationController = TextEditingController();
+  final TextEditingController _categoryController = TextEditingController();
+  final TextEditingController _directionController = TextEditingController();
+  final TextEditingController _ingredientsController = TextEditingController();
+  final TextEditingController _youtubeLink = TextEditingController();
   late String category;
 
   String? imagePath;
@@ -161,9 +161,20 @@ class _AddScreenState extends State<AddScreen> {
                 height: 20,
               ),
               recipeText(_youtubeLink, 'Link to the video', 1),
+              szdBox(),
               ElevatedButton.icon(
                   onPressed: () {
-                    onUploadButtonClicked();
+                    if (imagePath != null &&
+                        _recipeNameController.text.isNotEmpty &&
+                        _durationController.text.isNotEmpty &&
+                        _ingredientsController.text.isNotEmpty &&
+                        _directionController.text.isNotEmpty &&
+                        _youtubeLink.text.isNotEmpty) {
+                      onUploadButtonClicked();
+                      addedSuccesully();
+                    } else {
+                      validCheck();
+                    }
                   },
                   icon: const Icon(Icons.add),
                   label: const Text('Add'))
@@ -242,50 +253,74 @@ class _AddScreenState extends State<AddScreen> {
 
   Future<void> onUploadButtonClicked() async {
     print('Clicked');
-    final _recipeName = _recipeNameController.text.trim();
-    final _duration = _durationController.text.trim();
-    final _category = _categoryController.text.trim();
-    final _ingredients = _ingredientsController.text.trim();
-    final _extraIngredients = _ingredientsList;
-    final _direction = _directionController.text.trim();
-    final _link = _youtubeLink.text.trim();
+    final recipeName = _recipeNameController.text.trim();
+    final duration = _durationController.text.trim();
+    final category = _categoryController.text.trim();
+    final ingredients = _ingredientsController.text.trim();
+    final extraIngredients = _ingredientsList;
+    final direction = _directionController.text.trim();
+    final link = _youtubeLink.text.trim();
 
-    if (_recipeName.isEmpty ||
-        _duration.isEmpty ||
-        _ingredients.isEmpty ||
-        _direction.isEmpty ||
-        _link.isEmpty) {
-          print('returned');
+    if (recipeName.isEmpty ||
+        duration.isEmpty ||
+        ingredients.isEmpty ||
+        direction.isEmpty ||
+        link.isEmpty) {
+      print('returned');
       return;
     }
     print('reached');
-    final _recipeDetails = Recipes(
+    final recipeDetails = Recipes(
         imagePath: imagePath!,
-        recipeName: _recipeName,
-        cookingTime: _duration,
-        catogory: _category,
-        ingredients: _ingredients,
-        extraIngredients: _extraIngredients,
-        directions: _direction,
-        url: _link);
+        recipeName: recipeName,
+        cookingTime: duration,
+        catogory: category,
+        ingredients: ingredients,
+        extraIngredients: extraIngredients,
+        directions: direction,
+        url: link);
 
-    uploadRecipe(_recipeDetails);
+    uploadRecipe(recipeDetails);
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (context) => const AdminHome(),
     ));
   }
 
-  void prints() {
-    print(_recipeNameController.text);
-    print(_durationController.text);
+  validCheck() {
+    var errorMessage = '';
+    if (imagePath == null &&
+        _recipeNameController.text.isEmpty &&
+        _durationController.text.isEmpty &&
+        _ingredientsController.text.isEmpty &&
+        _directionController.text.isEmpty &&
+        _youtubeLink.text.isEmpty) {
+      errorMessage = 'Please fill all the fields';
+    } else if (imagePath == null) {
+      errorMessage = 'Please add image';
+    } else if (_recipeNameController.text.isEmpty) {
+      errorMessage = 'Please add Recipe name';
+    } else if (_durationController.text.isEmpty) {
+      errorMessage = 'Please add cooking time';
+    } else if (_ingredientsController.text.isEmpty) {
+      errorMessage = 'Please add ingredients';
+    } else if (_directionController.text.isEmpty) {
+      errorMessage = 'Please add directions';
+    } else if (_youtubeLink.text.isEmpty) {
+      errorMessage = 'Please add any link of making video';
+    }
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.red,
+          margin: const EdgeInsets.all(10),
+          content: Text(errorMessage,style: const TextStyle(fontSize: 17),)));
+  }
 
-    print(category);
-    print(_ingredientsController.text);
-    _ingredientsList.forEach((element) {
-      print(element);
-    });
-    print(_directionController.text);
-    print(_youtubeLink.text);
-    print(_ingredientsList);
+   void addedSuccesully(){
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      behavior: SnackBarBehavior.floating,
+      margin: EdgeInsets.all(10),
+      backgroundColor: Colors.green,
+      content: Text('Recipe added succesfully',style: TextStyle(fontSize: 17),)));
   }
 }

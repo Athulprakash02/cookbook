@@ -35,7 +35,7 @@ Widget viewCard(Recipes data) {
             height: 30,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: const Color.fromARGB(255, 196, 192, 192)
+              color: const Color.fromARGB(204, 255, 255, 255)
             ),
           )),
           Positioned(
@@ -55,7 +55,7 @@ Widget viewCard(Recipes data) {
             left: 30,
             child: Container(
               decoration: BoxDecoration(
-                color:  const Color.fromARGB(255, 196, 192, 192),
+                color:  Color.fromARGB(204, 255, 255, 255),
                 borderRadius: BorderRadius.circular(10)
               ),
             child: Padding(
@@ -105,7 +105,7 @@ Widget userCard(Recipes data) {
             left: 30,
             child: Container(
               decoration: BoxDecoration(
-                color:  const Color.fromARGB(255, 196, 192, 192),
+                color:  Color.fromARGB(204, 255, 255, 255),
                 borderRadius: BorderRadius.circular(10)
               ),
             child: Padding(
@@ -130,7 +130,7 @@ Widget userCard(Recipes data) {
               top: 10,
               child: Container(
             decoration: BoxDecoration(
-                    color:  const Color.fromARGB(255, 196, 192, 192),
+                    color: Color.fromARGB(204, 255, 255, 255),
                     borderRadius: BorderRadius.circular(30)
                   ),
             child: IconButton(onPressed: () {

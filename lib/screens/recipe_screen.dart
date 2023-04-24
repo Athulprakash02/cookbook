@@ -1,20 +1,28 @@
+import 'dart:io';
+
+import 'package:cookbook/db/functions/db_recipe_functions.dart';
+import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/screens/user/review_screen.dart';
 import 'package:flutter/material.dart';
 
+class RecipeScreen extends StatelessWidget {
+  RecipeScreen({Key? key,
+  required this.passValue,
+  required this.idPass
+  }) : super(key: key);
 
-class RecipeScreen extends StatefulWidget {
-  const RecipeScreen({super.key});
 
-  @override
-  State<RecipeScreen> createState() => _RecipeScreenState();
-}
+  Recipes passValue;
+  final int idPass;
+  List<String> ingredientsList= [];
 
-class _RecipeScreenState extends State<RecipeScreen> {
+ 
+
   @override
   Widget build(BuildContext context) {
+    ingredientsList.add(passValue.ingredients);
+    ingredientsList.addAll(passValue.extraIngredients);
     return Scaffold(
-     
-
       body: Container(
         width: double.maxFinite,
         height: double.maxFinite,
@@ -26,38 +34,53 @@ class _RecipeScreenState extends State<RecipeScreen> {
                 child: Container(
                   width: double.maxFinite,
                   height: 350,
-                  decoration: const BoxDecoration(
+                  decoration:  BoxDecoration(
                       image: DecorationImage(
                           image:
-                              AssetImage('assets/images/pizza-386717__340.jpg'),
+                              FileImage(File(passValue.imagePath)),
                           fit: BoxFit.cover)),
                 )),
             Positioned(
-              top: 30,
-              left: 20,
-                child:
-                    CircleAvatar(
-                      backgroundColor: const Color.fromARGB(255, 234, 201, 198),
-                      radius: 25,
-                      child: IconButton(
-                        iconSize: 35,
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        }, icon: const Icon(Icons.arrow_back_sharp)),
-                    )),
-                     Positioned(
-              top: 30,
-              right: 20,
-                child:
-                    CircleAvatar(
-                      backgroundColor: const Color.fromARGB(255, 234, 201, 198),
-                      radius: 25,
-                      child: IconButton(
-                        iconSize: 30,
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReviewScreen(),));
-                        }, icon: const Icon(Icons.reviews_outlined)),
-                    )),
+                top: 30,
+                left: 20,
+                child: CircleAvatar(
+                  backgroundColor: const Color.fromARGB(255, 234, 201, 198),
+                  radius: 25,
+                  child: IconButton(
+                      iconSize: 35,
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: const Icon(Icons.arrow_back_sharp)),
+                )),
+            Positioned(
+                top: 30,
+                right: 20,
+                child: CircleAvatar(
+                  backgroundColor: const Color.fromARGB(255, 234, 201, 198),
+                  radius: 25,
+                  child: IconButton(
+                      iconSize: 30,
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const ReviewScreen(),
+                        ));
+                      },
+                      icon: const Icon(Icons.reviews_outlined)),
+                )),
+                 Positioned(
+                top: 90,
+                right: 20,
+                child: CircleAvatar(
+                  backgroundColor: const Color.fromARGB(255, 234, 201, 198),
+                  radius: 25,
+                  child: IconButton(
+                      iconSize: 35,
+                      onPressed: () {
+                      //  launchURL(passValue.url);
+                      },
+                      icon: const Icon(Icons.play_circle_fill,color: Colors.red,)),
+                )),
             Positioned(
                 top: 320,
                 child: Container(
@@ -74,21 +97,21 @@ class _RecipeScreenState extends State<RecipeScreen> {
                     padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
                     child: Column(
                       children: [
-                        const Text(
-                          'Chicken golden delight',
-                          style: TextStyle(
+                         Text(
+                          passValue.recipeName,
+                          style: const TextStyle(
                               fontSize: 25, fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(
                           height: 10,
                         ),
                         Row(
-                          children: const [
-                            Icon(Icons.watch_later_outlined),
-                            SizedBox(
+                          children:  [
+                            const Icon(Icons.watch_later_outlined),
+                            const SizedBox(
                               width: 5,
                             ),
-                            Text('45 Mins')
+                            Text(passValue.cookingTime)
                           ],
                         ),
                         const SizedBox(
@@ -103,40 +126,41 @@ class _RecipeScreenState extends State<RecipeScreen> {
                             padding: const EdgeInsets.all(10.0),
                             child: SingleChildScrollView(
                               child: Column(
-                                children: const [
+                                children:  [
                                   // SizedBox(
                                   //   height: 10,
                                   // ),
-                                  Text(
+                                  const Text(
                                     'ingredients',
                                     style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 10,
                                   ),
-                                  Text(
-                                    '1(10 3/4 ounce) can cream of chicken soup, undiluted \n3⁄4cup sour cream \n1⁄4cup milk \n1cup cubed cooked chicken \n2 1⁄2cups shredded cheddar cheese, \n2cups frozen hash browns, thawed1(10 3/4 ounce) can cream of chicken soup, undiluted \n3⁄4cup sour cream \n1⁄4cup milk \n1cup cubed cooked chicken \n2 1⁄2cups shredded cheddar cheese, \n2cups frozen hash browns, thawed ',
-                                    style: TextStyle(fontSize: 17),
+                                  Text("\u25CF ${ingredientsList.join('\n\u25CF ')}",
+                                    style: const TextStyle(fontSize: 19),
                                   ),
-                                  Divider(
+                                  
+
+                                  const Divider(
                                     thickness: 2,
                                     height: 20,
                                   ),
-                                  // SizedBox(height: 15,),
-                                  Text(
+                                  
+                                  const Text(
                                     'Directions',
                                     style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 10,
                                   ),
                                   Text(
-                                    '1(10 3/4 ounce) can cream of chicken soup, undiluted \n3⁄4cup sour cream \n1⁄4cup milk \n1cup cubed cooked chicken \n2 1⁄2cups shredded cheddar cheese, \n2cups frozen hash browns, thawed 1(10 3/4 ounce) can cream of chicken soup, undiluted \n3⁄4cup sour cream \n1⁄4cup ',
-                                    style: TextStyle(fontSize: 17),
+                                    passValue.directions,
+                                    style: const TextStyle(fontSize: 17),
                                   ),
                                 ],
                               ),

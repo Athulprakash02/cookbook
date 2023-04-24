@@ -6,7 +6,6 @@ import 'package:cookbook/widgets/card.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -15,7 +14,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   late Box recipeList;
   final _search = TextEditingController();
 
@@ -23,7 +21,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    recipeList =Hive.box('recipe_list');
+    getAllRecipe();
+    recipeList = Hive.box<Recipes>('recipe_list');
   }
 
   @override
@@ -136,7 +135,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
 
-
         body: SafeArea(
           child: Container(
             child: Column(
@@ -198,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Expanded(
                     child: TabBarView(children: [
-                   Padding(
+                  Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: ValueListenableBuilder(
                         valueListenable: recipeListNotifier,
@@ -211,29 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   onTap: () {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
-                                      builder: (context) => RecipeScreen(),
-                                    ));
-                                  },
-                                  child: userCard(data));
-                            },
-                            itemCount: recipeData.length,
-                          );
-                        }),
-                  ),
-                   Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: ValueListenableBuilder(
-                        valueListenable: recipeListNotifier,
-                        builder: (BuildContext context,
-                            List<Recipes> recipeData, Widget? child) {
-                          return ListView.builder(
-                            itemBuilder: (context, index) {
-                              final data = recipeData[index];
-                              return GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) => RecipeScreen(),
+                                      builder: (context) => RecipeScreen(passValue: data, idPass: index),
                                     ));
                                   },
                                   child: userCard(data));
@@ -255,7 +231,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   onTap: () {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
-                                      builder: (context) => RecipeScreen(),
+                                      builder: (context) => RecipeScreen(passValue: data, idPass: index),
                                     ));
                                   },
                                   child: userCard(data));
@@ -264,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                         }),
                   ),
-                   Padding(
+                  Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: ValueListenableBuilder(
                         valueListenable: recipeListNotifier,
@@ -277,7 +253,29 @@ class _HomeScreenState extends State<HomeScreen> {
                                   onTap: () {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
-                                      builder: (context) => RecipeScreen(),
+                                      builder: (context) => RecipeScreen(passValue: data, idPass: index),
+                                    ));
+                                  },
+                                  child: userCard(data));
+                            },
+                            itemCount: recipeData.length,
+                          );
+                        }),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: ValueListenableBuilder(
+                        valueListenable: recipeListNotifier,
+                        builder: (BuildContext context,
+                            List<Recipes> recipeData, Widget? child) {
+                          return ListView.builder(
+                            itemBuilder: (context, index) {
+                              final data = recipeData[index];
+                              return GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) => RecipeScreen(passValue: data, idPass: index),
                                     ));
                                   },
                                   child: userCard(data));

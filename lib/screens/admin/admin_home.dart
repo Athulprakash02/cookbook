@@ -25,6 +25,7 @@ class _AdminHomeState extends State<AdminHome> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getAllRecipe();
     recipeList = Hive.box('recipe_list');
   }
 
@@ -131,7 +132,7 @@ class _AdminHomeState extends State<AdminHome> {
                                   onTap: () {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
-                                      builder: (context) => RecipeScreen(),
+                                      builder: (context) => RecipeScreen(passValue: data, idPass: index),
                                     ));
                                   },
                                   child: viewCard(data));
@@ -153,7 +154,7 @@ class _AdminHomeState extends State<AdminHome> {
                                   onTap: () {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
-                                      builder: (context) => RecipeScreen(),
+                                      builder: (context) => RecipeScreen(passValue: data, idPass: index),
                                     ));
                                   },
                                   child: viewCard(data));
@@ -175,7 +176,7 @@ class _AdminHomeState extends State<AdminHome> {
                                   onTap: () {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
-                                      builder: (context) => RecipeScreen(),
+                                      builder: (context) => RecipeScreen(passValue: data, idPass: index),
                                     ));
                                   },
                                   child: viewCard(data));
@@ -197,7 +198,7 @@ class _AdminHomeState extends State<AdminHome> {
                                   onTap: () {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
-                                      builder: (context) => RecipeScreen(),
+                                      builder: (context) => RecipeScreen(passValue: data, idPass: index),
                                     ));
                                   },
                                   child: viewCard(data));

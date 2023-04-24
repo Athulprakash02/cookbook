@@ -2,6 +2,8 @@ import 'package:cookbook/db/model/recipies.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 ValueNotifier<List<Recipes>> recipeListNotifier = ValueNotifier([]);
 
@@ -16,6 +18,15 @@ Future<void> uploadRecipe(Recipes value) async{
   
   
 }  
+
+// Future<void> launchURL(String url) async{
+//   final Uri _url = Uri(scheme: "https",host: url);
+//  if(!await launchUrl(_url,mode: LaunchMode.externalApplication)){
+
+//  } else{
+//   throw 'Could not Launch Youtube';
+//  }
+// }
 
 Future<void> getAllRecipe() async{
   final recipeDB = await Hive.openBox<Recipes>('recipe_list');
