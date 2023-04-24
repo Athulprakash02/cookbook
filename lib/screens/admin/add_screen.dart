@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:cookbook/db/functions/db_recipe_functions.dart';
+import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/screens/admin/admin_home.dart';
 import 'package:cookbook/widgets/add_ingredients.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +70,6 @@ class _AddScreenState extends State<AddScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Center(
-                
                 child: Stack(
                   children: [
                     Container(
@@ -78,8 +79,11 @@ class _AddScreenState extends State<AddScreen> {
                           border: Border.all(),
                           borderRadius: BorderRadius.circular(20),
                           image: DecorationImage(
+                              opacity: imagePath == null ? 0 : 1,
                               image: imagePath == null
-                                  ? const AssetImage('') as ImageProvider
+                                  ? const AssetImage(
+                                          'assets/images/cookbooklogo.png')
+                                      as ImageProvider
                                   : FileImage(File(imagePath!)))),
                       child: Visibility(
                         visible: imagePath == null,
@@ -99,15 +103,11 @@ class _AddScreenState extends State<AddScreen> {
                           ],
                         ),
                       ),
-                     
                     ),
-                  
                   ],
                 ),
               ),
-             
               szdBox(),
-
               recipeText(_recipeNameController, 'Recipe name', 1),
               szdBox(),
               recipeText(_durationController, 'Cooking time', 1),
@@ -161,13 +161,9 @@ class _AddScreenState extends State<AddScreen> {
                 height: 20,
               ),
               recipeText(_youtubeLink, 'Link to the video', 1),
-
               ElevatedButton.icon(
                   onPressed: () {
-                    prints();
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => const AdminHome(),
-                    ));
+                    onUploadButtonClicked();
                   },
                   icon: const Icon(Icons.add),
                   label: const Text('Add'))
@@ -191,7 +187,6 @@ class _AddScreenState extends State<AddScreen> {
 
   void removeTextField(GlobalKey key) {
     setState(() {
-      
       int index = _textKeys.indexOf(key);
       // _controllers[index].dispose();
       _controllers.removeAt(index);
@@ -245,6 +240,41 @@ class _AddScreenState extends State<AddScreen> {
     );
   }
 
+  Future<void> onUploadButtonClicked() async {
+    print('Clicked');
+    final _recipeName = _recipeNameController.text.trim();
+    final _duration = _durationController.text.trim();
+    final _category = _categoryController.text.trim();
+    final _ingredients = _ingredientsController.text.trim();
+    final _extraIngredients = _ingredientsList;
+    final _direction = _directionController.text.trim();
+    final _link = _youtubeLink.text.trim();
+
+    if (_recipeName.isEmpty ||
+        _duration.isEmpty ||
+        _ingredients.isEmpty ||
+        _direction.isEmpty ||
+        _link.isEmpty) {
+          print('returned');
+      return;
+    }
+    print('reached');
+    final _recipeDetails = Recipes(
+        imagePath: imagePath!,
+        recipeName: _recipeName,
+        cookingTime: _duration,
+        catogory: _category,
+        ingredients: _ingredients,
+        extraIngredients: _extraIngredients,
+        directions: _direction,
+        url: _link);
+
+    uploadRecipe(_recipeDetails);
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (context) => const AdminHome(),
+    ));
+  }
+
   void prints() {
     print(_recipeNameController.text);
     print(_durationController.text);
@@ -256,5 +286,6 @@ class _AddScreenState extends State<AddScreen> {
     });
     print(_directionController.text);
     print(_youtubeLink.text);
+    print(_ingredientsList);
   }
 }

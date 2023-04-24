@@ -17,20 +17,22 @@ class RecipesAdapter extends TypeAdapter<Recipes> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Recipes(
+      id: fields[0] as int?,
       imagePath: fields[1] as String,
       recipeName: fields[2] as String,
       cookingTime: fields[3] as String,
       catogory: fields[4] as String,
       ingredients: fields[5] as String,
-      directions: fields[6] as String,
-      url: fields[7] as String,
-    )..id = fields[0] as int?;
+      extraIngredients: (fields[6] as List).cast<String>(),
+      directions: fields[7] as String,
+      url: fields[8] as String,
+    );
   }
 
   @override
   void write(BinaryWriter writer, Recipes obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -44,8 +46,10 @@ class RecipesAdapter extends TypeAdapter<Recipes> {
       ..writeByte(5)
       ..write(obj.ingredients)
       ..writeByte(6)
-      ..write(obj.directions)
+      ..write(obj.extraIngredients)
       ..writeByte(7)
+      ..write(obj.directions)
+      ..writeByte(8)
       ..write(obj.url);
   }
 

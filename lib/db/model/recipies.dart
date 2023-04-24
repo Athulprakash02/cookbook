@@ -22,17 +22,22 @@ class Recipes extends HiveObject {
   final String ingredients;
 
   @HiveField(6)
-  final String directions;
+  final List<String> extraIngredients;
 
   @HiveField(7)
+  final String directions;
+
+  @HiveField(8)
   final String url;
 
   Recipes(
-      {required this.imagePath,
+      {this.id,
+        required this.imagePath,
       required this.recipeName,
       required this.cookingTime,
       required this.catogory,
       required this.ingredients,
+      required this.extraIngredients,
       required this.directions,
       required this.url});
 }

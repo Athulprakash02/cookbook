@@ -1,9 +1,12 @@
+import 'package:cookbook/db/functions/db_recipe_functions.dart';
+import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/screens/admin/add_screen.dart';
 import 'package:cookbook/screens/user/login_screen.dart';
 import 'package:cookbook/screens/recipe_screen.dart';
 import 'package:cookbook/widgets/card.dart';
 
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,7 +18,15 @@ class AdminHome extends StatefulWidget {
 }
 
 class _AdminHomeState extends State<AdminHome> {
+  late Box<Recipes> recipeList;
   final _search = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    recipeList = Hive.box('recipe_list');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,55 +120,91 @@ class _AdminHomeState extends State<AdminHome> {
                     child: TabBarView(children: [
                   Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: ListView.builder(
-                      itemBuilder: (context, index) => GestureDetector(
-                         onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => RecipeScreen(),
-                            ));
-                          },
-                        child: viewCard()),
-                      itemCount: 15,
-                    ),
+                    child: ValueListenableBuilder(
+                        valueListenable: recipeListNotifier,
+                        builder: (BuildContext context,
+                            List<Recipes> recipeData, Widget? child) {
+                          return ListView.builder(
+                            itemBuilder: (context, index) {
+                              final data = recipeData[index];
+                              return GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) => RecipeScreen(),
+                                    ));
+                                  },
+                                  child: viewCard(data));
+                            },
+                            itemCount: recipeData.length,
+                          );
+                        }),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: ListView.builder(
-                      itemBuilder: (context, index) => GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => RecipeScreen(),
-                            ));
-                          },
-                          child: viewCard()),
-                      itemCount: 15,
-                    ),
+                    child: ValueListenableBuilder(
+                        valueListenable: recipeListNotifier,
+                        builder: (BuildContext context,
+                            List<Recipes> recipeData, Widget? child) {
+                          return ListView.builder(
+                            itemBuilder: (context, index) {
+                              final data = recipeData[index];
+                              return GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) => RecipeScreen(),
+                                    ));
+                                  },
+                                  child: viewCard(data));
+                            },
+                            itemCount: recipeData.length,
+                          );
+                        }),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: ListView.builder(
-                      itemBuilder: (context, index) => GestureDetector(
-                         onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => RecipeScreen(),
-                            ));
-                          },
-                        child: viewCard()),
-                      itemCount: 15,
-                    ),
+                    child: ValueListenableBuilder(
+                        valueListenable: recipeListNotifier,
+                        builder: (BuildContext context,
+                            List<Recipes> recipeData, Widget? child) {
+                          return ListView.builder(
+                            itemBuilder: (context, index) {
+                              final data = recipeData[index];
+                              return GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) => RecipeScreen(),
+                                    ));
+                                  },
+                                  child: viewCard(data));
+                            },
+                            itemCount: recipeData.length,
+                          );
+                        }),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: ListView.builder(
-                      itemBuilder: (context, index) => GestureDetector(
-                         onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => RecipeScreen(),
-                            ));
-                          },
-                        child: viewCard()),
-                      itemCount: 15,
-                    ),
+                    child: ValueListenableBuilder(
+                        valueListenable: recipeListNotifier,
+                        builder: (BuildContext context,
+                            List<Recipes> recipeData, Widget? child) {
+                          return ListView.builder(
+                            itemBuilder: (context, index) {
+                              final data = recipeData[index];
+                              return GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) => RecipeScreen(),
+                                    ));
+                                  },
+                                  child: viewCard(data));
+                            },
+                            itemCount: recipeData.length,
+                          );
+                        }),
                   ),
                 ])),
               ],

@@ -1,4 +1,5 @@
 import 'package:cookbook/db/model/login_model.dart';
+import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -17,7 +18,10 @@ void main(List<String> args) async{
   if(!Hive.isAdapterRegistered(LoginDataAdapter().typeId)){
     Hive.registerAdapter(LoginDataAdapter());
   }
- 
+  if(!Hive.isAdapterRegistered(RecipesAdapter().typeId)){
+    Hive.registerAdapter(RecipesAdapter());
+  }
+ await Hive.openBox<Recipes>('recipe_list');
   runApp(const MyApp());
 }
 

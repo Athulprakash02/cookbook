@@ -1,16 +1,22 @@
+import 'dart:io';
+
+import 'package:cookbook/db/model/recipies.dart';
 import 'package:flutter/material.dart';
 
-Widget viewCard() {
+Widget viewCard(Recipes data) {
   return Card(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(90)),
     child: Container(
       height: 200,
       
       decoration: BoxDecoration(
-        image: const DecorationImage(image: AssetImage(
-            'assets/images/pizza-386717__340.jpg',
+        image:  DecorationImage(
+          image: FileImage(File(data.imagePath)),
+          // AssetImage(
+          //   data.imagePath,
             
-          ),fit: BoxFit.fill),
+          // ),
+          fit: BoxFit.fill),
 
           color: const Color.fromARGB(255, 5, 4, 2), 
           borderRadius: BorderRadius.circular(20)
@@ -57,12 +63,12 @@ Widget viewCard() {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('CHICKEN GOLDEN DELIGHT',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400),),
+                   Text(data.recipeName,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400),),
                   Row(
-                    children: const [
+                    children:  [
                       Icon(Icons.watch_later_outlined, size: 16,),
                       SizedBox(width: 5,),
-                      Text('35 mins'),
+                      Text(data.cookingTime),
                     ],
                   )
                 ],
@@ -78,17 +84,14 @@ Widget viewCard() {
 
 
 
-Widget userCard() {
+Widget userCard(Recipes data) {
   return Card(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(90)),
     child: Container(
       height: 200,
       
       decoration: BoxDecoration(
-        image: const DecorationImage(image: AssetImage(
-            'assets/images/pizza-386717__340.jpg',
-            
-          ),fit: BoxFit.fill),
+        image:  DecorationImage(image: FileImage(File(data.imagePath)),fit: BoxFit.fill),
 
           color: const Color.fromARGB(255, 5, 4, 2), 
           borderRadius: BorderRadius.circular(20)
@@ -100,32 +103,32 @@ Widget userCard() {
           Positioned(
             bottom: 20,
             left: 30,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color:  const Color.fromARGB(255, 196, 192, 192),
-                    borderRadius: BorderRadius.circular(10)
-                  ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('CHICKEN GOLDEN DELIGHT',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400),),
-                      Row(
-                        children: const [
-                          Icon(Icons.watch_later_outlined, size: 16,),
-                          SizedBox(width: 5,),
-                          Text('35 mins'),
-                        ],
-                      )
+            child: Container(
+              decoration: BoxDecoration(
+                color:  const Color.fromARGB(255, 196, 192, 192),
+                borderRadius: BorderRadius.circular(10)
+              ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                   Text(data.recipeName,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                  Row(
+                    children:  [
+                      Icon(Icons.watch_later_outlined, size: 16,),
+                      SizedBox(width: 5,),
+                      Text(data.cookingTime),
                     ],
-                  ),
-                ),
-          ),
-          Container(
+                  )
+                ],
+              ),
+            ),
+          )) ,
+            Positioned(
+              right: 10,
+              top: 10,
+              child: Container(
             decoration: BoxDecoration(
                     color:  const Color.fromARGB(255, 196, 192, 192),
                     borderRadius: BorderRadius.circular(30)
@@ -133,9 +136,7 @@ Widget userCard() {
             child: IconButton(onPressed: () {
               
             }, icon: Icon(Icons.favorite_outline,size: 25,)),
-          )
-              ],
-            ))
+          ))
 
           
           
