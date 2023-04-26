@@ -15,6 +15,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late Box recipeList;
+  late int _selectedOption;
   final _search = TextEditingController();
 
   @override
@@ -33,7 +34,21 @@ class _HomeScreenState extends State<HomeScreen> {
         // backgroundColor: const Color.fromARGB(234, 255, 255, 255),
         appBar: AppBar(
           actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert))
+            
+            PopupMenuButton(
+              onSelected: (value) {
+                setState(() {
+                  _selectedOption = value;
+                });
+              },
+              itemBuilder: (context) {
+              return [
+                PopupMenuItem(child: Text('sort by name'),value: 1,),
+                PopupMenuItem(child: Text('sort by duration(less to more)'),value: 2,),
+                PopupMenuItem(child: Text('sort by time'),value: 3,),
+              ];
+            },
+            tooltip: 'sort',)
           ],
           // backgroundColor: const Color.fromARGB(255, 255, 255, 255),
           elevation: 0,
