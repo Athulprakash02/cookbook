@@ -10,6 +10,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 const SAVE_KEY_NAME = 'adminLoggedIn';
 const adminMail = 'admin@gmail.com';
 const adminPass = '0000';
+const userLoggedIn = 'userLogged';
+
+
 void main(List<String> args) async{
   // debugPaintSizeEnabled = true;
   await Hive.initFlutter();

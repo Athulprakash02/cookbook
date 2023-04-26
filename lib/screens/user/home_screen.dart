@@ -1,7 +1,8 @@
 import 'package:cookbook/db/functions/db_recipe_functions.dart';
+import 'package:cookbook/db/functions/login_functions.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/screens/recipe_screen.dart';
-import 'package:cookbook/screens/user/login_screen.dart';
+
 import 'package:cookbook/widgets/card.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -43,9 +44,9 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               itemBuilder: (context) {
               return [
-                PopupMenuItem(child: Text('sort by name'),value: 1,),
-                PopupMenuItem(child: Text('sort by duration(less to more)'),value: 2,),
-                PopupMenuItem(child: Text('sort by time'),value: 3,),
+                const PopupMenuItem(value: 1,child: Text('sort by name'),),
+                const PopupMenuItem(value: 2,child: Text('sort by duration(less to more)'),),
+                const PopupMenuItem(value: 3,child: Text('sort by time'),),
               ];
             },
             tooltip: 'sort',)
@@ -129,11 +130,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         )),
                     TextButton.icon(
                         onPressed: () {
-                          Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                builder: (context) => const LoginScreen(),
-                              ),
-                              (route) => false);
+                         confirmation(context);
+                              
                         },
                         icon: const Icon(
                           Icons.logout_rounded,
@@ -158,14 +156,35 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.fromLTRB(30, 25, 30, 10),
                   child: SizedBox(
                     height: 50,
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          suffixIcon: const Icon(Icons.search),
-                          hintText: 'Search Recipes',
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15))),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                suffixIcon: const Icon(Icons.search),
+                                hintText: 'Search Recipes',
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15))),
+                          ),
+                          
+                        ),
+                        const SizedBox(width: 5,),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.cyan.shade300
+
+                          ),
+                          child: IconButton(
+                            
+                            onPressed: () {
+                            
+                          }, icon: const Icon(Icons.filter_alt)),
+                          
+                        )
+                      ],
                     ),
                   ),
                 ),

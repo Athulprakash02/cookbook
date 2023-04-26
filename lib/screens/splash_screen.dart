@@ -1,9 +1,9 @@
 import 'package:cookbook/main.dart';
 import 'package:cookbook/screens/admin/admin_home.dart';
+import 'package:cookbook/screens/user/home_screen.dart';
 import 'package:cookbook/screens/user/login_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ScreenSplash extends StatefulWidget {
@@ -18,6 +18,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
    @override
   void initState() {
     checkAdminLoggedIn();
+    checkUserLoggedIn();
     super.initState();
   }
 
@@ -48,6 +49,16 @@ class _ScreenSplashState extends State<ScreenSplash> {
     await Future.delayed(const Duration(seconds: 2));
 
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const LoginScreen(),)); 
+  }
+
+  Future <void> checkUserLoggedIn() async{
+    final userSharePref= await SharedPreferences.getInstance();
+    final _userLoggedIn = userSharePref.getBool(userLoggedIn);
+    if(_userLoggedIn == null || _userLoggedIn == false){
+      gotoLogin();
+    }else{
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) => const HomeScreen(),));
+    }
   }
 
 

@@ -1,9 +1,11 @@
 import 'dart:io';
 
+
+import 'package:cookbook/db/functions/db_recipe_functions.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:flutter/material.dart';
 
-Widget viewCard(Recipes data) {
+Widget viewCard(BuildContext ctx, Recipes data) {
   return Card(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(90)),
     child: Container(
@@ -40,7 +42,9 @@ Widget viewCard(Recipes data) {
           )),
           Positioned(
             right: 10,
-            child: IconButton(onPressed: () {}, icon: const Icon(Icons.delete)),
+            child: IconButton(onPressed: () {
+              deleteAlert( ctx, data.key);
+            }, icon: const Icon(Icons.delete)),
           ),
           Positioned(
             right: 40,

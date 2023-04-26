@@ -1,5 +1,6 @@
 import 'package:cookbook/db/model/login_model.dart';
-import 'package:cookbook/screens/admin/admin_home.dart';
+import 'package:cookbook/main.dart';
+
 import 'package:cookbook/screens/admin/admin_login.dart';
 import 'package:cookbook/screens/user/home_screen.dart';
 import 'package:cookbook/screens/signup_screen.dart';
@@ -7,6 +8,7 @@ import 'package:cookbook/widgets/textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -117,11 +119,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                   if (_email.text.trim().isNotEmpty &&
                                       _password.text.trim().isNotEmpty) {
                                     onLoginClick();
+                                    saveLogin();
                                     Navigator.of(context).pushAndRemoveUntil(
                                         MaterialPageRoute(
                                           builder: (context) =>const HomeScreen(),
                                         ),
                                         (route) => false);
+                                        // saveLogin();
+                                        
+                                        
                                   } else {
                                     validCheck();
                                   }
@@ -223,6 +229,13 @@ class _LoginScreenState extends State<LoginScreen> {
           _errorMessage,
           style: const TextStyle(fontSize: 18),
         )));
+  }
+
+  saveLogin() async{
+    print('object');
+    final sharedPref = await SharedPreferences.getInstance();
+    await sharedPref.setBool(userLoggedIn, true);
+
   }
 }
  
