@@ -28,6 +28,12 @@ Future<void> uploadRecipe(Recipes value) async{
 //  }
 // }
 
+Future<void> launchURL(url) async {
+  final Uri _url = Uri.parse(url);
+  if (!await launchUrl(_url)) {
+    throw Exception('Could not launch $_url');
+  }
+}
 Future<void> getAllRecipe() async{
   final recipeDB = await Hive.openBox<Recipes>('recipe_list');
   recipeListNotifier.value.clear();

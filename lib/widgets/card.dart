@@ -63,7 +63,7 @@ Widget viewCard(Recipes data) {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                   Text(data.recipeName,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400),),
+                   Text(data.recipeName,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
                   Row(
                     children:  [
                       Icon(Icons.watch_later_outlined, size: 16,),

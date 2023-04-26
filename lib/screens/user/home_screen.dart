@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
           actions: [
             IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert))
           ],
-          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+          // backgroundColor: const Color.fromARGB(255, 255, 255, 255),
           elevation: 0,
           title: const Text(
             'Recipes',
@@ -157,14 +157,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 const Divider(
                   thickness: 2,
                 ),
-                const TabBar(
-                    labelColor: Color.fromARGB(255, 0, 0, 0),
-                    unselectedLabelColor: Colors.grey,
+                 TabBar(
+                    labelColor: const Color.fromARGB(255, 0, 0, 0),
+                    unselectedLabelColor: Colors.cyan,
                     indicatorSize: TabBarIndicatorSize.tab,
                     indicator: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                        color: Color.fromARGB(183, 224, 221, 221)),
-                    tabs: [
+                        borderRadius: const BorderRadius.all(Radius.circular(15)),
+                        color: Colors.cyan.shade300),
+                    tabs: const [
                       Tab(
                         child: Text(
                           'All',

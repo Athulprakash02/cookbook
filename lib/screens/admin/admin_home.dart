@@ -34,18 +34,19 @@ class _AdminHomeState extends State<AdminHome> {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
+        
         appBar: AppBar(
           leading: IconButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => AddScreen(),
+                  builder: (context) => const AddScreen(),
                 ));
               },
               icon: const Icon(
                 Icons.add_box_outlined,
                 size: 30,
               )),
-          backgroundColor: Color.fromARGB(255, 255, 255, 255),
+          // backgroundColor: Color.fromARGB(255, 255, 255, 255),
           elevation: 0,
           title: const Text('Recipes'),
           centerTitle: true,
@@ -80,14 +81,14 @@ class _AdminHomeState extends State<AdminHome> {
                 const Divider(
                   thickness: 2,
                 ),
-                const TabBar(
-                    labelColor: Color.fromARGB(255, 0, 0, 0),
-                    unselectedLabelColor: Colors.grey,
+                 TabBar(
+                    labelColor: const Color.fromARGB(255, 0, 0, 0),
+                    unselectedLabelColor: Colors.cyan,
                     indicatorSize: TabBarIndicatorSize.tab,
                     indicator: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                        color: Color.fromARGB(183, 224, 221, 221)),
-                    tabs: [
+                        borderRadius: const BorderRadius.all(Radius.circular(15)),
+                        color:Colors.cyan.shade300),
+                    tabs: const [
                       Tab(
                         child: Text(
                           'All',
@@ -222,16 +223,19 @@ class _AdminHomeState extends State<AdminHome> {
     // ignore: use_build_context_synchronously
     Navigator.of(ctx).pushAndRemoveUntil(
         MaterialPageRoute(
-          builder: (context) => LoginScreen(),
+          builder: (context) => const LoginScreen(),
         ),
         (route) => false);
   }
 
   confirmation(BuildContext context) async {
     return showDialog(
+      
       context: context,
       builder: (ctx1) {
         return AlertDialog(
+          backgroundColor: Colors.grey,
+          shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
           title: const Text(
               style: TextStyle(
                 color: Color.fromARGB(255, 5, 5, 5),

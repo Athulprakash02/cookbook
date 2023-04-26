@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:cookbook/db/functions/db_recipe_functions.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/screens/user/review_screen.dart';
+import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class RecipeScreen extends StatelessWidget {
+class RecipeScreen extends StatefulWidget {
   RecipeScreen({Key? key,
   required this.passValue,
   required this.idPass
@@ -14,14 +16,18 @@ class RecipeScreen extends StatelessWidget {
 
   Recipes passValue;
   final int idPass;
-  List<String> ingredientsList= [];
 
- 
+  @override
+  State<RecipeScreen> createState() => _RecipeScreenState();
+}
+
+class _RecipeScreenState extends State<RecipeScreen> {
+  List<String> ingredientsList= [];
 
   @override
   Widget build(BuildContext context) {
-    ingredientsList.add(passValue.ingredients);
-    ingredientsList.addAll(passValue.extraIngredients);
+    ingredientsList.add(widget.passValue.ingredients);
+    ingredientsList.addAll(widget.passValue.extraIngredients);
     return Scaffold(
       body: Container(
         width: double.maxFinite,
@@ -37,7 +43,7 @@ class RecipeScreen extends StatelessWidget {
                   decoration:  BoxDecoration(
                       image: DecorationImage(
                           image:
-                              FileImage(File(passValue.imagePath)),
+                              FileImage(File(widget.passValue.imagePath)),
                           fit: BoxFit.cover)),
                 )),
             Positioned(
@@ -77,7 +83,14 @@ class RecipeScreen extends StatelessWidget {
                   child: IconButton(
                       iconSize: 35,
                       onPressed: () {
-                      //  launchURL(passValue.url);
+                        launchURL
+                           (widget.passValue.url);
+                        // await launch
+                        // await LaunchApp.openApp(
+                        //   androidPackageName: "${widget.passValue.url}com.google.youtube"
+                        // );
+                      //  launchURL(widget.passValue.url);
+
                       },
                       icon: const Icon(Icons.play_circle_fill,color: Colors.red,)),
                 )),
@@ -98,7 +111,7 @@ class RecipeScreen extends StatelessWidget {
                     child: Column(
                       children: [
                          Text(
-                          passValue.recipeName,
+                          widget.passValue.recipeName,
                           style: const TextStyle(
                               fontSize: 25, fontWeight: FontWeight.bold),
                         ),
@@ -111,7 +124,7 @@ class RecipeScreen extends StatelessWidget {
                             const SizedBox(
                               width: 5,
                             ),
-                            Text(passValue.cookingTime)
+                            Text(widget.passValue.cookingTime)
                           ],
                         ),
                         const SizedBox(
@@ -159,7 +172,7 @@ class RecipeScreen extends StatelessWidget {
                                     height: 10,
                                   ),
                                   Text(
-                                    passValue.directions,
+                                    widget.passValue.directions,
                                     style: const TextStyle(fontSize: 17),
                                   ),
                                 ],

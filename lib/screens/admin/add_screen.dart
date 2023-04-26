@@ -50,7 +50,7 @@ class _AddScreenState extends State<AddScreen> {
         imagePath = imagePicked.path;
       });
     }
-    print('object');
+    
   }
 
   @override
@@ -58,7 +58,7 @@ class _AddScreenState extends State<AddScreen> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(238, 255, 255, 255),
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(217, 216, 214, 214),
+        backgroundColor: Colors.cyan,
         title: const Text('Add Recipe'),
         centerTitle: true,
       ),
@@ -253,13 +253,15 @@ class _AddScreenState extends State<AddScreen> {
 
   Future<void> onUploadButtonClicked() async {
     print('Clicked');
+    
     final recipeName = _recipeNameController.text.trim();
     final duration = _durationController.text.trim();
-    final category = _categoryController.text.trim();
+    final category = dropDownValue;
     final ingredients = _ingredientsController.text.trim();
     final extraIngredients = _ingredientsList;
     final direction = _directionController.text.trim();
     final link = _youtubeLink.text.trim();
+    
 
     if (recipeName.isEmpty ||
         duration.isEmpty ||
@@ -270,6 +272,7 @@ class _AddScreenState extends State<AddScreen> {
       return;
     }
     print('reached');
+    print(category);
     final recipeDetails = Recipes(
         imagePath: imagePath!,
         recipeName: recipeName,

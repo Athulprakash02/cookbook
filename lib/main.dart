@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'CookBook',
       theme: ThemeData(
-       primarySwatch: Colors.grey
+       primarySwatch: Colors.cyan
       ),  
       home: const ScreenSplash(),
       debugShowCheckedModeBanner: false,
