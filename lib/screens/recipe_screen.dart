@@ -139,21 +139,27 @@ class _RecipeScreenState extends State<RecipeScreen> {
                             padding: const EdgeInsets.all(10.0),
                             child: SingleChildScrollView(
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children:  [
                                   // SizedBox(
                                   //   height: 10,
                                   // ),
-                                  const Text(
-                                    'ingredients',
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
+                                  const Center(
+                                    child: Text(
+                                      'ingredients',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                   ),
                                   const SizedBox(
                                     height: 10,
                                   ),
-                                  Text("\u25CF ${ingredientsList.join('\n\u25CF ')}",
-                                    style: const TextStyle(fontSize: 19),
+                                  SizedBox(
+                                    // width: MediaQuery.of(context).size.width,
+                                    child: Text("\u25CF ${ingredientsList.join('\n\u25CF ')}",
+                                      style: const TextStyle(fontSize: 19),
+                                    ),
                                   ),
                                   
 
@@ -162,11 +168,13 @@ class _RecipeScreenState extends State<RecipeScreen> {
                                     height: 20,
                                   ),
                                   
-                                  const Text(
-                                    'Directions',
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
+                                  const Center(
+                                    child: Text(
+                                      'Directions',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                   ),
                                   const SizedBox(
                                     height: 10,

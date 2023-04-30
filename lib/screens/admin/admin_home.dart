@@ -118,7 +118,7 @@ class _AdminHomeState extends State<AdminHome> {
                     ]),
                 const Divider(
                   thickness: 2,
-                  height: 2,
+                  // height: 2,
                 ),
                 Expanded(
                     child: TabBarView(children: [

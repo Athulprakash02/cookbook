@@ -28,7 +28,7 @@ onClickSignUp(_email, _name, _password, _confirmPassword, context) {
         builder: (context) => const LoginScreen(),
       ),
       (route) => false);
-}
+} 
 
 Future exists(String mailId, ctx, _name, _password, _confirmPassword) async {
   final emailBox = await Hive.openBox<LoginData>('login_db');
