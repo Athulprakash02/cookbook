@@ -139,7 +139,7 @@ class _AdminHomeState extends State<AdminHome> {
                                           passValue: data, idPass: index),
                                     ));
                                   },
-                                  child: viewCard(context, data));
+                                  child: viewCard(context, data,index));
                             },
                             itemCount: recipeData.length,
                           );
@@ -162,7 +162,7 @@ class _AdminHomeState extends State<AdminHome> {
                                           passValue: data, idPass: index),
                                     ));
                                   },
-                                  child: viewCard(context, data));
+                                  child: viewCard(context, data,index));
                             },
                             itemCount: recipeData.length,
                           );
@@ -185,7 +185,7 @@ class _AdminHomeState extends State<AdminHome> {
                                           passValue: data, idPass: index),
                                     ));
                                   },
-                                  child: viewCard(context, data));
+                                  child: viewCard(context, data,index));
                             },
                             itemCount: recipeData.length,
                           );
@@ -208,7 +208,7 @@ class _AdminHomeState extends State<AdminHome> {
                                           passValue: data, idPass: index),
                                     ));
                                   },
-                                  child: viewCard(context, data));
+                                  child: viewCard(context, data,index));
                             },
                             itemCount: recipeData.length,
                           );

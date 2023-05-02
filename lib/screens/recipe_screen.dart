@@ -26,6 +26,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
     ingredientsList.add(widget.passValue.ingredients);
     ingredientsList.addAll(widget.passValue.extraIngredients);
     return Scaffold(

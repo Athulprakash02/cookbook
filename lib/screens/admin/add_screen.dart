@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cookbook/db/functions/db_recipe_functions.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/screens/admin/admin_home.dart';
+import 'package:cookbook/screens/admin/update_screen.dart';
 import 'package:cookbook/widgets/add_ingredients.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -30,8 +31,9 @@ class _AddScreenState extends State<AddScreen> {
   String? imagePath;
 
   String dropDownValue = 'Category';
+  // var isVisible = true;
 
-  var items = ['Category', 'Breakfast', 'Lunch', 'Dinner'];
+  var items = ['Category', 'Breakfast', 'Lunch', 'Dinner','Indian','Italian','Arabian','Chinese'];
 
   @override
   void initState() {
@@ -50,7 +52,6 @@ class _AddScreenState extends State<AddScreen> {
         imagePath = imagePicked.path;
       });
     }
-    
   }
 
   @override
@@ -111,9 +112,7 @@ class _AddScreenState extends State<AddScreen> {
               recipeText(_recipeNameController, 'Recipe name', 1),
               szdBox(),
               recipeText(_durationController, 'Cooking time', 1),
-              const SizedBox(
-                height: 20,
-              ),
+              szdBox(),
               SizedBox(
                 height: 55,
                 width: double.maxFinite,
@@ -145,7 +144,7 @@ class _AddScreenState extends State<AddScreen> {
                     children: [
                       Expanded(
                           child: recipeText(
-                              _ingredientsController, 'Add ingredients')),
+                              _ingredientsController, 'Add ingredients', 1)),
                       IconButton(
                           iconSize: 35,
                           onPressed: () => addTextField(_textfields.length),
@@ -210,6 +209,8 @@ class _AddScreenState extends State<AddScreen> {
   Widget addIngredients([GlobalKey? key]) {
     ObjectKey keys = const ObjectKey({});
     int index = _ingredientsList.length;
+    // Object _latestTextFieldIndex = -1;
+    // bool isVisible = index == _latestTextFieldIndex;
     return Padding(
       padding: const EdgeInsets.only(top: 4, bottom: 4),
       child: SizedBox(
@@ -218,6 +219,8 @@ class _AddScreenState extends State<AddScreen> {
           children: [
             Expanded(
               child: TextField(
+                autofocus: true,
+                maxLines: 1,
                 controller: _controllers[index],
                 onChanged: (value) {
                   setState(() {
@@ -238,13 +241,16 @@ class _AddScreenState extends State<AddScreen> {
                         borderRadius: BorderRadius.circular(10))),
               ),
             ),
-            IconButton(
-              onPressed: () {
-                addTextField(keys);
-              },
-              icon: const Icon(Icons.add_box_outlined),
-              iconSize: 35,
-            )
+            // Visibility(
+            //   visible: isVisible,
+            //   child: IconButton(
+            //     onPressed: () {
+            //       addTextField(keys);
+            //     },
+            //     icon: const Icon(Icons.add_box_outlined),
+            //     iconSize: 35,
+            //   ),
+            // )
           ],
         ),
       ),
@@ -253,7 +259,7 @@ class _AddScreenState extends State<AddScreen> {
 
   Future<void> onUploadButtonClicked() async {
     print('Clicked');
-    
+
     final recipeName = _recipeNameController.text.trim();
     final duration = _durationController.text.trim();
     final category = dropDownValue;
@@ -261,7 +267,6 @@ class _AddScreenState extends State<AddScreen> {
     final extraIngredients = _ingredientsList;
     final direction = _directionController.text.trim();
     final link = _youtubeLink.text.trim();
-    
 
     if (recipeName.isEmpty ||
         duration.isEmpty ||
@@ -311,19 +316,24 @@ class _AddScreenState extends State<AddScreen> {
     } else if (_youtubeLink.text.isEmpty) {
       errorMessage = 'Please add any link of making video';
     }
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(
-          behavior: SnackBarBehavior.floating,
-          backgroundColor: Colors.red,
-          margin: const EdgeInsets.all(10),
-          content: Text(errorMessage,style: const TextStyle(fontSize: 17),)));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.red,
+        margin: const EdgeInsets.all(10),
+        content: Text(
+          errorMessage,
+          style: const TextStyle(fontSize: 17),
+        )));
   }
 
-   void addedSuccesully(){
+  void addedSuccesully() {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      behavior: SnackBarBehavior.floating,
-      margin: EdgeInsets.all(10),
-      backgroundColor: Colors.green,
-      content: Text('Recipe added succesfully',style: TextStyle(fontSize: 17),)));
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.all(10),
+        backgroundColor: Colors.green,
+        content: Text(
+          'Recipe added succesfully',
+          style: TextStyle(fontSize: 17),
+        )));
   }
 }

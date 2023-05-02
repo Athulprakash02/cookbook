@@ -3,9 +3,10 @@ import 'dart:io';
 
 import 'package:cookbook/db/functions/db_recipe_functions.dart';
 import 'package:cookbook/db/model/recipies.dart';
+import 'package:cookbook/screens/admin/update_screen.dart';
 import 'package:flutter/material.dart';
 
-Widget viewCard(BuildContext ctx, Recipes data) {
+Widget viewCard(BuildContext ctx, Recipes data , int index1) {
   return Card(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(90)),
     child: Container(
@@ -49,7 +50,9 @@ Widget viewCard(BuildContext ctx, Recipes data) {
           Positioned(
             right: 40,
               child: InkWell(
-            child: IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
+            child: IconButton(onPressed: () {
+              Navigator.of(ctx).push(MaterialPageRoute(builder:  (context) => UpdateScreen(index: index1),));
+            }, icon: const Icon(Icons.edit)),
             onTap: () {
               
             },

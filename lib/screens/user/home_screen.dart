@@ -226,7 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ]),
                 const Divider(
                   thickness: 2,
-                  height: 2,
+                  // height: 2,
                 ),
                 Expanded(
                     child: TabBarView(children: [
