@@ -33,7 +33,16 @@ class _AddScreenState extends State<AddScreen> {
   String dropDownValue = 'Category';
   // var isVisible = true;
 
-  var items = ['Category', 'Breakfast', 'Lunch', 'Dinner','Indian','Italian','Arabian','Chinese'];
+  var items = [
+    'Category',
+    'Breakfast',
+    'Lunch',
+    'Dinner',
+    'Indian',
+    'Italian',
+    'Arabian',
+    'Chinese'
+  ];
 
   @override
   void initState() {

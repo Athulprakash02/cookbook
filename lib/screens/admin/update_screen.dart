@@ -14,11 +14,17 @@ class UpdateScreen extends StatefulWidget {
 }
 
 class _UpdateScreenState extends State<UpdateScreen> {
+
+  final List<GlobalKey> _textKeys = [];
+  final List<Widget> _textfields = [];
+  final List<TextEditingController> _controllers = [];
+  final List<String> _ingredientsList = [];
   late TextEditingController _recipeNameController;
   late TextEditingController _durationController;
   late TextEditingController _categoryController;
   late TextEditingController _directionController;
   late TextEditingController _ingredientsController;
+  
   late TextEditingController _youtubeLinkController;
 
   int id = 0;
@@ -32,8 +38,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
   late Box<Recipes> recipeBox;
   late Recipes recipe;
-  String dropDownValue = 'Category';
-  var items = [
+  
+  var itemsCategory = [
     'Category',
     'Breakfast',
     'Lunch',
@@ -43,36 +49,55 @@ class _UpdateScreenState extends State<UpdateScreen> {
     'Arabian',
     'Chinese'
   ];
+   String dropDownValue = 'Category';
   final _formKey = GlobalKey<FormState>();
+  
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    // GlobalKey mainKey = GlobalKey();
 
     recipeBox = Hive.box('recipe_list');
-
-    _recipeNameController = TextEditingController();
-    _durationController = TextEditingController();
-    _categoryController = TextEditingController();
-    _ingredientsController = TextEditingController();
-    _directionController = TextEditingController();
-    _youtubeLinkController = TextEditingController();
-
     recipe = recipeBox.getAt(widget.index) as Recipes;
-    print(widget.index);
 
-    _recipeNameController.text = recipe.recipeName.toString();
-    _durationController.text = recipe.cookingTime.toString();
-    _categoryController.text = recipe.catogory.toString();
+    _recipeNameController = TextEditingController(text: recipe.recipeName.toString());
+    _durationController = TextEditingController(text: recipe.cookingTime.toString());
+    _categoryController = TextEditingController(text: recipe.catogory.toString());
+    _ingredientsController = TextEditingController(text: recipe.ingredients.toString());
+   
+    _directionController = TextEditingController(text: recipe.directions.toString());
+    _youtubeLinkController = TextEditingController(text: recipe.url.toString());
 
-    _directionController.text = recipe.directions.toString();
-    _youtubeLinkController.text = recipe.url.toString();
+    
+   
+    _ingredientsList.clear();
+    _controllers.clear();
+    _textfields.clear();
     print(_categoryController.text);
+
+    
+    // _textfields.add(addTextField(0));
+    
+    
+    // for(var i=0;i<recipe.ingredients.length;i++){
+    //   // GlobalKey mainKey = GlobalKey();
+    // _ingredientsList.add(recipe.ingredients[i]);
+    // _controllers.add(TextEditingController(text: recipe.ingredients[i]));
+    // _textKeys.add(GlobalKey());
+    // _textfields.add(addIngredients(_textKeys[i]));
+
+    //   _textfields.add(addTextField(i));
+    // }
   }
+  // Future<Recipes> fetchRecipe(String id) async{
+  //   final r
+  // }
 
   @override
   Widget build(BuildContext context) {
+   
     return Scaffold(
       backgroundColor: const Color.fromARGB(238, 255, 255, 255),
       appBar: AppBar(
@@ -112,15 +137,21 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10))),
-                    value: 'Category',
-                    items: items
-                        .map((String items) =>
-                            DropdownMenuItem(value: items, child: Text(items)))
+                    value: dropDownValue,
+                    items: itemsCategory
+                        .map(
+                          (String itemsCategory) => DropdownMenuItem(
+                            value: itemsCategory,
+                            child: Text(itemsCategory),
+                          ),
+                        )
                         .toList(),
                     onChanged: (value) {
                       setState(() {
+                        
                         dropDownValue = value!;
                         category = value;
+                        _categoryController.text = value;
                       });
                     },
                   ),
@@ -132,15 +163,16 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       children: [
                         Expanded(
                             child: recipeText(
-                                _recipeNameController, 'hintText', 1)),
+                                _ingredientsController, 'hintText', 1)),
                         IconButton(
                             iconSize: 35,
                             onPressed: () {
-                              // addTextField(key);
+                               addTextField(_textfields.length);
                             },
                             icon: Icon(Icons.add_box_outlined)),
                       ],
-                    )
+                    ), ..._textfields,
+                    
                   ],
                 )
               ],
@@ -151,31 +183,31 @@ class _UpdateScreenState extends State<UpdateScreen> {
     );
   }
 
-  void addTextField(key) {
+  addTextField(int index2) {
     setState(() {
       // print('1');
       GlobalKey key = GlobalKey();
-      // _controllers.add(TextEditingController());
-      // _textKeys.add(key);
-      // _textfields.add(addIngredients(key));
-      // _ingredientsList.add('');
+      _controllers.add(TextEditingController());
+      _textKeys.add(key);
+      _textfields.add(addIngredients(key));
+      _ingredientsList.add('');
     });
   }
 
   void removeTextField(GlobalKey key) {
     setState(() {
-      // int index = _textKeys.indexOf(key);
-      // // _controllers[index].dispose();
-      // _controllers.removeAt(index);
-      // _textfields.removeAt(index);
-      // _textKeys.removeAt(index);
-      // _ingredientsList.removeAt(index);
+      int index = _textKeys.indexOf(key);
+      // _controllers[index].dispose();
+      _controllers.removeAt(index);
+      _textfields.removeAt(index);
+      _textKeys.removeAt(index);
+      _ingredientsList.removeAt(index);
     });
   }
 
   Widget addIngredients([GlobalKey? key]) {
     ObjectKey keys = const ObjectKey({});
-    // int index = _ingredientsList.length;
+    int index1 = _ingredientsList.length;
 
     return Padding(
       padding: const EdgeInsets.only(top: 4, bottom: 4),
@@ -187,10 +219,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
               child: TextField(
                 autofocus: true,
                 maxLines: 1,
-                // controller: _controllers[index],
+                controller: _controllers[index1],
                 onChanged: (value) {
                   setState(() {
-                    // _ingredientsList[index] = value;
+                    _ingredientsList[index1] = value;
                   });
                 },
                 key: keys,

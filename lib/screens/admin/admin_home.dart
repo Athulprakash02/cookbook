@@ -9,8 +9,6 @@ import 'package:cookbook/widgets/card.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-
-
 class AdminHome extends StatefulWidget {
   const AdminHome({super.key});
 
@@ -20,20 +18,34 @@ class AdminHome extends StatefulWidget {
 
 class _AdminHomeState extends State<AdminHome> {
   late Box<Recipes> recipeList;
+  late Recipes categories;
   final _searchController = TextEditingController();
+
+  // var categoryItem = [
+  //   'Breakfast',
+  //   'Lunch',
+  //   'Dinner',
+  //   'Indian',
+  //   'Italian',
+  //   'Arabian',
+  //   'Chinese'
+  // ];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getAllRecipe();
-    recipeList = Hive.box('recipe_list');
   }
 
   @override
   Widget build(BuildContext context) {
+    recipeList = Hive.box('recipe_list');
+    final items = recipeList.values.toList();
+    final categories = items.map((recipe) => recipe.catogory).toSet().toList();
+
     return DefaultTabController(
-      length: 4,
+      length: categories.length,
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -83,138 +95,51 @@ class _AdminHomeState extends State<AdminHome> {
                   thickness: 2,
                 ),
                 TabBar(
-                    labelColor: const Color.fromARGB(255, 0, 0, 0),
-                    unselectedLabelColor: Colors.cyan,
-                    indicatorSize: TabBarIndicatorSize.tab,
-                    indicator: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(15)),
-                        color: Colors.cyan.shade300),
-                    tabs: const [
-                      Tab(
-                        child: Text(
-                          'All',
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      ),
-                      Tab(
-                        child: Text(
-                          'Breakfast',
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      ),
-                      Tab(
-                        child: Text(
-                          'Lunch',
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      ),
-                      Tab(
-                        child: Text(
-                          'Dinner',
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      )
-                    ]),
+                  isScrollable: true,
+                  labelColor: const Color.fromARGB(255, 0, 0, 0),
+                  unselectedLabelColor: Colors.cyan,
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  indicator: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(15)),
+                      color: Colors.cyan.shade300),
+                  tabs: categories
+                      .map((category) => Tab(text: category))
+                      .toList(),
+                ),
                 const Divider(
                   thickness: 2,
                   // height: 2,
                 ),
                 Expanded(
-                    child: TabBarView(children: [
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: ValueListenableBuilder(
-                        valueListenable: recipeListNotifier,
-                        builder: (BuildContext context,
-                            List<Recipes> recipeData, Widget? child) {
-                          return ListView.builder(
-                            itemBuilder: (context, index) {
-                              final data = recipeData[index];
-                              return GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) => RecipeScreen(
-                                          passValue: data, idPass: index),
-                                    ));
-                                  },
-                                  child: viewCard(context, data,index));
-                            },
-                            itemCount: recipeData.length,
-                          );
-                        }),
+                  child: TabBarView(
+                    children: categories.map(
+                      (category) {
+                        return ValueListenableBuilder(
+                            valueListenable: recipeListNotifier,
+                            builder: (context, List<Recipes> items, child) {
+                              List<Recipes> categoryRecipes = items
+                                  .where((item) => item.catogory == category)
+                                  .toList();
+                              return ListView.builder(
+                                itemBuilder: (context, index) {
+                                  final data = categoryRecipes[index];
+                                  return GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context)
+                                            .push(MaterialPageRoute(
+                                          builder: (context) => RecipeScreen(
+                                              passValue: data, idPass: index),
+                                        ));
+                                      },
+                                      child: viewCard(context, data, index));
+                                },
+                                itemCount: categoryRecipes.length,
+                              );
+                            });
+                      },
+                    ).toList(),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: ValueListenableBuilder(
-                        valueListenable: recipeListNotifier,
-                        builder: (BuildContext context,
-                            List<Recipes> recipeData, Widget? child) {
-                          return ListView.builder(
-                            itemBuilder: (context, index) {
-                              final data = recipeData[index];
-                              return GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) => RecipeScreen(
-                                          passValue: data, idPass: index),
-                                    ));
-                                  },
-                                  child: viewCard(context, data,index));
-                            },
-                            itemCount: recipeData.length,
-                          );
-                        }),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: ValueListenableBuilder(
-                        valueListenable: recipeListNotifier,
-                        builder: (BuildContext context,
-                            List<Recipes> recipeData, Widget? child) {
-                          return ListView.builder(
-                            itemBuilder: (context, index) {
-                              final data = recipeData[index];
-                              return GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) => RecipeScreen(
-                                          passValue: data, idPass: index),
-                                    ));
-                                  },
-                                  child: viewCard(context, data,index));
-                            },
-                            itemCount: recipeData.length,
-                          );
-                        }),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: ValueListenableBuilder(
-                        valueListenable: recipeListNotifier,
-                        builder: (BuildContext context,
-                            List<Recipes> recipeData, Widget? child) {
-                          return ListView.builder(
-                            itemBuilder: (context, index) {
-                              final data = recipeData[index];
-                              return GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) => RecipeScreen(
-                                          passValue: data, idPass: index),
-                                    ));
-                                  },
-                                  child: viewCard(context, data,index));
-                            },
-                            itemCount: recipeData.length,
-                          );
-                        }),
-                  ),
-                ])),
+                ),
               ],
             ),
           ),
@@ -222,72 +147,4 @@ class _AdminHomeState extends State<AdminHome> {
       ),
     );
   }
-
-  // signout(BuildContext ctx) async {
-  //   final sharedPref = await SharedPreferences.getInstance();
-  //   await sharedPref.clear();
-  //   // ignore: use_build_context_synchronously
-  //   Navigator.of(ctx).pushAndRemoveUntil(
-  //       MaterialPageRoute(
-  //         builder: (context) => const LoginScreen(),
-  //       ),
-  //       (route) => false);
-  // }
-
-  // confirmation(BuildContext context) async {
-  //   return showDialog(
-  //     context: context,
-  //     builder: (ctx1) {
-  //       return Material(
-  //         color: Colors.transparent,
-  //         elevation: 5,
-  //         shadowColor: Colors.black,
-  //         borderRadius: BorderRadius.circular(10),
-  //         child: AlertDialog(
-
-  //           backgroundColor: const Color.fromARGB(255, 210, 209, 209),
-  //           shape:
-  //               BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
-
-  //           content: const Text('Do you want to logout?'),
-  //           actions: [
-  //             ElevatedButton(
-  //               onPressed: () {
-  //                 Navigator.of(ctx1).pop();
-  //               },
-  //               style: ElevatedButton.styleFrom(
-
-  //                 shape: const RoundedRectangleBorder(
-
-  //                   borderRadius: BorderRadius.all(Radius.circular(10))),
-  //                 backgroundColor: Colors.green),
-  //               child: const Text(
-  //                   style: TextStyle(
-  //                       color: Colors.white,
-  //                       fontWeight: FontWeight.bold,
-  //                       fontSize: 22),
-  //                   'No'),
-  //             ),
-
-  //             ElevatedButton(
-  //               onPressed: () => signout(context),
-  //               style: ElevatedButton.styleFrom(
-
-  //                 shape: const RoundedRectangleBorder(
-
-  //                   borderRadius: BorderRadius.all(Radius.circular(10))),
-  //                 backgroundColor: Colors.red),
-  //               child: const Text(
-  //                   style: TextStyle(
-  //                       color: Colors.white,
-  //                       fontWeight: FontWeight.bold,
-  //                       fontSize: 22),
-  //                   'Yes'),
-  //             ),
-  //           ],
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
 }

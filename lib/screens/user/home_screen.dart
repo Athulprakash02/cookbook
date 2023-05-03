@@ -4,6 +4,7 @@ import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/screens/recipe_screen.dart';
 
 import 'package:cookbook/widgets/card.dart';
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -15,27 +16,37 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Box recipeList;
+  late Box<Recipes> recipeList;
   late int _selectedOption;
   final _search = TextEditingController();
+  var categoryItem = [
+    'Breakfast',
+    'Lunch',
+    'Dinner',
+    'Indian',
+    'Italian',
+    'Arabian',
+    'Chinese'
+  ];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getAllRecipe();
-    recipeList = Hive.box<Recipes>('recipe_list');
   }
 
   @override
   Widget build(BuildContext context) {
+    recipeList = Hive.box<Recipes>('recipe_list');
+    final items = recipeList.values.toList();
+    final categories = items.map((recipe) => recipe.catogory).toSet().toList();
     return DefaultTabController(
-      length: 4,
+      length: categories.length,
       child: Scaffold(
         // backgroundColor: const Color.fromARGB(234, 255, 255, 255),
         appBar: AppBar(
           actions: [
-            
             PopupMenuButton(
               onSelected: (value) {
                 setState(() {
@@ -43,13 +54,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 });
               },
               itemBuilder: (context) {
-              return [
-                const PopupMenuItem(value: 1,child: Text('sort by name'),),
-                const PopupMenuItem(value: 2,child: Text('sort by duration(less to more)'),),
-                const PopupMenuItem(value: 3,child: Text('sort by time'),),
-              ];
-            },
-            tooltip: 'sort',)
+                return [
+                  const PopupMenuItem(
+                    value: 1,
+                    child: Text('sort by name'),
+                  ),
+                  const PopupMenuItem(
+                    value: 2,
+                    child: Text('sort by duration(less to more)'),
+                  ),
+                  const PopupMenuItem(
+                    value: 3,
+                    child: Text('sort by time'),
+                  ),
+                ];
+              },
+              tooltip: 'sort',
+            )
           ],
           // backgroundColor: const Color.fromARGB(255, 255, 255, 255),
           elevation: 0,
@@ -130,8 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         )),
                     TextButton.icon(
                         onPressed: () {
-                         confirmation(context);
-                              
+                          confirmation(context);
                         },
                         icon: const Icon(
                           Icons.logout_rounded,
@@ -168,21 +188,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(15))),
                           ),
-                          
                         ),
-                        const SizedBox(width: 5,),
+                        const SizedBox(
+                          width: 5,
+                        ),
                         Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.cyan.shade300
-
-                          ),
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.cyan.shade300),
                           child: IconButton(
-                            
-                            onPressed: () {
-                            
-                          }, icon: const Icon(Icons.filter_alt)),
-                          
+                              onPressed: () {},
+                              icon: const Icon(Icons.filter_alt)),
                         )
                       ],
                     ),
@@ -191,134 +207,52 @@ class _HomeScreenState extends State<HomeScreen> {
                 const Divider(
                   thickness: 2,
                 ),
-                 TabBar(
-                    labelColor: const Color.fromARGB(255, 0, 0, 0),
-                    unselectedLabelColor: Colors.cyan,
-                    indicatorSize: TabBarIndicatorSize.tab,
-                    indicator: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(15)),
-                        color: Colors.cyan.shade300),
-                    tabs: const [
-                      Tab(
-                        child: Text(
-                          'All',
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      ),
-                      Tab(
-                        child: Text(
-                          'Breakfast',
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      ),
-                      Tab(
-                        child: Text(
-                          'Lunch',
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      ),
-                      Tab(
-                        child: Text(
-                          'Dinner',
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      )
-                    ]),
+                TabBar(
+                  isScrollable: true,
+                  labelColor: const Color.fromARGB(255, 0, 0, 0),
+                  unselectedLabelColor: Colors.cyan,
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  indicator: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(15)),
+                      color: Colors.cyan.shade300),
+                  tabs: categories
+                      .map((category) => Tab(text: category))
+                      .toList(),
+                ),
                 const Divider(
                   thickness: 2,
                   // height: 2,
                 ),
-                Expanded(
-                    child: TabBarView(children: [
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: ValueListenableBuilder(
-                        valueListenable: recipeListNotifier,
-                        builder: (BuildContext context,
-                            List<Recipes> recipeData, Widget? child) {
-                          return ListView.builder(
-                            itemBuilder: (context, index) {
-                              final data = recipeData[index];
-                              return GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) => RecipeScreen(passValue: data, idPass: index),
-                                    ));
-                                  },
-                                  child: userCard(data));
-                            },
-                            itemCount: recipeData.length,
-                          );
-                        }),
+              Expanded(
+                  child: TabBarView(
+                    children: categories.map(
+                      (category) {
+                        return ValueListenableBuilder(
+                            valueListenable: recipeListNotifier,
+                            builder: (context, List<Recipes> items, child) {
+                              List<Recipes> categoryRecipes = items
+                                  .where((item) => item.catogory == category)
+                                  .toList();
+                              return ListView.builder(
+                                itemBuilder: (context, index) {
+                                  final data = categoryRecipes[index];
+                                  return GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context)
+                                            .push(MaterialPageRoute(
+                                          builder: (context) => RecipeScreen(
+                                              passValue: data, idPass: index),
+                                        ));
+                                      },
+                                      child: userCard(data));
+                                },
+                                itemCount: categoryRecipes.length,
+                              );
+                            });
+                      },
+                    ).toList(),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: ValueListenableBuilder(
-                        valueListenable: recipeListNotifier,
-                        builder: (BuildContext context,
-                            List<Recipes> recipeData, Widget? child) {
-                          return ListView.builder(
-                            itemBuilder: (context, index) {
-                              final data = recipeData[index];
-                              return GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) => RecipeScreen(passValue: data, idPass: index),
-                                    ));
-                                  },
-                                  child: userCard(data));
-                            },
-                            itemCount: recipeData.length,
-                          );
-                        }),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: ValueListenableBuilder(
-                        valueListenable: recipeListNotifier,
-                        builder: (BuildContext context,
-                            List<Recipes> recipeData, Widget? child) {
-                          return ListView.builder(
-                            itemBuilder: (context, index) {
-                              final data = recipeData[index];
-                              return GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) => RecipeScreen(passValue: data, idPass: index),
-                                    ));
-                                  },
-                                  child: userCard(data));
-                            },
-                            itemCount: recipeData.length,
-                          );
-                        }),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: ValueListenableBuilder(
-                        valueListenable: recipeListNotifier,
-                        builder: (BuildContext context,
-                            List<Recipes> recipeData, Widget? child) {
-                          return ListView.builder(
-                            itemBuilder: (context, index) {
-                              final data = recipeData[index];
-                              return GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) => RecipeScreen(passValue: data, idPass: index),
-                                    ));
-                                  },
-                                  child: userCard(data));
-                            },
-                            itemCount: recipeData.length,
-                          );
-                        }),
-                  ),
-                ])),
+                ),
               ],
             ),
           ),
