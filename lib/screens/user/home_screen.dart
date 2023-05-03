@@ -1,7 +1,11 @@
+import 'dart:ffi';
+
 import 'package:cookbook/db/functions/db_recipe_functions.dart';
 import 'package:cookbook/db/functions/login_functions.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/screens/recipe_screen.dart';
+import 'package:cookbook/screens/user/search%20screen.dart';
+import 'package:cookbook/widgets/add_ingredients.dart';
 
 import 'package:cookbook/widgets/card.dart';
 
@@ -47,30 +51,33 @@ class _HomeScreenState extends State<HomeScreen> {
         // backgroundColor: const Color.fromARGB(234, 255, 255, 255),
         appBar: AppBar(
           actions: [
-            PopupMenuButton(
-              onSelected: (value) {
-                setState(() {
-                  _selectedOption = value;
-                });
-              },
-              itemBuilder: (context) {
-                return [
-                  const PopupMenuItem(
-                    value: 1,
-                    child: Text('sort by name'),
-                  ),
-                  const PopupMenuItem(
-                    value: 2,
-                    child: Text('sort by duration(less to more)'),
-                  ),
-                  const PopupMenuItem(
-                    value: 3,
-                    child: Text('sort by time'),
-                  ),
-                ];
-              },
-              tooltip: 'sort',
-            )
+            IconButton(onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchScreen(),));
+            }, icon: Icon(Icons.search_outlined))
+            // PopupMenuButton(
+            //   onSelected: (value) {
+            //     setState(() {
+            //       _selectedOption = value;
+            //     });
+            //   },
+            //   itemBuilder: (context) {
+            //     return [
+            //       const PopupMenuItem(
+            //         value: 1,
+            //         child: Text('sort by name'),
+            //       ),
+            //       const PopupMenuItem(
+            //         value: 2,
+            //         child: Text('sort by duration(less to more)'),
+            //       ),
+            //       const PopupMenuItem(
+            //         value: 3,
+            //         child: Text('sort by time'),
+            //       ),
+            //     ];
+            //   },
+            //   tooltip: 'sort',
+            // )
           ],
           // backgroundColor: const Color.fromARGB(255, 255, 255, 255),
           elevation: 0,
@@ -172,43 +179,47 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Container(
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(30, 25, 30, 10),
-                  child: SizedBox(
-                    height: 50,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white,
-                                suffixIcon: const Icon(Icons.search),
-                                hintText: 'Search Recipes',
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15))),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.cyan.shade300),
-                          child: IconButton(
-                              onPressed: () {},
-                              icon: const Icon(Icons.filter_alt)),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                const Divider(
-                  thickness: 2,
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(30, 25, 30, 10),
+                //   child: SizedBox(
+                //     height: 50,
+                //     child: Row(
+                //       children: [
+                //         Expanded(
+                //           child: TextFormField(
+                //             decoration: InputDecoration(
+                //                 filled: true,
+                //                 fillColor: Colors.white,
+                //                 suffixIcon: const Icon(Icons.search),
+                //                 hintText: 'Search Recipes',
+                //                 border: OutlineInputBorder(
+                //                     borderRadius: BorderRadius.circular(15))),
+                //           ),
+                //         ),
+                //         const SizedBox(
+                //           width: 5,
+                //         ),
+                //         Container(
+                //           decoration: BoxDecoration(
+                //               borderRadius: BorderRadius.circular(10),
+                //               color: Colors.cyan.shade300),
+                //           child: IconButton(
+                //               onPressed: () {
+                //                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchScreen(),));
+                //               },
+                //               icon: const Icon(Icons.filter_alt)),
+                //         )
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                // const Divider(
+                //   thickness: 2,
+                // ),
+                szdBox(),
                 TabBar(
                   isScrollable: true,
+                  physics: BouncingScrollPhysics(),
                   labelColor: const Color.fromARGB(255, 0, 0, 0),
                   unselectedLabelColor: Colors.cyan,
                   indicatorSize: TabBarIndicatorSize.tab,
@@ -224,33 +235,36 @@ class _HomeScreenState extends State<HomeScreen> {
                   // height: 2,
                 ),
               Expanded(
-                  child: TabBarView(
-                    children: categories.map(
-                      (category) {
-                        return ValueListenableBuilder(
-                            valueListenable: recipeListNotifier,
-                            builder: (context, List<Recipes> items, child) {
-                              List<Recipes> categoryRecipes = items
-                                  .where((item) => item.catogory == category)
-                                  .toList();
-                              return ListView.builder(
-                                itemBuilder: (context, index) {
-                                  final data = categoryRecipes[index];
-                                  return GestureDetector(
-                                      onTap: () {
-                                        Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                          builder: (context) => RecipeScreen(
-                                              passValue: data, idPass: index),
-                                        ));
-                                      },
-                                      child: userCard(data));
-                                },
-                                itemCount: categoryRecipes.length,
-                              );
-                            });
-                      },
-                    ).toList(),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: TabBarView(
+                      children: categories.map(
+                        (category) {
+                          return ValueListenableBuilder(
+                              valueListenable: recipeListNotifier,
+                              builder: (context, List<Recipes> items, child) {
+                                List<Recipes> categoryRecipes = items
+                                    .where((item) => item.catogory == category)
+                                    .toList();
+                                return ListView.builder(
+                                  itemBuilder: (context, index) {
+                                    final data = categoryRecipes[index];
+                                    return GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context)
+                                              .push(MaterialPageRoute(
+                                            builder: (context) => RecipeScreen(
+                                                passValue: data, idPass: index),
+                                          ));
+                                        },
+                                        child: userCard(data));
+                                  },
+                                  itemCount: categoryRecipes.length,
+                                );
+                              });
+                        },
+                      ).toList(),
+                    ),
                   ),
                 ),
               ],

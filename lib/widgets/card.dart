@@ -7,82 +7,98 @@ import 'package:cookbook/screens/admin/update_screen.dart';
 import 'package:flutter/material.dart';
 
 Widget viewCard(BuildContext ctx, Recipes data , int index1) {
-  return Card(
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(90)),
-    child: Container(
-      height: 200,
-      
-      decoration: BoxDecoration(
-        image:  DecorationImage(
-          image: FileImage(File(data.imagePath)),
-          // AssetImage(
-          //   data.imagePath,
-            
-          // ),
-          fit: BoxFit.fill),
-
-          color: const Color.fromARGB(255, 5, 4, 2), 
-          borderRadius: BorderRadius.circular(20)
-          ),
+  return Container(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(20),
+      boxShadow: const [
+        BoxShadow(
+          color: Colors.grey,
+          spreadRadius: -15,
+          blurRadius: 15,
           
-      width: double.maxFinite,
-      child: Stack(
-        children: [
-
+        )
+      ]
+    ),
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(90)),
+        child: Container(
+          height: 180,
           
-          Positioned(
-            right: 15,
-            top: 10,
-            child: Container(
-            width: 70,
-            height: 30,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: const Color.fromARGB(204, 255, 255, 255)
-            ),
-          )),
-          Positioned(
-            right: 10,
-            child: IconButton(onPressed: () {
-              deleteAlert( ctx, data.key);
-            }, icon: const Icon(Icons.delete)),
-          ),
-          Positioned(
-            right: 40,
-              child: InkWell(
-            child: IconButton(onPressed: () {
-              Navigator.of(ctx).push(MaterialPageRoute(builder:  (context) => UpdateScreen(index: index1),));
-            }, icon: const Icon(Icons.edit)),
-            onTap: () {
+          decoration: BoxDecoration(
+            image:  DecorationImage(
+              image: FileImage(File(data.imagePath)),
+              // AssetImage(
+              //   data.imagePath,
+                
+              // ),
+              fit: BoxFit.fill),
+    
+              color: const Color.fromARGB(255, 5, 4, 2), 
+              borderRadius: BorderRadius.circular(20)
+              ),
               
-            },
-          )),
-           Positioned(
-            bottom: 20,
-            left: 30,
-            child: Container(
-              decoration: BoxDecoration(
-                color:  Color.fromARGB(204, 255, 255, 255),
-                borderRadius: BorderRadius.circular(10)
+          width: double.maxFinite,
+          child: Stack(
+            children: [
+    
+              
+              Positioned(
+                right: 15,
+                top: 10,
+                child: Container(
+                width: 70,
+                height: 30,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: const Color.fromARGB(204, 255, 255, 255)
+                ),
+              )),
+              Positioned(
+                right: 10,
+                child: IconButton(onPressed: () {
+                  deleteAlert( ctx, data.key);
+                }, icon: const Icon(Icons.delete)),
               ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                   Text(data.recipeName,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-                  Row(
-                    children:  [
-                      Icon(Icons.watch_later_outlined, size: 16,),
-                      SizedBox(width: 5,),
-                      Text(data.cookingTime),
+              Positioned(
+                right: 40,
+                  child: InkWell(
+                child: IconButton(onPressed: () {
+                  Navigator.of(ctx).push(MaterialPageRoute(builder:  (context) => UpdateScreen(index: index1),));
+                }, icon: const Icon(Icons.edit)),
+                onTap: () {
+                  
+                },
+              )),
+               Positioned(
+                bottom: 20,
+                left: 30,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color:  Color.fromARGB(204, 255, 255, 255),
+                    borderRadius: BorderRadius.circular(10)
+                  ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                       Text(data.recipeName,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                      Row(
+                        children:  [
+                          Icon(Icons.watch_later_outlined, size: 16,),
+                          SizedBox(width: 5,),
+                          Text(data.cookingTime),
+                        ],
+                      )
                     ],
-                  )
-                ],
-              ),
-            ),
-          ))
-        ],
+                  ),
+                ),
+              ))
+            ],
+          ),
+        ),
       ),
     ),
   );
@@ -92,62 +108,79 @@ Widget viewCard(BuildContext ctx, Recipes data , int index1) {
 
 
 Widget userCard(Recipes data) {
-  return Card(
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(90)),
-    child: Container(
-      height: 200,
-      
-      decoration: BoxDecoration(
-        image:  DecorationImage(image: FileImage(File(data.imagePath)),fit: BoxFit.fill),
-
-          color: const Color.fromARGB(255, 5, 4, 2), 
-          borderRadius: BorderRadius.circular(20)
-          ),
+  return Container(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(20),
+      boxShadow: const [
+        BoxShadow(
+          color: Colors.grey,
+          spreadRadius: -15,
+          blurRadius: 15,
           
-      width: double.maxFinite,
-      child: Stack(
-        children: [
-          Positioned(
-            bottom: 20,
-            left: 30,
-            child: Container(
-              decoration: BoxDecoration(
-                color:  Color.fromARGB(204, 255, 255, 255),
-                borderRadius: BorderRadius.circular(10)
+        )
+      ]
+    ),
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(90)),
+        child: Container(
+          height: 180,
+          
+          decoration: BoxDecoration(
+            image:  DecorationImage(image: FileImage(File(data.imagePath)),fit: BoxFit.fill),
+    
+              color: const Color.fromARGB(255, 5, 4, 2), 
+              borderRadius: BorderRadius.circular(20)
               ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                   Text(data.recipeName,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-                  Row(
-                    children:  [
-                      Icon(Icons.watch_later_outlined, size: 16,),
-                      SizedBox(width: 5,),
-                      Text(data.cookingTime),
-                    ],
-                  )
-                ],
-              ),
-            ),
-          )) ,
-            Positioned(
-              right: 10,
-              top: 10,
-              child: Container(
-            decoration: BoxDecoration(
-                    color: Color.fromARGB(204, 255, 255, 255),
-                    borderRadius: BorderRadius.circular(30)
-                  ),
-            child: IconButton(onPressed: () {
               
-            }, icon: Icon(Icons.favorite_outline,size: 25,)),
-          ))
-
-          
-          
-        ],
+          width: double.maxFinite,
+          child: Stack(
+            children: [
+              Positioned(
+                bottom: 20,
+                left: 30,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color:  Color.fromARGB(204, 255, 255, 255),
+                    borderRadius: BorderRadius.circular(10)
+                  ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                       Text(data.recipeName,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                      Row(
+                        children:  [
+                          Icon(Icons.watch_later_outlined, size: 16,),
+                          SizedBox(width: 5,),
+                          Text(data.cookingTime),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              )) ,
+                Positioned(
+                  right: 10,
+                  top: 10,
+                  child: Container(
+                decoration: BoxDecoration(
+                        color: Color.fromARGB(204, 255, 255, 255),
+                        borderRadius: BorderRadius.circular(30)
+                      ),
+                child: IconButton(onPressed: () {
+                  
+                }, icon: Icon(Icons.favorite_outline,size: 25,)),
+              ))
+    
+              
+              
+            ],
+          ),
+        ),
       ),
     ),
   );
