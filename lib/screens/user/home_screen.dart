@@ -4,7 +4,7 @@ import 'package:cookbook/db/functions/db_recipe_functions.dart';
 import 'package:cookbook/db/functions/login_functions.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/screens/recipe_screen.dart';
-import 'package:cookbook/screens/user/search%20screen.dart';
+import 'package:cookbook/screens/user/search_screen.dart';
 import 'package:cookbook/widgets/add_ingredients.dart';
 
 import 'package:cookbook/widgets/card.dart';
@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
           actions: [
             IconButton(onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(builder: (context) => const SearchScreen(),));
-            }, icon: const Icon(Icons.search_outlined))
+            }, icon: const Icon(Icons.search_outlined)),
             // PopupMenuButton(
             //   onSelected: (value) {
             //     setState(() {

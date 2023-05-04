@@ -3,10 +3,9 @@ import 'dart:io';
 import 'package:cookbook/db/functions/db_recipe_functions.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/screens/user/review_screen.dart';
-import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
+// ignore: must_be_immutable
 class RecipeScreen extends StatefulWidget {
   RecipeScreen({Key? key,
   required this.passValue,
@@ -51,20 +50,20 @@ class _RecipeScreenState extends State<RecipeScreen> {
                 top: 30,
                 left: 20,
                 child: CircleAvatar(
-                  backgroundColor: const Color.fromARGB(255, 234, 201, 198),
+                  backgroundColor: Colors.cyan.shade100,
                   radius: 25,
                   child: IconButton(
                       iconSize: 35,
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      icon: const Icon(Icons.arrow_back_sharp)),
+                      icon: const Icon(Icons.arrow_back_sharp),color: Colors.black,),
                 )),
             Positioned(
                 top: 30,
                 right: 20,
                 child: CircleAvatar(
-                  backgroundColor: const Color.fromARGB(255, 234, 201, 198),
+                  backgroundColor: Colors.cyan.shade100,
                   radius: 25,
                   child: IconButton(
                       iconSize: 30,
@@ -73,13 +72,13 @@ class _RecipeScreenState extends State<RecipeScreen> {
                           builder: (context) => const ReviewScreen(),
                         ));
                       },
-                      icon: const Icon(Icons.reviews_outlined)),
+                      icon: const Icon(Icons.reviews_outlined),color: Colors.black,),
                 )),
                  Positioned(
                 top: 90,
                 right: 20,
                 child: CircleAvatar(
-                  backgroundColor: const Color.fromARGB(255, 234, 201, 198),
+                  backgroundColor: Colors.cyan.shade100,
                   radius: 25,
                   child: IconButton(
                       iconSize: 35,
@@ -101,9 +100,9 @@ class _RecipeScreenState extends State<RecipeScreen> {
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * 0.65,
                   // height: 500,
-                  decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 244, 208, 208),
-                    borderRadius: BorderRadius.only(
+                  decoration:  BoxDecoration(
+                    color: Colors.cyan.shade100,
+                    borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(35),
                         topRight: Radius.circular(35)),
                   ),
@@ -134,11 +133,12 @@ class _RecipeScreenState extends State<RecipeScreen> {
                         Expanded(
                             child: Container(
                           decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 236, 227, 227),
+                              color: Colors.white,
                               borderRadius: BorderRadius.circular(20)),
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: SingleChildScrollView(
+                              physics: const BouncingScrollPhysics(),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children:  [
