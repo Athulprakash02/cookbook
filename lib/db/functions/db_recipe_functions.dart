@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 ValueNotifier<List<Recipes>> recipeListNotifier = ValueNotifier([]);
 
-Future<void> uploadRecipe(Recipes value) async {
+Future<void> addRecipe(Recipes value) async {
   print('haii');
   final upload = await Hive.openBox<Recipes>('recipe_list');
   final _details = await upload.add(value);

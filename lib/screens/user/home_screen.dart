@@ -52,8 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           actions: [
             IconButton(onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchScreen(),));
-            }, icon: Icon(Icons.search_outlined))
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const SearchScreen(),));
+            }, icon: const Icon(Icons.search_outlined))
             // PopupMenuButton(
             //   onSelected: (value) {
             //     setState(() {
@@ -179,56 +179,30 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Container(
             child: Column(
               children: [
-                // Padding(
-                //   padding: const EdgeInsets.fromLTRB(30, 25, 30, 10),
-                //   child: SizedBox(
-                //     height: 50,
-                //     child: Row(
-                //       children: [
-                //         Expanded(
-                //           child: TextFormField(
-                //             decoration: InputDecoration(
-                //                 filled: true,
-                //                 fillColor: Colors.white,
-                //                 suffixIcon: const Icon(Icons.search),
-                //                 hintText: 'Search Recipes',
-                //                 border: OutlineInputBorder(
-                //                     borderRadius: BorderRadius.circular(15))),
-                //           ),
-                //         ),
-                //         const SizedBox(
-                //           width: 5,
-                //         ),
-                //         Container(
-                //           decoration: BoxDecoration(
-                //               borderRadius: BorderRadius.circular(10),
-                //               color: Colors.cyan.shade300),
-                //           child: IconButton(
-                //               onPressed: () {
-                //                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchScreen(),));
-                //               },
-                //               icon: const Icon(Icons.filter_alt)),
-                //         )
-                //       ],
-                //     ),
-                //   ),
-                // ),
-                // const Divider(
-                //   thickness: 2,
-                // ),
-                szdBox(),
-                TabBar(
-                  isScrollable: true,
-                  physics: BouncingScrollPhysics(),
-                  labelColor: const Color.fromARGB(255, 0, 0, 0),
-                  unselectedLabelColor: Colors.cyan,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  indicator: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(15)),
-                      color: Colors.cyan.shade300),
-                  tabs: categories
-                      .map((category) => Tab(text: category))
-                      .toList(),
+                
+                const SizedBox(height: 10,),
+                Theme(
+                  data: ThemeData(
+                    tabBarTheme: TabBarTheme(
+                      dividerColor: Colors.black
+                    )
+                  ),
+                  child: TabBar(
+                    isScrollable: true,
+                   
+                    physics: const BouncingScrollPhysics(),
+                    labelColor: const Color.fromARGB(255, 0, 0, 0),
+                    unselectedLabelColor: Colors.cyan,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    dividerColor: Colors.black,
+                    indicator: BoxDecoration(
+                      
+                        borderRadius: const BorderRadius.all(Radius.circular(15)),
+                        color: Colors.cyan.shade300),
+                    tabs: categories
+                        .map((category) => Tab(child: Text(category,style: TextStyle(fontSize: 18),),))
+                        .toList(),
+                  ),
                 ),
                 const Divider(
                   thickness: 2,
@@ -247,6 +221,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     .where((item) => item.catogory == category)
                                     .toList();
                                 return ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
                                   itemBuilder: (context, index) {
                                     final data = categoryRecipes[index];
                                     return GestureDetector(

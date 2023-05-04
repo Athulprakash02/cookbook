@@ -178,7 +178,7 @@ class _AddScreenState extends State<AddScreen> {
                         _ingredientsController.text.isNotEmpty &&
                         _directionController.text.isNotEmpty &&
                         _youtubeLink.text.isNotEmpty) {
-                      onUploadButtonClicked();
+                      onAddButtonClicked();
                       addedSuccesully();
                     } else {
                       validCheck();
@@ -250,23 +250,14 @@ class _AddScreenState extends State<AddScreen> {
                         borderRadius: BorderRadius.circular(10))),
               ),
             ),
-            // Visibility(
-            //   visible: isVisible,
-            //   child: IconButton(
-            //     onPressed: () {
-            //       addTextField(keys);
-            //     },
-            //     icon: const Icon(Icons.add_box_outlined),
-            //     iconSize: 35,
-            //   ),
-            // )
+            
           ],
         ),
       ),
     );
   }
 
-  Future<void> onUploadButtonClicked() async {
+  Future<void> onAddButtonClicked() async {
     print('Clicked');
 
     final recipeName = _recipeNameController.text.trim();
@@ -297,7 +288,7 @@ class _AddScreenState extends State<AddScreen> {
         directions: direction,
         url: link);
 
-    uploadRecipe(recipeDetails);
+    addRecipe(recipeDetails);
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (context) => const AdminHome(),
     ));
@@ -345,4 +336,6 @@ class _AddScreenState extends State<AddScreen> {
           style: TextStyle(fontSize: 17),
         )));
   }
+
+  
 }
