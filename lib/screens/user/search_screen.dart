@@ -2,8 +2,6 @@ import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/screens/recipe_screen.dart';
 import 'package:cookbook/widgets/card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -54,22 +52,30 @@ class _SearchScreenState extends State<SearchScreen> {
                         },
                       ),
                     ),
-                    IconButton(onPressed: () {
-                      print('object');
-                    }, icon: Icon(Icons.filter_alt_outlined),
-                    iconSize: 35,)
+                    IconButton(
+                      onPressed: () {
+                        print('object');
+                      },
+                      icon: const Icon(Icons.filter_alt_outlined),
+                      iconSize: 35,
+                    )
                   ],
                 ),
               ),
               Expanded(
                   child: recipes.isNotEmpty
                       ? ListView.builder(
-                        physics: BouncingScrollPhysics(),
+                          physics: const BouncingScrollPhysics(),
                           itemCount: recipes.length,
                           itemBuilder: (context, index) {
-                            // File image = File(recipes[index].imagePath);
                             return GestureDetector(
                                 onTap: () {
+                                  FocusScopeNode currentFocus =
+                                      FocusScope.of(context);
+
+                                  if (!currentFocus.hasPrimaryFocus) {
+                                    currentFocus.unfocus();
+                                  }
                                   Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => RecipeScreen(
                                         passValue: recipes[index],
@@ -92,9 +98,11 @@ class _SearchScreenState extends State<SearchScreen> {
   void _recipeSearch(String recipeName) {
     setState(() {
       recipes = recipeList
-          .where((element) => element.recipeName
-              .toLowerCase()
-              .contains(recipeName.toLowerCase()))
+          .where((element) =>
+              element.recipeName
+                  .toLowerCase()
+                  .contains(recipeName.toLowerCase()) ||
+              element.catogory.toLowerCase().contains(recipeName.toLowerCase()))
           .toList();
     });
   }

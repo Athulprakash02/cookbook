@@ -20,16 +20,9 @@ class _AdminHomeState extends State<AdminHome> {
   late Box<Recipes> recipeList;
 
   final _searchController = TextEditingController();
+  List<Recipes> recipeData = Hive.box<Recipes>('recipe_list').values.toList();
+  late List<Recipes> recipes = List<Recipes>.from(recipeData);
 
-  // var categoryItem = [
-  //   'Breakfast',
-  //   'Lunch',
-  //   'Dinner',
-  //   'Indian',
-  //   'Italian',
-  //   'Arabian',
-  //   'Chinese'
-  // ];
 
   @override
   void initState() {
@@ -58,7 +51,7 @@ class _AdminHomeState extends State<AdminHome> {
             )),
         // backgroundColor: Color.fromARGB(255, 255, 255, 255),
         elevation: 0,
-        title: const Text('Recipes'),
+        title: const Text('CookBook'),
         centerTitle: true,
         actions: [
           IconButton(
@@ -80,22 +73,29 @@ class _AdminHomeState extends State<AdminHome> {
                 child: SizedBox(
                   height: 50,
                   child: TextFormField(
+                    autofocus: false,
                     controller: _searchController,
                     decoration: InputDecoration(
                         suffixIcon: const Icon(Icons.search),
                         hintText: 'Search Recipes',
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30))),
+                    onChanged: (value) {
+                      _recipeSearch(value);
+                    },
                   ),
                 ),
               ),
               const Divider(
                 thickness: 2,
               ),
-              const Text('Food Recipes',style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),),
+              const Text(
+                'Food Recipes',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
               const Divider(
                 thickness: 2,
-                // height: 2,
+                
               ),
               Expanded(
                   child: ValueListenableBuilder(
@@ -103,9 +103,9 @@ class _AdminHomeState extends State<AdminHome> {
                 builder: (ctx, List<Recipes> recipeList, child) {
                   return ListView.builder(
                     physics: const BouncingScrollPhysics(),
-                    itemCount: recipeList.length,
+                    itemCount: recipes.length,
                     itemBuilder: (ctx, index) {
-                      final data = recipeList[index];
+                      final data = recipes[index];
                       return GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
@@ -118,40 +118,21 @@ class _AdminHomeState extends State<AdminHome> {
                     },
                   );
                 },
-              )
-                  // child: TabBarView(
-                  //   children: categories.map(
-                  //     (category) {
-                  //       return ValueListenableBuilder(
-                  //           valueListenable: recipeListNotifier,
-                  //           builder: (context, List<Recipes> items, child) {
-                  //             List<Recipes> categoryRecipes = items
-                  //                 .where((item) => item.catogory == category)
-                  //                 .toList();
-                  //             return ListView.builder(
-                  //               itemBuilder: (context, index) {
-                  //                 final data = categoryRecipes[index];
-                  //                 return GestureDetector(
-                  //                     onTap: () {
-                  //                       Navigator.of(context)
-                  //                           .push(MaterialPageRoute(
-                  //                         builder: (context) => RecipeScreen(
-                  //                             passValue: data, idPass: index),
-                  //                       ));
-                  //                     },
-                  //                     child: viewCard(context, data, index));
-                  //               },
-                  //               itemCount: categoryRecipes.length,
-                  //             );
-                  //           });
-                  //     },
-                  //   ).toList(),
-                  // ),
-                  ),
+              )),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void _recipeSearch(String recipeName) {
+    setState(() {
+      recipes = recipeData
+          .where((element) => element.recipeName
+              .toLowerCase()
+              .contains(recipeName.toLowerCase()))
+          .toList();
+    });
   }
 }

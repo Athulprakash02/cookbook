@@ -82,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
           // backgroundColor: const Color.fromARGB(255, 255, 255, 255),
           elevation: 0,
           title: const Text(
-            'Recipes',
+            'CookBook',
             style: TextStyle(fontSize: 25),
           ),
           centerTitle: true,
@@ -183,9 +183,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 10,),
                 Theme(
                   data: ThemeData(
-                    tabBarTheme: TabBarTheme(
-                      dividerColor: Colors.black
-                    )
+                    // tabBarTheme: TabBarTheme(
+                    //   dividerColor: Colors.black
+                    // )
                   ),
                   child: TabBar(
                     isScrollable: true,
@@ -200,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         borderRadius: const BorderRadius.all(Radius.circular(15)),
                         color: Colors.cyan.shade300),
                     tabs: categories
-                        .map((category) => Tab(child: Text(category,style: TextStyle(fontSize: 18),),))
+                        .map((category) => Tab(child: Text(category,style: const TextStyle(fontSize: 18),),))
                         .toList(),
                   ),
                 ),

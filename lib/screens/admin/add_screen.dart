@@ -200,7 +200,9 @@ class _AddScreenState extends State<AddScreen> {
       _controllers.add(TextEditingController());
       _textKeys.add(key);
       _textfields.add(addIngredients(key));
+      // _ingredientsList.clear();
       _ingredientsList.add('');
+
     });
   }
 
