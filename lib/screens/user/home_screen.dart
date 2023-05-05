@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:cookbook/db/functions/db_recipe_functions.dart';
 import 'package:cookbook/db/functions/login_functions.dart';
@@ -6,6 +5,7 @@ import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/screens/recipe_screen.dart';
 import 'package:cookbook/screens/user/search_screen.dart';
 import 'package:cookbook/widgets/add_ingredients.dart';
+import 'package:cookbook/widgets/build_recipe_list.dart';
 
 import 'package:cookbook/widgets/card.dart';
 
@@ -214,29 +214,30 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: TabBarView(
                       children: categories.map(
                         (category) {
-                          return ValueListenableBuilder(
-                              valueListenable: recipeListNotifier,
-                              builder: (context, List<Recipes> items, child) {
-                                List<Recipes> categoryRecipes = items
-                                    .where((item) => item.catogory == category)
-                                    .toList();
-                                return ListView.builder(
-                                  physics: const BouncingScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    final data = categoryRecipes[index];
-                                    return GestureDetector(
-                                        onTap: () {
-                                          Navigator.of(context)
-                                              .push(MaterialPageRoute(
-                                            builder: (context) => RecipeScreen(
-                                                passValue: data, idPass: index),
-                                          ));
-                                        },
-                                        child: userCard(data));
-                                  },
-                                  itemCount: categoryRecipes.length,
-                                );
-                              });
+                          return buildCategoryRecipeList(items, category);
+                          // return ValueListenableBuilder(
+                          //     valueListenable: recipeListNotifier,
+                          //     builder: (context, List<Recipes> items, child) {
+                          //       List<Recipes> categoryRecipes = items
+                          //           .where((item) => item.catogory == category)
+                          //           .toList();
+                          //       return ListView.builder(
+                          //         physics: const BouncingScrollPhysics(),
+                          //         itemBuilder: (context, index) {
+                          //           final data = categoryRecipes[index];
+                          //           return GestureDetector(
+                          //               onTap: () {
+                          //                 Navigator.of(context)
+                          //                     .push(MaterialPageRoute(
+                          //                   builder: (context) => RecipeScreen(
+                          //                       passValue: data, idPass: index),
+                          //                 ));
+                          //               },
+                          //               child: userCard(data));
+                          //         },
+                          //         itemCount: categoryRecipes.length,
+                          //       );
+                          //     });
                         },
                       ).toList(),
                     ),

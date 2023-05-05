@@ -23,7 +23,6 @@ class _AdminHomeState extends State<AdminHome> {
   List<Recipes> recipeData = Hive.box<Recipes>('recipe_list').values.toList();
   late List<Recipes> recipes = List<Recipes>.from(recipeData);
 
-
   @override
   void initState() {
     // TODO: implement initState
@@ -73,7 +72,8 @@ class _AdminHomeState extends State<AdminHome> {
                 child: SizedBox(
                   height: 50,
                   child: TextFormField(
-                    autofocus: false,
+                    // focusNode: FocusScopeNode(),
+                    // autofocus: false,
                     controller: _searchController,
                     decoration: InputDecoration(
                         suffixIcon: const Icon(Icons.search),
@@ -95,19 +95,25 @@ class _AdminHomeState extends State<AdminHome> {
               ),
               const Divider(
                 thickness: 2,
-                
               ),
               Expanded(
                   child: ValueListenableBuilder(
                 valueListenable: recipeListNotifier,
-                builder: (ctx, List<Recipes> recipeList, child) {
+                builder: (ctx, List<Recipes> recipeData, child) {
+                  // recipeData=recipeList;
                   return ListView.builder(
                     physics: const BouncingScrollPhysics(),
-                    itemCount: recipes.length,
+                    itemCount: recipeData.length,
                     itemBuilder: (ctx, index) {
-                      final data = recipes[index];
+                      final data = recipeData[index];
                       return GestureDetector(
-                        onTap: () {
+                        onTap: () async {
+                          FocusScopeNode currentFocus = FocusScope.of(context);
+                          if (!currentFocus.hasPrimaryFocus) {
+                            currentFocus.unfocus();
+                          }
+
+                          await Future.delayed(const Duration(milliseconds: 300));
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) =>
                                 RecipeScreen(passValue: data, idPass: index),

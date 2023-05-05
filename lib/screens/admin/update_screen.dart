@@ -76,9 +76,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
         TextEditingController(text: recipe.catogory.toString());
     _ingredientsController =
         TextEditingController(text: recipe.ingredients.toString());
-    for (int i = 0; i < _ingredientsList.length; i++) {
-      addTextField(i);
-    }
+   
     _directionController =
         TextEditingController(text: recipe.directions.toString());
     _youtubeLinkController = TextEditingController(text: recipe.url.toString());
@@ -182,20 +180,21 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 szdBox(),
                 Column(
                   children: [
-                    Row(
-                      children: [
-                        Expanded(
-                            child: recipeText(
-                                _ingredientsController, 'hintText', 1)),
-                        IconButton(
-                            iconSize: 35,
-                            onPressed: () {
-                              addTextField(_textfields.length);
-                            },
-                            icon: Icon(Icons.add_box_outlined)),
-                      ],
-                    ),
-                    ..._textfields,
+                   for(int i =0;i<_ingredientsList.length;i++)
+                   addIngredients(_textKeys[i]),
+                   Row(
+                    children: [
+                      Expanded(child: recipeText(_ingredientsController, 'Enter ingredients',1)),
+                      IconButton(onPressed: () {
+                       setState(() {
+                          _ingredientsList.add(_ingredientsController.text);
+                        _controllers.add(TextEditingController(text: _ingredientsController.text));
+                        _textKeys.add(GlobalKey());
+                       });
+                      }, icon: Icon(Icons.add_box_outlined))
+                    ],
+                   )
+                    
                   ],
                 ),
                 szdBox(),
