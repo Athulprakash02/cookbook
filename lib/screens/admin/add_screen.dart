@@ -175,6 +175,7 @@ class _AddScreenState extends State<AddScreen> {
                     if (imagePath != null &&
                         _recipeNameController.text.isNotEmpty &&
                         _durationController.text.isNotEmpty &&
+                        dropDownValue != 'Category' &&
                         _ingredientsController.text.isNotEmpty &&
                         _directionController.text.isNotEmpty &&
                         _youtubeLink.text.isNotEmpty) {
@@ -202,7 +203,6 @@ class _AddScreenState extends State<AddScreen> {
       _textfields.add(addIngredients(key));
       // _ingredientsList.clear();
       _ingredientsList.add('');
-
     });
   }
 
@@ -252,7 +252,6 @@ class _AddScreenState extends State<AddScreen> {
                         borderRadius: BorderRadius.circular(10))),
               ),
             ),
-            
           ],
         ),
       ),
@@ -317,6 +316,8 @@ class _AddScreenState extends State<AddScreen> {
       errorMessage = 'Please add directions';
     } else if (_youtubeLink.text.isEmpty) {
       errorMessage = 'Please add any link of making video';
+    } else if (dropDownValue == 'Category') {
+      errorMessage = 'Please select category';
     }
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         behavior: SnackBarBehavior.floating,
@@ -338,6 +339,4 @@ class _AddScreenState extends State<AddScreen> {
           style: TextStyle(fontSize: 17),
         )));
   }
-
-  
 }

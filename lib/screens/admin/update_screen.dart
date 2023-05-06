@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:cookbook/db/functions/db_recipe_functions.dart';
 import 'package:cookbook/db/model/recipies.dart';
+import 'package:cookbook/screens/admin/admin_home.dart';
 import 'package:cookbook/widgets/add_ingredients.dart';
 
 import 'package:flutter/material.dart';
@@ -9,12 +11,8 @@ import 'package:image_picker/image_picker.dart';
 
 class UpdateScreen extends StatefulWidget {
   final int index;
-  
 
-  UpdateScreen({Key? key,
-  
-  required this.index
-  }) : super(key: key);
+  UpdateScreen({Key? key, required this.index}) : super(key: key);
 
   @override
   State<UpdateScreen> createState() => _UpdateScreenState();
@@ -24,7 +22,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
   final List<GlobalKey> _textKeys = [];
   final List<Widget> _textfields = [];
   final List<TextEditingController> _controllers = [];
-  final List<String> _ingredientsList = [];
+  late List<String> _ingredientsList = [];
   late TextEditingController _recipeNameController;
   late TextEditingController _durationController;
   late TextEditingController _categoryController;
@@ -38,7 +36,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
   String? recipeName;
   String? duration;
   String? category;
-  List<String>? ingredients;
+  String? ingredients;
+  List<String>? extraIngredients;
   String? direction;
   String? youtubeLink;
   String? imagePath;
@@ -67,6 +66,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
     recipeBox = Hive.box('recipe_list');
     recipe = recipeBox.getAt(widget.index) as Recipes;
+    // _ingredientsList = List.from(recipe.extraIngredients);
 
     _recipeNameController =
         TextEditingController(text: recipe.recipeName.toString());
@@ -76,32 +76,29 @@ class _UpdateScreenState extends State<UpdateScreen> {
         TextEditingController(text: recipe.catogory.toString());
     _ingredientsController =
         TextEditingController(text: recipe.ingredients.toString());
-   
+
     _directionController =
         TextEditingController(text: recipe.directions.toString());
     _youtubeLinkController = TextEditingController(text: recipe.url.toString());
 
-    _ingredientsList.clear();
-    _controllers.clear();
-    _textfields.clear();
-    print(_categoryController.text);
+    print(_ingredientsList);
 
-    // _textfields.add(addTextField(0));
+    for (int i = 0; i < recipe.extraIngredients.length; i++) {
+      // print(recipe.extraIngredients[i]);
+      // _ingredientsList.add(recipe.extraIngredients[i]);
+      // print(_ingredientsList);
+      _controllers.add(TextEditingController());
+      _controllers[i].text = recipe.extraIngredients[i];
+      print(
+          "_length ${_ingredientsList.length}, i = $i, ${recipe.extraIngredients[i]}");
+      setTextField(_controllers.length, recipe.extraIngredients[i]);
 
-    // for(var i=0;i<recipe.ingredients.length;i++){
-    //   // GlobalKey mainKey = GlobalKey();
-    // _ingredientsList.add(recipe.ingredients[i]);
-    // _controllers.add(TextEditingController(text: recipe.ingredients[i]));
-    // _textKeys.add(GlobalKey());
-    // _textfields.add(addIngredients(_textKeys[i]));
+      // print(_controllers[i].text);
+    }
 
-    //   _textfields.add(addTextField(i));
-    // }
+    // print(_categoryController.text);
   }
 
-  // Future<Recipes> fetchRecipe(String id) async{
-  //   final r
-  // }
   Future<void> imagePick() async {
     final pickedImage =
         await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -180,21 +177,20 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 szdBox(),
                 Column(
                   children: [
-                   for(int i =0;i<_ingredientsList.length;i++)
-                   addIngredients(_textKeys[i]),
-                   Row(
-                    children: [
-                      Expanded(child: recipeText(_ingredientsController, 'Enter ingredients',1)),
-                      IconButton(onPressed: () {
-                       setState(() {
-                          _ingredientsList.add(_ingredientsController.text);
-                        _controllers.add(TextEditingController(text: _ingredientsController.text));
-                        _textKeys.add(GlobalKey());
-                       });
-                      }, icon: Icon(Icons.add_box_outlined))
-                    ],
-                   )
-                    
+                    Row(
+                      children: [
+                        Expanded(
+                            child: recipeText(
+                                _ingredientsController, 'Add ingredients', 1)),
+                        IconButton(
+                            iconSize: 35,
+                            onPressed: () {
+                              addTextField(_ingredientsList.length);
+                            },
+                            icon: Icon(Icons.add_box_outlined)),
+                      ],
+                    ),
+                    ..._textfields,
                   ],
                 ),
                 szdBox(),
@@ -204,12 +200,18 @@ class _UpdateScreenState extends State<UpdateScreen> {
                 szdBox(),
                 ElevatedButton.icon(
                     onPressed: () {
-                      if (imagePath != null &&
-                          _recipeNameController.text.isNotEmpty &&
+                      if (_recipeNameController.text.isNotEmpty &&
                           _durationController.text.isNotEmpty &&
                           _ingredientsController.text.isNotEmpty &&
+                          dropDownValue != 'Category' &&
                           _directionController.text.isNotEmpty &&
                           _youtubeLinkController.text.isNotEmpty) {
+                        onUpdateButtonClicked(widget.index);
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                              builder: (ctx) => AdminHome(),
+                            ),
+                            (route) => false);
                       } else {
                         validCheck();
                       }
@@ -224,13 +226,27 @@ class _UpdateScreenState extends State<UpdateScreen> {
     );
   }
 
-  addTextField(int index2) {
+  setTextField(int index2, [String? textIngredients]) {
+    setState(() {
+      GlobalKey key = GlobalKey();
+      print("key $key");
+      _controllers.add(TextEditingController(text: textIngredients));
+      _textKeys.add(key);
+      _textfields.add(addIngredients(key));
+      _ingredientsList.add('');
+      // _ingredientsList.add(textIngredients!);
+    });
+  }
+
+  void addTextField(key) {
+    print(_ingredientsList);
     setState(() {
       // print('1');
       GlobalKey key = GlobalKey();
       _controllers.add(TextEditingController());
       _textKeys.add(key);
       _textfields.add(addIngredients(key));
+      // _ingredientsList.clear();
       _ingredientsList.add('');
     });
   }
@@ -246,9 +262,11 @@ class _UpdateScreenState extends State<UpdateScreen> {
     });
   }
 
-  Widget addIngredients([GlobalKey? key]) {
+  Widget addIngredients(GlobalKey? key) {
+    print('Entered');
     ObjectKey keys = const ObjectKey({});
     int index1 = _ingredientsList.length;
+    print(index1);
 
     return Padding(
       padding: const EdgeInsets.only(top: 4, bottom: 4),
@@ -258,7 +276,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
           children: [
             Expanded(
               child: TextField(
-                autofocus: true,
                 maxLines: 1,
                 controller: _controllers[index1],
                 onChanged: (value) {
@@ -280,16 +297,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         borderRadius: BorderRadius.circular(10))),
               ),
             ),
-            // Visibility(
-            //   visible: isVisible,
-            //   child: IconButton(
-            //     onPressed: () {
-            //       addTextField(keys);
-            //     },
-            //     icon: const Icon(Icons.add_box_outlined),
-            //     iconSize: 35,
-            //   ),
-            // )
           ],
         ),
       ),
@@ -298,15 +305,12 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
   validCheck() {
     var errorMessage = '';
-    if (imagePath == null &&
-        _recipeNameController.text.isEmpty &&
+    if (_recipeNameController.text.isEmpty &&
         _durationController.text.isEmpty &&
         _ingredientsController.text.isEmpty &&
         _directionController.text.isEmpty &&
         _youtubeLinkController.text.isEmpty) {
       errorMessage = 'Please fill all the fields';
-    } else if (imagePath == null) {
-      errorMessage = 'Please add image';
     } else if (_recipeNameController.text.isEmpty) {
       errorMessage = 'Please add Recipe name';
     } else if (_durationController.text.isEmpty) {
@@ -317,6 +321,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
       errorMessage = 'Please add directions';
     } else if (_youtubeLinkController.text.isEmpty) {
       errorMessage = 'Please add any link of making video';
+    } else if (dropDownValue == 'Category') {
+      errorMessage = 'Please select category';
     }
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         behavior: SnackBarBehavior.floating,
@@ -340,10 +346,41 @@ class _UpdateScreenState extends State<UpdateScreen> {
   }
 
   Future<void> onUpdateButtonClicked(int index) async {
+    
+    
+     for(int i=0;i<_controllers.length;i++){
+      print(_controllers[i].text);
+       _ingredientsList.add(_controllers[i].text);
+    }
     final recipeName = _recipeNameController.text;
     final duration = _durationController.text;
-    final _category = _categoryController.text;
-    final ingrdients = _ingredientsController.text;
-    // final extraIngredients =
+    final category = dropDownValue;
+    final ingredients = _ingredientsController.text;
+    final extraIngredients = _ingredientsList;
+    final direction = _directionController.text;
+    final link = _youtubeLinkController.text;
+
+    if (recipeName.isEmpty ||
+        duration.isEmpty ||
+        category == 'Category' ||
+        ingredients.isEmpty ||
+        direction.isEmpty ||
+        link.isEmpty) {
+      return;
+    }
+    final _updatedRecipe = Recipes(
+        imagePath: imagePath ?? recipe.imagePath,
+        recipeName: recipeName,
+        cookingTime: duration,
+        catogory: category,
+        ingredients: ingredients,
+        extraIngredients: extraIngredients,
+        directions: direction,
+        url: link);
+    print(_updatedRecipe.extraIngredients);
+    final recipeDB = await Hive.openBox<Recipes>('recipe_list');
+    recipeDB.putAt(index, _updatedRecipe);
+    getAllRecipe();
+    
   }
 }
