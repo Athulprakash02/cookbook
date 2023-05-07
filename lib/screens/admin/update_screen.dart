@@ -28,7 +28,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
   late TextEditingController _categoryController;
   late TextEditingController _directionController;
   late TextEditingController _ingredientsController;
-  late TextEditingController _extraIngredientsController;
+  // late TextEditingController _extraIngredientsController;
 
   late TextEditingController _youtubeLinkController;
 
@@ -81,7 +81,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
         TextEditingController(text: recipe.directions.toString());
     _youtubeLinkController = TextEditingController(text: recipe.url.toString());
 
-    print(_ingredientsList);
+    // print(_ingredientsList);
 
     for (int i = 0; i < recipe.extraIngredients.length; i++) {
       // print(recipe.extraIngredients[i]);
@@ -89,9 +89,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
       // print(_ingredientsList);
       _controllers.add(TextEditingController());
       _controllers[i].text = recipe.extraIngredients[i];
-      print(
-          "_length ${_ingredientsList.length}, i = $i, ${recipe.extraIngredients[i]}");
-      setTextField(_controllers.length, recipe.extraIngredients[i]);
+      // _ingredientsList.add(_controllers[i].text);
+      // print(
+      //     "_length ${_ingredientsList.length}, i = $i, ${recipe.extraIngredients[i]}");
+      setTextField( recipe.extraIngredients[i]);
 
       // print(_controllers[i].text);
     }
@@ -185,7 +186,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         IconButton(
                             iconSize: 35,
                             onPressed: () {
-                              addTextField(_ingredientsList.length);
+                              addTextField(_controllers.length);
                             },
                             icon: Icon(Icons.add_box_outlined)),
                       ],
@@ -207,6 +208,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                           _directionController.text.isNotEmpty &&
                           _youtubeLinkController.text.isNotEmpty) {
                         onUpdateButtonClicked(widget.index);
+                        // demo(widget.index);
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
                               builder: (ctx) => AdminHome(),
@@ -226,20 +228,20 @@ class _UpdateScreenState extends State<UpdateScreen> {
     );
   }
 
-  setTextField(int index2, [String? textIngredients]) {
+  setTextField( [String? textIngredients]) {
     setState(() {
       GlobalKey key = GlobalKey();
-      print("key $key");
+      // print("key $key");
       _controllers.add(TextEditingController(text: textIngredients));
       _textKeys.add(key);
       _textfields.add(addIngredients(key));
-      _ingredientsList.add('');
+      _ingredientsList.add(textIngredients!);
       // _ingredientsList.add(textIngredients!);
     });
   }
 
   void addTextField(key) {
-    print(_ingredientsList);
+    print("legth = ${_textfields.length}");
     setState(() {
       // print('1');
       GlobalKey key = GlobalKey();
@@ -266,7 +268,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
     print('Entered');
     ObjectKey keys = const ObjectKey({});
     int index1 = _ingredientsList.length;
-    print(index1);
+    // print(index1);
 
     return Padding(
       padding: const EdgeInsets.only(top: 4, bottom: 4),
@@ -344,19 +346,31 @@ class _UpdateScreenState extends State<UpdateScreen> {
           style: TextStyle(fontSize: 17),
         )));
   }
-
-  Future<void> onUpdateButtonClicked(int index) async {
-    
-    
-     for(int i=0;i<_controllers.length;i++){
+  demo(){
+    // _ingredientsList.clear();
+    for(int i=0;i<_controllers.length;i++){
       print(_controllers[i].text);
        _ingredientsList.add(_controllers[i].text);
+       print("_ingredientsListvalue = ${_ingredientsList[i]}");
     }
+  }
+
+  Future<void> onUpdateButtonClicked(int index) async {
+    print(index);
+    print(" $_ingredientsList");
+    // recipe.extraIngredients.clear();
+    // _ingredientsList.clear();
+    // await demo();
+    
+    //  for(int i=0;i<_controllers.length;i++){
+    //   print("text ${_controllers[i].text}");
+    //    _ingredientsList.add(_controllers[i].text);
+    // }
     final recipeName = _recipeNameController.text;
     final duration = _durationController.text;
     final category = dropDownValue;
     final ingredients = _ingredientsController.text;
-    final extraIngredients = _ingredientsList;
+    // final extraingredients = _ingredientsList;
     final direction = _directionController.text;
     final link = _youtubeLinkController.text;
 
@@ -374,12 +388,12 @@ class _UpdateScreenState extends State<UpdateScreen> {
         cookingTime: duration,
         catogory: category,
         ingredients: ingredients,
-        extraIngredients: extraIngredients,
+        extraIngredients: _ingredientsList,
         directions: direction,
         url: link);
-    print(_updatedRecipe.extraIngredients);
-    final recipeDB = await Hive.openBox<Recipes>('recipe_list');
-    recipeDB.putAt(index, _updatedRecipe);
+    // print(_updatedRecipe.extraIngredients);
+    // final recipeDB = await Hive.openBox<Recipes>('recipe_list');
+    recipeBox.putAt(index, _updatedRecipe);
     getAllRecipe();
     
   }

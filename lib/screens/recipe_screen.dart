@@ -24,10 +24,17 @@ class _RecipeScreenState extends State<RecipeScreen> {
   List<String> ingredientsList= [];
 
   @override
-  Widget build(BuildContext context) {
-    
+  void initState() {
+    // TODO: implement initState
+    super.initState();
     ingredientsList.add(widget.passValue.ingredients);
     ingredientsList.addAll(widget.passValue.extraIngredients);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    
+    
     return Scaffold(
       body: Container(
         width: double.maxFinite,
@@ -118,14 +125,22 @@ class _RecipeScreenState extends State<RecipeScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Row(
-                          children:  [
-                            const Icon(Icons.watch_later_outlined),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(widget.passValue.cookingTime)
-                          ],
+                        SizedBox(
+                          width: double.maxFinite,
+                          child: Row(
+                            // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children:  [
+                             
+
+                               const Icon(Icons.watch_later_outlined),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              Text(widget.passValue.cookingTime),
+                              
+                              
+                            ],
+                          ),
                         ),
                         const SizedBox(
                           height: 10,
