@@ -43,6 +43,7 @@ dependencies:
   image_picker: ^0.8.7+4
   url_launcher: ^6.1.10
   external_app_launcher: ^3.1.0
+  comment_box: ^0.0.18
   
   # flutter_marquee: ^2.0.1
   
