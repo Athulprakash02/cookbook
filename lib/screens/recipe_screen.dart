@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:cookbook/db/functions/db_recipe_functions.dart';
 import 'package:cookbook/db/model/recipies.dart';
-import 'package:cookbook/screens/user/review_screen.dart';
+import 'package:cookbook/screens/user/comment_screen.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
