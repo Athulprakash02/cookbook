@@ -4,34 +4,28 @@ import 'package:cookbook/screens/recipe_screen.dart';
 import 'package:cookbook/widgets/card.dart';
 import 'package:flutter/material.dart';
 
-Widget buildCategoryRecipeList(List<Recipes> items , String category){
-  return ValueListenableBuilder(valueListenable: recipeListNotifier, builder: (context, value, child) {
+Widget buildCategoryRecipeList(List<Recipes> items, String category) {
+  return ValueListenableBuilder(
+    valueListenable: recipeListNotifier,
+    builder: (context, value, child) {
+      List<Recipes> categoryRecipes =
+          items.where((item) => item.catogory == category).toList();
 
-    
-    List<Recipes> categoryRecipes = items
-                                    .where((item) => item.catogory == category)
-                                    .toList();
-
-                                    return ListView.builder(
-                                  physics: const BouncingScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    final data = categoryRecipes[index];
-                                    return GestureDetector(
-                                        onTap: () {
-                                          Navigator.of(context)
-                                              .push(MaterialPageRoute(
-                                            builder: (context) => RecipeScreen(
-                                                passValue: data, idPass: index),
-                                          ));
-                                        },
-                                        child: userCard(data));
-                                  },
-                                  itemCount: categoryRecipes.length,
-                                );
-  },
-  
+      return ListView.builder(
+        physics: const BouncingScrollPhysics(),
+        itemBuilder: (context, index) {
+          final data = categoryRecipes[index];
+          return GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) =>
+                      RecipeScreen(passValue: data, idPass: index),
+                ));
+              },
+              child: userCard(data));
+        },
+        itemCount: categoryRecipes.length,
+      );
+    },
   );
-
-
-   
 }

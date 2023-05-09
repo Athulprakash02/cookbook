@@ -76,7 +76,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
                       iconSize: 30,
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const ReviewScreen(),
+                          builder: (context) =>  ReviewScreen(recipe: widget.passValue),
                         ));
                       },
                       icon: const Icon(Icons.reviews_outlined),color: Colors.black,),

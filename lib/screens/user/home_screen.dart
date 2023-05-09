@@ -51,30 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(builder: (context) => const SearchScreen(),));
             }, icon: const Icon(Icons.search_outlined)),
-            // PopupMenuButton(
-            //   onSelected: (value) {
-            //     setState(() {
-            //       _selectedOption = value;
-            //     });
-            //   },
-            //   itemBuilder: (context) {
-            //     return [
-            //       const PopupMenuItem(
-            //         value: 1,
-            //         child: Text('sort by name'),
-            //       ),
-            //       const PopupMenuItem(
-            //         value: 2,
-            //         child: Text('sort by duration(less to more)'),
-            //       ),
-            //       const PopupMenuItem(
-            //         value: 3,
-            //         child: Text('sort by time'),
-            //       ),
-            //     ];
-            //   },
-            //   tooltip: 'sort',
-            // )
+           
           ],
           // backgroundColor: const Color.fromARGB(255, 255, 255, 255),
           elevation: 0,
@@ -180,9 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 10,),
                 Theme(
                   data: ThemeData(
-                    // tabBarTheme: TabBarTheme(
-                    //   dividerColor: Colors.black
-                    // )
+                   
                   ),
                   child: TabBar(
                     isScrollable: true,
