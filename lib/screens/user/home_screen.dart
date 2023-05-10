@@ -1,7 +1,10 @@
 
 import 'package:cookbook/db/functions/db_recipe_functions.dart';
 import 'package:cookbook/db/functions/login_functions.dart';
+import 'package:cookbook/db/model/comments_db.dart';
+import 'package:cookbook/db/model/login_model.dart';
 import 'package:cookbook/db/model/recipies.dart';
+import 'package:cookbook/main.dart';
 import 'package:cookbook/screens/user/search_screen.dart';
 import 'package:cookbook/widgets/build_recipe_list.dart';
 
@@ -17,8 +20,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late LoginData userLogged;
+
+  // late LoginData user;
   late Box<Recipes> recipeList;
   late int _selectedOption;
+
   final _search = TextEditingController();
   var categoryItem = [
     'Breakfast',
@@ -33,9 +40,20 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     // TODO: implement initState
+
     super.initState();
+    // getUserDetails();
     getAllRecipe();
+
+    
+   
   }
+  // Future<void> getUserDetails()async {
+  //   final userBox = await Hive.openBox<LoginData>('login_db');
+  //   final userEmail = emailLoggedIn;
+  //    user = userBox.get(userEmail)!;
+    
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -72,14 +90,14 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               DrawerHeader(
                 child: Row(
-                  children: const [
+                  children:   const [
                     DrawerHeader(
                         child: CircleAvatar(
                       radius: 38,
                       backgroundImage: AssetImage('assets/images/prof.jpg'),
                     )),
                     Text(
-                      'UserName',
+                      'user.fullName',
                       style: TextStyle(fontSize: 20),
                     )
                   ],
@@ -111,7 +129,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: TextStyle(fontSize: 18, color: Colors.black),
                         )),
                     TextButton.icon(
-                        onPressed: () {},
+                        onPressed: () {
+                           print(emailLoggedIn);
+                        },
                         icon: const Icon(
                           Icons.settings,
                           color: Colors.black,
@@ -222,4 +242,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  
 }

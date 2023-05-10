@@ -1,3 +1,4 @@
+import 'package:cookbook/db/model/comments_db.dart';
 import 'package:cookbook/db/model/login_model.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/screens/splash_screen.dart';
@@ -11,7 +12,8 @@ const SAVE_KEY_NAME = 'adminLoggedIn';
 const adminMail = 'admin@gmail.com';
 const adminPass = '0000';
 const userLoggedIn = 'userLogged';
-late LoginData user ;
+ String emailLoggedIn = 'abc@gmail.com';
+// late LoginData user;
 
 
 void main(List<String> args) async{
@@ -25,7 +27,11 @@ void main(List<String> args) async{
   if(!Hive.isAdapterRegistered(RecipesAdapter().typeId)){
     Hive.registerAdapter(RecipesAdapter());
   }
+  if(!Hive.isAdapterRegistered(CommentsDataAdapter().typeId)){
+    Hive.registerAdapter(CommentsDataAdapter());
+  }
  await Hive.openBox<Recipes>('recipe_list');
+ await Hive.openBox<CommentsData>('comments_db');
   runApp(const MyApp());
 }
 

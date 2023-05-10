@@ -1,4 +1,5 @@
- import 'package:cookbook/screens/user/login_screen.dart';
+ import 'package:cookbook/main.dart';
+import 'package:cookbook/screens/user/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -62,6 +63,7 @@ confirmation(BuildContext context) async {
   signout(BuildContext ctx) async {
     final sharedPref = await SharedPreferences.getInstance();
     await sharedPref.clear();
+    
     // ignore: use_build_context_synchronously
     Navigator.of(ctx).pushAndRemoveUntil(
         MaterialPageRoute(

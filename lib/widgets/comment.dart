@@ -1,6 +1,10 @@
-import 'dart:ffi';
+
 
 import 'package:comment_box/comment/comment.dart';
+import 'package:cookbook/db/functions/comment_functions.dart';
+import 'package:cookbook/db/model/comments_db.dart';
+import 'package:cookbook/db/model/recipies.dart';
+import 'package:cookbook/main.dart';
 import 'package:cookbook/widgets/textfield.dart';
 import 'package:flutter/material.dart';
 
@@ -45,7 +49,7 @@ List commentsList = [];
 //   );
 // }
 
-Widget commentBubble(){
+Widget commentBubble(CommentsData reviews){
   return Padding(
     padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
     child: Container(
@@ -54,20 +58,20 @@ Widget commentBubble(){
       decoration: BoxDecoration(
         border: Border.all(),
         borderRadius: BorderRadius.circular(15),
-        color: Colors.amber
+        color: Colors.cyan.shade100
       ),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('username',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-            SizedBox(
+          children:  [
+            Text(reviews.userName,style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+            const SizedBox(
               height: 10,
             ),
             SizedBox(
               width: double.maxFinite,
-              child: Text('aduygfjkvfjkvuyvgJKBKBCGGVJGBJBJBCMBBaduygfjkvfjkvuyvgJKBKBCGGVJGBJBJBCMBBaduygfjkvfjkvuyvgJKBKBCGGVJGBJBJBCMBBaduygfjkvfjkvuyvgJKBKBCGGVJGBJBJBCMBBaduygfjkvfjkvuyvgJKBKBCGGVJGBJBJBCMBBaduygfjkvfjkvuyvgJKBKBCGGVJGBJBJBCMBB')),
+              child: Text(reviews.comment)),
           ],
         ),
       )
@@ -76,7 +80,7 @@ Widget commentBubble(){
   );
 }
 
-Widget inputSection() {
+Widget inputSection(Recipes recipe) {
   return Container(
     width: double.infinity,
     height: 80,
@@ -101,7 +105,9 @@ Widget inputSection() {
           padding: const EdgeInsets.all(10.0),
           child: FloatingActionButton(
             onPressed: () {
-              onClickedAddComment();
+              onClickedAddComment(commentController.text.trim(), 'user.fullName', recipe.recipeName);
+              print("name: ${recipe.recipeName}");
+              commentController.clear();
             },
             backgroundColor: const Color.fromARGB(255, 196, 192, 192),
             child: const Icon(
@@ -114,7 +120,4 @@ Widget inputSection() {
   );
 }
 
-onClickedAddComment() {
-  // comments.clear();
-  commentsList.add(commentController.text);
-}
+

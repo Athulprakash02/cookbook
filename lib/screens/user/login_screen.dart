@@ -19,6 +19,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  late LoginData loggedPerson;
   final _email = TextEditingController();
   final _password = TextEditingController();
 
@@ -190,10 +191,12 @@ class _LoginScreenState extends State<LoginScreen> {
     final passWord = _password.text.trim();
 
     final userLogin = Hive.box<LoginData>('login_db');
-    var user = userLogin.values.firstWhere(
+     loggedPerson = userLogin.values.firstWhere(
       (element) => element.email == email && element.password == passWord,
       orElse: () => invalid(),
     );
+    // user = loggedPerson;
+    
 
     return true;
   }
@@ -234,8 +237,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   saveLogin() async{
     print('object');
+    emailLoggedIn = _email.text.trim();
     final sharedPref = await SharedPreferences.getInstance();
     await sharedPref.setBool(userLoggedIn, true);
+    
 
   }
 }
