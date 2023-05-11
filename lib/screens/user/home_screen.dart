@@ -50,13 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
     
    
   }
-  // Future<void> getUserDetails()async {
-  //   final userBox = await Hive.openBox<LoginData>('login_db');
-  //   final userEmail = emailLoggedIn;
-  //    user = userBox.get(userEmail)!;
-    
-  // }
-
+  
   @override
   Widget build(BuildContext context) {
     recipeList = Hive.box<Recipes>('recipe_list');
@@ -90,19 +84,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   bottomRight: Radius.circular(50))),
           child: ListView(
             children: [
-              DrawerHeader(
-                child: Row(
-                  children:    [
-                    DrawerHeader(
-                        child: CircleAvatar(
-                      radius: 38,
-                      backgroundImage: AssetImage('assets/images/prof.jpg'),
-                    )),
-                    Text(
-                      emailLoggedIn,
-                      style: TextStyle(fontSize: 20),
-                    )
-                  ],
+              Center(
+                child: DrawerHeader(
+                  child: Text(
+                    emailLoggedIn,
+                    style: TextStyle(fontSize: 20),
+                  ),
                 ),
               ),
               Padding(
@@ -211,29 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: categories.map(
                         (category) {
                           return buildCategoryRecipeList(items, category);
-                          // return ValueListenableBuilder(
-                          //     valueListenable: recipeListNotifier,
-                          //     builder: (context, List<Recipes> items, child) {
-                          //       List<Recipes> categoryRecipes = items
-                          //           .where((item) => item.catogory == category)
-                          //           .toList();
-                          //       return ListView.builder(
-                          //         physics: const BouncingScrollPhysics(),
-                          //         itemBuilder: (context, index) {
-                          //           final data = categoryRecipes[index];
-                          //           return GestureDetector(
-                          //               onTap: () {
-                          //                 Navigator.of(context)
-                          //                     .push(MaterialPageRoute(
-                          //                   builder: (context) => RecipeScreen(
-                          //                       passValue: data, idPass: index),
-                          //                 ));
-                          //               },
-                          //               child: userCard(data));
-                          //         },
-                          //         itemCount: categoryRecipes.length,
-                          //       );
-                          //     });
+                          //
                         },
                       ).toList(),
                     ),

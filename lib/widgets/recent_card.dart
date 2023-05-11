@@ -1,28 +1,36 @@
+import 'dart:io';
+
+import 'package:cookbook/db/functions/recently_viewed_functions.dart';
 import 'package:cookbook/db/model/recipies.dart';
+import 'package:cookbook/screens/recipe_screen.dart';
 import 'package:flutter/material.dart';
 
-Widget recentCard(Recipes recipe){
+Widget recentCard(Recipes recipe,BuildContext ctx,int index){
   return Padding(
     padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
     child: ListTile(
+      onTap: () {
+        Navigator.of(ctx).push(MaterialPageRoute(builder: (context) => RecipeScreen(passValue: recipe, idPass: index),));
+      },
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(20))
       ),
       tileColor: Colors.grey.shade200,
       horizontalTitleGap: 20,
-      minVerticalPadding: 25,
+      minVerticalPadding: 10,
       leading: Container(
         width: 80,
-        height: 100,
+        height: 120,
         // color: Colors.red,
         decoration: BoxDecoration(
-          color: Colors.red,
-          borderRadius: BorderRadius.circular(15)
+          
+          borderRadius: BorderRadius.circular(15),
+          image: DecorationImage(image: FileImage(File(recipe.imagePath)),fit: BoxFit.cover),
 
         ),
       ),
       title:  Text(recipe.recipeName,style: TextStyle(fontSize: 20),),
-      
+      subtitle: Text(recipe.catogory),
   
     ),
   );

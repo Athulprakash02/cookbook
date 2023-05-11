@@ -28,7 +28,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
     // TODO: implement initState
 
     super.initState();
-    recentlyViewed();
+    recentlyViewed(widget.passValue);
     ingredientsList.add(widget.passValue.ingredients);
     ingredientsList.addAll(widget.passValue.extraIngredients);
     // print(ingredientsList);
@@ -219,24 +219,5 @@ class _RecipeScreenState extends State<RecipeScreen> {
     );
   }
 
-  Future<void> recentlyViewed() async {
-    print('entered recenlyviewed');
-    final box = await Hive.openBox<Recipes>('recently_viewed');
-    Recipes recipe = Recipes(
-        imagePath: widget.passValue.imagePath,
-        recipeName: widget.passValue.recipeName,
-        cookingTime: widget.passValue.cookingTime,
-        catogory: widget.passValue.catogory,
-        ingredients: widget.passValue.ingredients,
-        extraIngredients: widget.passValue.extraIngredients,
-        directions: widget.passValue.directions,
-        url: widget.passValue.url);
-        box.add(recipe);
-
-    //   final item =widget.passValue;
-    // print('name: ${item.recipeName}');
-    // final timestamp = DateTime.now();
-    // final key = timestamp.toString();
-    recents();
-  }
+ 
 }

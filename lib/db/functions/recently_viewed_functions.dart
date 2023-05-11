@@ -1,28 +1,46 @@
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-// Future<void> recentlyViewed (Recipes passValue) async{
-//    print('entered recenlyviewed');
-//     final box = await Hive.openBox<Recipes>('recently_viewed');
-//     await box.add(passValue);
-    
 
-//     //   final item =widget.passValue;
-//     // print('name: ${item.recipeName}');
-//     // final timestamp = DateTime.now();
-//     // final key = timestamp.toString();
-//     recents();
-    
-    
-// }
+Future<void> recentlyViewed(Recipes passvalue) async {
+    print('entered recenlyviewed');
+    final box = await Hive.openBox<Recipes>('recently_viewed');
+    Recipes recipe = Recipes(
+        imagePath: passvalue.imagePath,
+        recipeName: passvalue.recipeName,
+        cookingTime: passvalue.cookingTime,
+        catogory: passvalue.catogory,
+        ingredients: passvalue.ingredients,
+        extraIngredients: passvalue.extraIngredients,
+        directions: passvalue.directions,
+        url: passvalue.url);
+   
+    int index=0;
+    for (var element in box.values) {
+      if (recipe.recipeName == element.recipeName) {
+        box.deleteAt(index);
+        box.add(recipe);
+        break;
 
-Future<void> recents() async{
+       
+      }
+      index++;
+    }
+     box.add(recipe);
+    recents();
+  }
+List <Recipes>recently = [];
+
+Future recents() async{
+ 
   print(' entered recents');
   final box =await Hive.openBox<Recipes>('recently_viewed');
   List<Recipes> recentlyViewedList = box.values.toList();
-  List <Recipes>recently = recentlyViewedList.reversed.toList();
- for(var recipe in recentlyViewedList){
+recently = recentlyViewedList.reversed.toList();
+// recently.clear();
+ for(var recipe in recently){
   print(recipe.recipeName);
  }
 
 }
+
