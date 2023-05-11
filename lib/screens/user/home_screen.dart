@@ -6,6 +6,7 @@ import 'package:cookbook/db/model/comments_db.dart';
 import 'package:cookbook/db/model/login_model.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/main.dart';
+import 'package:cookbook/screens/user/favourites_screen.dart';
 import 'package:cookbook/screens/user/recent_screen.dart';
 import 'package:cookbook/screens/user/search_screen.dart';
 import 'package:cookbook/widgets/build_recipe_list.dart';
@@ -98,13 +99,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextButton.icon(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => FavouritesScreen(),));
+                        },
                         icon: const Icon(
                           Icons.favorite_border,
                           color: Colors.black,
                         ),
                         label: const Text(
-                          'Saved recipes',
+                          'Favourite recipes',
                           style: TextStyle(fontSize: 18, color: Colors.black),
                         )),
                     TextButton.icon(

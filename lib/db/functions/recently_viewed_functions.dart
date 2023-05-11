@@ -1,3 +1,4 @@
+import 'package:cookbook/db/functions/db_recipe_functions.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -38,9 +39,16 @@ Future recents() async{
   List<Recipes> recentlyViewedList = box.values.toList();
 recently = recentlyViewedList.reversed.toList();
 // recently.clear();
- for(var recipe in recently){
-  print(recipe.recipeName);
- }
+ 
+}
 
+Future<void> getAllRecents() async {
+  final recipeDB = await Hive.openBox<Recipes>('favourites_list');
+  
+  recipeListNotifier.value.clear();
+  for (var std in recipeDB.values) {
+    recipeListNotifier.value.add(std);
+  }
+  recipeListNotifier.notifyListeners();
 }
 

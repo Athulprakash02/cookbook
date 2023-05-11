@@ -15,15 +15,19 @@ class RecentsScreen extends StatefulWidget {
 
 class _RecentsScreenState extends State<RecentsScreen> {
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getAllRecents();
+  }
 
-//  final box = Hive.openBox<Recipes>('recently_viewed');
-//  final items = Hive.box<Recipes>('recently_viewed').values.toList();
-//  late List<Recipes> recentRecipes = List<Recipes>.from(items).reversed.toList(); 
-//  late List<Recipes> recentlyVisited = List<Recipes>.from(bo);
+
   
   @override
   Widget build(BuildContext context) {
     List<Recipes> recent = recently.toSet().toList();
+    
     print('object');
    for(var recipe in recent){
   print(recipe.recipeName);

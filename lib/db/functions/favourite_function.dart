@@ -22,15 +22,10 @@ Future<void> addToFavourite(Recipes favourited) async {
   recipeListNotifier.notifyListeners();
   print('Added');
   print(favourited.recipeName);
-  demo();
+  
 }
 
-demo() {
-  List<Recipes> demo = box.values.toList();
-  for (var i in demo) {
-    print(i.recipeName);
-  }
-}
+
 
 Future<void> removeFavorite(String recipename) async {
   print(recipename);
@@ -38,7 +33,17 @@ Future<void> removeFavorite(String recipename) async {
   recipeListNotifier.notifyListeners();
   print('deleted');
   print('box');
-  demo();
+ 
+}
+
+
+Future<void> getAllFavourites() async {
+  final recipeDB = await Hive.openBox<Recipes>('favourites_list');
+  recipeListNotifier.value.clear();
+  for (var std in recipeDB.values) {
+    recipeListNotifier.value.add(std);
+  }
+  recipeListNotifier.notifyListeners();
 }
 
 
