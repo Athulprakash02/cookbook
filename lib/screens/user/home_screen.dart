@@ -6,6 +6,7 @@ import 'package:cookbook/db/model/comments_db.dart';
 import 'package:cookbook/db/model/login_model.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/main.dart';
+import 'package:cookbook/screens/user/recent_screen.dart';
 import 'package:cookbook/screens/user/search_screen.dart';
 import 'package:cookbook/widgets/build_recipe_list.dart';
 
@@ -120,7 +121,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: TextStyle(fontSize: 18, color: Colors.black),
                         )),
                     TextButton.icon(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => RecentsScreen(),));
+                        },
                         icon: const Icon(
                           Icons.history,
                           color: Colors.black,
@@ -131,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         )),
                     TextButton.icon(
                         onPressed: () {
-                           print(emailLoggedIn);
+                           
                         },
                         icon: const Icon(
                           Icons.settings,

@@ -20,7 +20,7 @@ Future<void> recents() async{
   print(' entered recents');
   final box =await Hive.openBox<Recipes>('recently_viewed');
   List<Recipes> recentlyViewedList = box.values.toList();
-
+  List <Recipes>recently = recentlyViewedList.reversed.toList();
  for(var recipe in recentlyViewedList){
   print(recipe.recipeName);
  }
