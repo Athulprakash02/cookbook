@@ -1,4 +1,5 @@
 
+import 'package:cookbook/db/functions/db_functions.dart';
 import 'package:cookbook/db/functions/db_recipe_functions.dart';
 import 'package:cookbook/db/functions/login_functions.dart';
 import 'package:cookbook/db/model/comments_db.dart';
@@ -42,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
 
     super.initState();
-    // getUserDetails();
+    getUser();
     getAllRecipe();
 
     
@@ -90,14 +91,14 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               DrawerHeader(
                 child: Row(
-                  children:   const [
+                  children:    [
                     DrawerHeader(
                         child: CircleAvatar(
                       radius: 38,
                       backgroundImage: AssetImage('assets/images/prof.jpg'),
                     )),
                     Text(
-                      'user.fullName',
+                      emailLoggedIn,
                       style: TextStyle(fontSize: 20),
                     )
                   ],

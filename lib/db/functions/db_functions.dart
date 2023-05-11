@@ -1,4 +1,5 @@
 import 'package:cookbook/db/model/login_model.dart';
+import 'package:cookbook/main.dart';
 import 'package:cookbook/screens/user/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -52,6 +53,21 @@ Future exists(String mailId, ctx, _name, _password, _confirmPassword) async {
   }
 }
 
+
+Future<LoginData> getUser() async{
+  print('entered');
+    final userBox =await Hive.openBox<LoginData>('login_db');
+    var users = userBox.values.where((user) => user.email == emailLoggedIn).toList();
+    print(users);
+    if(users.isNotEmpty){
+      LoginData user = users.first;
+      emailLoggedIn = user.email;
+      print(emailLoggedIn);
+      return user;
+    }else{
+      throw ("user not found");
+    }
+  }
 
 
 

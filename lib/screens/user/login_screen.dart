@@ -237,9 +237,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   saveLogin() async{
     print('object');
-    emailLoggedIn = _email.text.trim();
+    // emailLoggedIn = _email.text.trim();
     final sharedPref = await SharedPreferences.getInstance();
     await sharedPref.setBool(userLoggedIn, true);
+    print(_email.text.trim());
+    await sharedPref.setString(emailLoggedIn, _email.text.trim());
     
 
   }

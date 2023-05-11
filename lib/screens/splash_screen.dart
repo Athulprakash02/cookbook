@@ -1,3 +1,4 @@
+import 'package:cookbook/db/functions/db_functions.dart';
 import 'package:cookbook/main.dart';
 import 'package:cookbook/screens/admin/admin_home.dart';
 import 'package:cookbook/screens/user/home_screen.dart';
@@ -54,9 +55,11 @@ class _ScreenSplashState extends State<ScreenSplash> {
   Future <void> checkUserLoggedIn() async{
     final userSharePref= await SharedPreferences.getInstance();
     final _userLoggedIn = userSharePref.getBool(userLoggedIn);
+    final user = userSharePref.getString(emailLoggedIn);
     if(_userLoggedIn == null || _userLoggedIn == false){
       gotoLogin();
     }else{
+      getUser();
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) => const HomeScreen(),));
     }
   }

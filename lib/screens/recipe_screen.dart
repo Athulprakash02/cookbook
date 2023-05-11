@@ -1,17 +1,16 @@
 import 'dart:io';
 
 import 'package:cookbook/db/functions/db_recipe_functions.dart';
+import 'package:cookbook/db/functions/recently_viewed_functions.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/screens/user/comment_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 // ignore: must_be_immutable
 class RecipeScreen extends StatefulWidget {
-  RecipeScreen({Key? key,
-  required this.passValue,
-  required this.idPass
-  }) : super(key: key);
-
+  RecipeScreen({Key? key, required this.passValue, required this.idPass})
+      : super(key: key);
 
   Recipes passValue;
   final int idPass;
@@ -21,20 +20,22 @@ class RecipeScreen extends StatefulWidget {
 }
 
 class _RecipeScreenState extends State<RecipeScreen> {
-  List<String> ingredientsList= [];
+  List<String> ingredientsList = [];
 
   @override
   void initState() {
+    // print(widget.passValue);
     // TODO: implement initState
+
     super.initState();
+    recentlyViewed();
     ingredientsList.add(widget.passValue.ingredients);
     ingredientsList.addAll(widget.passValue.extraIngredients);
+    // print(ingredientsList);
   }
 
   @override
   Widget build(BuildContext context) {
-    
-    
     return Scaffold(
       body: Container(
         width: double.maxFinite,
@@ -47,10 +48,9 @@ class _RecipeScreenState extends State<RecipeScreen> {
                 child: Container(
                   width: double.maxFinite,
                   height: 350,
-                  decoration:  BoxDecoration(
+                  decoration: BoxDecoration(
                       image: DecorationImage(
-                          image:
-                              FileImage(File(widget.passValue.imagePath)),
+                          image: FileImage(File(widget.passValue.imagePath)),
                           fit: BoxFit.cover)),
                 )),
             Positioned(
@@ -60,11 +60,13 @@ class _RecipeScreenState extends State<RecipeScreen> {
                   backgroundColor: Colors.cyan.shade100,
                   radius: 25,
                   child: IconButton(
-                      iconSize: 35,
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      icon: const Icon(Icons.arrow_back_sharp),color: Colors.black,),
+                    iconSize: 35,
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: const Icon(Icons.arrow_back_sharp),
+                    color: Colors.black,
+                  ),
                 )),
             Positioned(
                 top: 30,
@@ -73,15 +75,18 @@ class _RecipeScreenState extends State<RecipeScreen> {
                   backgroundColor: Colors.cyan.shade100,
                   radius: 25,
                   child: IconButton(
-                      iconSize: 30,
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>  ReviewScreen(recipe: widget.passValue),
-                        ));
-                      },
-                      icon: const Icon(Icons.reviews_outlined),color: Colors.black,),
+                    iconSize: 30,
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            ReviewScreen(recipe: widget.passValue),
+                      ));
+                    },
+                    icon: const Icon(Icons.reviews_outlined),
+                    color: Colors.black,
+                  ),
                 )),
-                 Positioned(
+            Positioned(
                 top: 90,
                 right: 20,
                 child: CircleAvatar(
@@ -90,16 +95,17 @@ class _RecipeScreenState extends State<RecipeScreen> {
                   child: IconButton(
                       iconSize: 35,
                       onPressed: () {
-                        launchURL
-                           (widget.passValue.url);
+                        launchURL(widget.passValue.url);
                         // await launch
                         // await LaunchApp.openApp(
                         //   androidPackageName: "${widget.passValue.url}com.google.youtube"
                         // );
-                      //  launchURL(widget.passValue.url);
-
+                        //  launchURL(widget.passValue.url);
                       },
-                      icon: const Icon(Icons.play_circle_fill,color: Colors.red,)),
+                      icon: const Icon(
+                        Icons.play_circle_fill,
+                        color: Colors.red,
+                      )),
                 )),
             Positioned(
                 top: 320,
@@ -107,7 +113,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * 0.65,
                   // height: 500,
-                  decoration:  BoxDecoration(
+                  decoration: BoxDecoration(
                     color: Colors.cyan.shade100,
                     borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(35),
@@ -117,7 +123,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
                     padding: const EdgeInsets.fromLTRB(20, 30, 20, 20),
                     child: Column(
                       children: [
-                         Text(
+                        Text(
                           widget.passValue.recipeName,
                           style: const TextStyle(
                               fontSize: 25, fontWeight: FontWeight.bold),
@@ -129,16 +135,12 @@ class _RecipeScreenState extends State<RecipeScreen> {
                           width: double.maxFinite,
                           child: Row(
                             // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children:  [
-                             
-
-                               const Icon(Icons.watch_later_outlined),
+                            children: [
+                              const Icon(Icons.watch_later_outlined),
                               const SizedBox(
                                 width: 5,
                               ),
                               Text(widget.passValue.cookingTime),
-                              
-                              
                             ],
                           ),
                         ),
@@ -156,7 +158,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
                               physics: const BouncingScrollPhysics(),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children:  [
+                                children: [
                                   // SizedBox(
                                   //   height: 10,
                                   // ),
@@ -173,17 +175,17 @@ class _RecipeScreenState extends State<RecipeScreen> {
                                   ),
                                   SizedBox(
                                     // width: MediaQuery.of(context).size.width,
-                                    child: Text("\u25CF ${ingredientsList.join('\n\u25CF ')}",
+                                    child: Text(
+                                      "\u25CF ${ingredientsList.join('\n\u25CF ')}",
                                       style: const TextStyle(fontSize: 19),
                                     ),
                                   ),
-                                  
 
                                   const Divider(
                                     thickness: 2,
                                     height: 20,
                                   ),
-                                  
+
                                   const Center(
                                     child: Text(
                                       'Directions',
@@ -215,5 +217,26 @@ class _RecipeScreenState extends State<RecipeScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> recentlyViewed() async {
+    print('entered recenlyviewed');
+    final box = await Hive.openBox<Recipes>('recently_viewed');
+    Recipes recipe = Recipes(
+        imagePath: widget.passValue.imagePath,
+        recipeName: widget.passValue.recipeName,
+        cookingTime: widget.passValue.cookingTime,
+        catogory: widget.passValue.catogory,
+        ingredients: widget.passValue.ingredients,
+        extraIngredients: widget.passValue.extraIngredients,
+        directions: widget.passValue.directions,
+        url: widget.passValue.url);
+        box.add(recipe);
+
+    //   final item =widget.passValue;
+    // print('name: ${item.recipeName}');
+    // final timestamp = DateTime.now();
+    // final key = timestamp.toString();
+    recents();
   }
 }
