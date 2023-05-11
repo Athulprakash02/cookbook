@@ -2,9 +2,13 @@ import 'dart:io';
 
 
 import 'package:cookbook/db/functions/db_recipe_functions.dart';
+import 'package:cookbook/db/functions/favourite_function.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/screens/admin/update_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+final box = Hive.box<Recipes>('favourites_list');
 
 Widget viewCard(BuildContext ctx, Recipes data , int index) {
   return Container(
@@ -108,6 +112,9 @@ Widget viewCard(BuildContext ctx, Recipes data , int index) {
 
 
 Widget userCard(Recipes data) {
+  var currentRecipe= data.recipeName;
+  // print(' curr = $currentIndex');
+final isFavourited = box.get(currentRecipe) != null;
   return Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(20),
@@ -172,8 +179,17 @@ Widget userCard(Recipes data) {
                         borderRadius: BorderRadius.circular(30)
                       ),
                 child: IconButton(onPressed: () {
-                  
-                }, icon: Icon(Icons.favorite_outline,size: 25,)),
+                // print(isFavourite);
+                
+                   if(isFavourited){
+                removeFavorite(currentRecipe);
+
+                   }else{
+                 addToFavourite(data);
+                   }
+                  }, icon: Icon(
+                isFavourited? Icons.favorite:
+                 Icons.favorite_outline,size: 25,color: Colors.red,)),
               ))
     
               

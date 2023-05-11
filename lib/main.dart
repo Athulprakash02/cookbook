@@ -33,6 +33,7 @@ void main(List<String> args) async{
  await Hive.openBox<Recipes>('recipe_list');
  await Hive.openBox<CommentsData>('comments_db');
  await Hive.openBox<Recipes>('recently_viewed');
+ await Hive.openBox<Recipes>('favourites_list');
   runApp(const MyApp());
 }
 
