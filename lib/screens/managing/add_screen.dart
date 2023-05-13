@@ -2,8 +2,9 @@ import 'dart:io';
 
 import 'package:cookbook/db/functions/db_recipe_functions.dart';
 import 'package:cookbook/db/model/recipies.dart';
-import 'package:cookbook/screens/admin/admin_home.dart';
-import 'package:cookbook/screens/admin/update_screen.dart';
+// import 'package:cookbook/screens/admin/manage_screen.dart';
+// import 'package:cookbook/screens/admin/update_screen.dart';
+import 'package:cookbook/screens/user/home_screen.dart';
 import 'package:cookbook/widgets/add_ingredients.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -290,9 +291,11 @@ class _AddScreenState extends State<AddScreen> {
         url: link);
 
     addRecipe(recipeDetails);
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (context) => const AdminHome(),
-    ));
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (context) => HomeScreen(),
+        ),
+        (route) => false);
   }
 
   validCheck() {

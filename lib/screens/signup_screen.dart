@@ -174,27 +174,7 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  // onClickSignUp() {
-  //   final email = _email.text.trim();
-  //   final fullName = _name.text.trim();
-  //   final passWord = _password.text.trim();
-  //   final confirmPassword = _confirmPassword.text.trim();
-
-  //   final userLogin = LoginData(
-  //       fullName: fullName,
-  //       email: email,
-  //       password: passWord,
-  //       confirmPassword: confirmPassword);
-
-  //   signUp(userLogin);
-
-  //   Navigator.of(context).pushAndRemoveUntil(
-  //       MaterialPageRoute(
-  //         builder: (context) => const LoginScreen(),
-  //       ),
-  //       (route) => false);
-  // }
-
+  
   validCheck() async {
     final pass = _password.text.trim();
     final conf = _confirmPassword.text.trim();

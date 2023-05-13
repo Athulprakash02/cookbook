@@ -4,7 +4,8 @@ import 'dart:io';
 import 'package:cookbook/db/functions/db_recipe_functions.dart';
 import 'package:cookbook/db/functions/favourite_function.dart';
 import 'package:cookbook/db/model/recipies.dart';
-import 'package:cookbook/screens/admin/update_screen.dart';
+import 'package:cookbook/screens/managing/update_screen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 

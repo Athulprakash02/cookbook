@@ -30,12 +30,12 @@ Widget favouritesCard(Recipes recipe,BuildContext ctx,int index){
 
         ),
       ),
-      title:  Text(recipe.recipeName,style: TextStyle(fontSize: 20),),
+      title:  Text(recipe.recipeName,style: const TextStyle(fontSize: 20),),
       subtitle: Text(recipe.catogory),
       trailing:IconButton(onPressed: () {
         removeFavorite(recipe.recipeName);
         getAllFavourites();
-      }, icon:  Icon(Icons.highlight_remove_rounded,size: 35,color: Colors.red,)),
+      }, icon:  const Icon(Icons.highlight_remove_rounded,size: 35,color: Colors.red,)),
   
     ),
   );

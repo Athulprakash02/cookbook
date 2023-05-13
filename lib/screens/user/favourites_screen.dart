@@ -29,13 +29,15 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
     
     return   Scaffold(
       appBar: AppBar(
-        title: Text('Favourited recipes'),
+        title: const Text('Favourited recipes'),
         centerTitle: true,
       ),
       body: SafeArea(child: ValueListenableBuilder(
         valueListenable: recipeListNotifier,
         builder: (context, List<Recipes> favourites, child) {
-         return ListView.builder(itemBuilder: (context, index) {
+         return ListView.builder(
+          physics: const BouncingScrollPhysics(),
+          itemBuilder: (context, index) {
           return favouritesCard(favourites[index], context, index);
         },itemCount: favourites.length,);
         },

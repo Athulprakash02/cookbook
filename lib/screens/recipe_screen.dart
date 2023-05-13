@@ -5,7 +5,6 @@ import 'package:cookbook/db/functions/recently_viewed_functions.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/screens/user/comment_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 // ignore: must_be_immutable
 class RecipeScreen extends StatefulWidget {
@@ -24,7 +23,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
 
   @override
   void initState() {
-    // print(widget.passValue);
+    
     // TODO: implement initState
 
     super.initState();
@@ -96,11 +95,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
                       iconSize: 35,
                       onPressed: () {
                         launchURL(widget.passValue.url);
-                        // await launch
-                        // await LaunchApp.openApp(
-                        //   androidPackageName: "${widget.passValue.url}com.google.youtube"
-                        // );
-                        //  launchURL(widget.passValue.url);
+                       
                       },
                       icon: const Icon(
                         Icons.play_circle_fill,

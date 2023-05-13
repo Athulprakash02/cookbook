@@ -2,10 +2,10 @@
 import 'package:cookbook/db/functions/db_functions.dart';
 import 'package:cookbook/db/functions/db_recipe_functions.dart';
 import 'package:cookbook/db/functions/login_functions.dart';
-import 'package:cookbook/db/model/comments_db.dart';
 import 'package:cookbook/db/model/login_model.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/main.dart';
+import 'package:cookbook/screens/managing/manage_screen.dart';
 import 'package:cookbook/screens/user/favourites_screen.dart';
 import 'package:cookbook/screens/user/recent_screen.dart';
 import 'package:cookbook/screens/user/search_screen.dart';
@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: DrawerHeader(
                   child: Text(
                     emailLoggedIn,
-                    style: TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 20),
                   ),
                 ),
               ),
@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     TextButton.icon(
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => FavouritesScreen(),));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const FavouritesScreen(),));
                         },
                         icon: const Icon(
                           Icons.favorite_border,
@@ -112,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         )),
                     TextButton.icon(
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => RecentsScreen(),));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RecentsScreen(),));
                         },
                         icon: const Icon(
                           Icons.history,
@@ -124,14 +124,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         )),
                     TextButton.icon(
                         onPressed: () {
-                           
+                           Navigator.of(context).push(MaterialPageRoute(builder: (context) => ManageScreen(),));
                         },
                         icon: const Icon(
                           Icons.settings,
                           color: Colors.black,
                         ),
                         label: const Text(
-                          'Settings',
+                          'Manage recipes',
                           style: TextStyle(fontSize: 18, color: Colors.black),
                         )),
                     TextButton.icon(

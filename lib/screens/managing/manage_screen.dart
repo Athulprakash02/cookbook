@@ -1,7 +1,8 @@
 import 'package:cookbook/db/functions/db_recipe_functions.dart';
 import 'package:cookbook/db/functions/login_functions.dart';
 import 'package:cookbook/db/model/recipies.dart';
-import 'package:cookbook/screens/admin/add_screen.dart';
+import 'package:cookbook/screens/managing/add_screen.dart';
+
 
 import 'package:cookbook/screens/recipe_screen.dart';
 import 'package:cookbook/widgets/card.dart';
@@ -9,14 +10,14 @@ import 'package:cookbook/widgets/card.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class AdminHome extends StatefulWidget {
-  const AdminHome({super.key});
+class ManageScreen extends StatefulWidget {
+  const ManageScreen({super.key});
 
   @override
-  State<AdminHome> createState() => _AdminHomeState();
+  State<ManageScreen> createState() => _ManageScreenState();
 }
 
-class _AdminHomeState extends State<AdminHome> {
+class _ManageScreenState extends State<ManageScreen> {
   late Box<Recipes> recipeList;
 
   final _searchController = TextEditingController();
@@ -32,35 +33,26 @@ class _AdminHomeState extends State<AdminHome> {
 
   @override
   Widget build(BuildContext context) {
-    // recipeList = Hive.box('recipe_list');
-    // final items = recipeList.values.toList();
-    // final categories = items.map((recipe) => recipe.catogory).toSet().toList();
+   
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
+        
+        // backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        elevation: 0,
+        title: const Text('CookBook'),
+        centerTitle: true,
+        actions: [
+           IconButton(
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const AddScreen(),
+                builder: (context) => AddScreen(),
               ));
             },
             icon: const Icon(
               Icons.add_box_outlined,
               size: 30,
             )),
-        // backgroundColor: Color.fromARGB(255, 255, 255, 255),
-        elevation: 0,
-        title: const Text('CookBook'),
-        centerTitle: true,
-        actions: [
-          IconButton(
-              onPressed: () {
-                confirmation(context);
-              },
-              icon: const Icon(
-                Icons.logout_outlined,
-                size: 30,
-              ))
         ],
       ),
       body: SafeArea(

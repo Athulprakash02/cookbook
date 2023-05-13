@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:cookbook/db/functions/db_recipe_functions.dart';
 import 'package:cookbook/db/model/recipies.dart';
-import 'package:cookbook/screens/admin/admin_home.dart';
+import 'package:cookbook/screens/managing/manage_screen.dart';
 import 'package:cookbook/widgets/add_ingredients.dart';
 
 import 'package:flutter/material.dart';
@@ -211,7 +211,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         // demo(widget.index);
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
-                              builder: (ctx) => AdminHome(),
+                              builder: (ctx) => ManageScreen(),
                             ),
                             (route) => false);
                       } else {

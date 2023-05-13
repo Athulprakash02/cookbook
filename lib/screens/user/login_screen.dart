@@ -1,7 +1,7 @@
 import 'package:cookbook/db/model/login_model.dart';
 import 'package:cookbook/main.dart';
 
-import 'package:cookbook/screens/admin/admin_login.dart';
+// import 'package:cookbook/screens/admin/admin_login.dart';
 import 'package:cookbook/screens/signup_screen.dart';
 import 'package:cookbook/screens/user/home_screen.dart';
 // import 'package:cookbook/screens/user/signup_screen.dart';
@@ -141,20 +141,20 @@ class _LoginScreenState extends State<LoginScreen> {
                                       fontSize: 18),
                                 )),
                           ),
-                          Center(
-                            child: TextButton(
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => const AdminLogin(),
-                                ));
-                              },
-                              child: const Text(
-                                'Login as admin',
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 71, 70, 70)),
-                              ),
-                            ),
-                          ),
+                          // Center(
+                          //   child: TextButton(
+                          //     onPressed: () {
+                          //       Navigator.of(context).push(MaterialPageRoute(
+                          //         builder: (context) => const AdminLogin(),
+                          //       ));
+                          //     },
+                          //     child: const Text(
+                          //       'Login as admin',
+                          //       style: TextStyle(
+                          //           color: Color.fromARGB(255, 71, 70, 70)),
+                          //     ),
+                          //   ),
+                          // ),
                         ]),
                   ),
                 ),

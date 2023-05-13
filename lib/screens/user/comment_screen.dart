@@ -29,11 +29,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
-
-    // commentList = Hive.box<CommentsData>('comment_db');
-    print("name: ${widget.recipe.recipeName}");
-    
+    super.initState();    
     getAllComments();
 
   }
@@ -56,7 +52,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       final matchingReviews = reviews.where((review) => review.recipeName == widget.recipe.recipeName).toList();
 
                   return ListView.builder(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
                     final data = matchingReviews[index];
                   return commentBubble(data);

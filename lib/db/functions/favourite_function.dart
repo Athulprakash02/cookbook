@@ -20,8 +20,8 @@ Future<void> addToFavourite(Recipes favourited) async {
   box.put(recipe.recipeName, recipe);
   // favouriteNotifier.value.add(recipe);
   recipeListNotifier.notifyListeners();
-  print('Added');
-  print(favourited.recipeName);
+  // print('Added');
+  // print(favourited.recipeName);
   
 }
 
@@ -47,7 +47,3 @@ Future<void> getAllFavourites() async {
 }
 
 
-// bool checkFavorite(Recipes data){
-//   final isFavourite = box.get(data.recipeName) != null;
-//   print('object $isFavourite');
-// }

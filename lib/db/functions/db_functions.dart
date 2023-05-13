@@ -11,10 +11,7 @@ Future signUp(LoginData value) async {
 }
 
 onClickSignUp(_email, _name, _password, _confirmPassword, context) {
-  // final email = _email;
-  // final fullName = _name.text.trim();
-  // final passWord = _password.text.trim();
-  // final confirmPassword = _confirmPassword.text.trim();
+  
 
   final userLogin = LoginData(
       fullName: _name,
