@@ -6,6 +6,7 @@ import 'package:cookbook/db/model/login_model.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/main.dart';
 import 'package:cookbook/screens/managing/manage_screen.dart';
+import 'package:cookbook/screens/splash_screen.dart';
 import 'package:cookbook/screens/user/favourites_screen.dart';
 import 'package:cookbook/screens/user/recent_screen.dart';
 import 'package:cookbook/screens/user/search_screen.dart';
@@ -39,13 +40,15 @@ class _HomeScreenState extends State<HomeScreen> {
     'Arabian',
     'Chinese'
   ];
+  
 
   @override
   void initState() {
     // TODO: implement initState
 
     super.initState();
-    getUser();
+    // print('kitti $user');
+  
     getAllRecipe();
 
     
@@ -88,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Center(
                 child: DrawerHeader(
                   child: Text(
-                    emailLoggedIn,
+                  user ?? 'user',
                     style: const TextStyle(fontSize: 20),
                   ),
                 ),

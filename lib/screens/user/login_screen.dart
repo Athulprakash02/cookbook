@@ -1,3 +1,4 @@
+import 'package:cookbook/db/functions/db_functions.dart';
 import 'package:cookbook/db/model/login_model.dart';
 import 'package:cookbook/main.dart';
 
@@ -121,6 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   if (_email.text.trim().isNotEmpty &&
                                       _password.text.trim().isNotEmpty) {
                                     onLoginClick();
+                                    // getUser();
                                     saveLogin();
                                     Navigator.of(context).pushAndRemoveUntil(
                                         MaterialPageRoute(
@@ -237,11 +239,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
   saveLogin() async{
     print('object');
-    // emailLoggedIn = _email.text.trim();
+    final email = _email.text.trim();
+     String name = await getUser(email);
+     print('return name = $name');
     final sharedPref = await SharedPreferences.getInstance();
     await sharedPref.setBool(userLoggedIn, true);
-    print(_email.text.trim());
-    await sharedPref.setString(emailLoggedIn, _email.text.trim());
+    await sharedPref.setString('emailLoggedIn', name);
+    // print(email);
+    
+    
+    
+    
     
 
   }

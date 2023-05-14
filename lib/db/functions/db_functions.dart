@@ -51,19 +51,19 @@ Future exists(String mailId, ctx, _name, _password, _confirmPassword) async {
 }
 
 
-Future<LoginData> getUser() async{
+ Future<String> getUser(String email) async{
   print('entered');
     final userBox =await Hive.openBox<LoginData>('login_db');
-    var users = userBox.values.where((user) => user.email == emailLoggedIn).toList();
+    
+    
+    var users = userBox.values.firstWhere(((user) => user.email == email));
     print(users);
-    if(users.isNotEmpty){
-      LoginData user = users.first;
-      emailLoggedIn = user.email;
-      print(emailLoggedIn);
-      return user;
-    }else{
-      throw ("user not found");
-    }
+   
+      return users.fullName;
+      // emailLoggedIn = users.fullName;
+      // print('name ${users.fullName}');
+      // return user;
+   
   }
 
 
