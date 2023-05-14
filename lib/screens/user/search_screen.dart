@@ -12,7 +12,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  late int _selectedOption;
+  // late int _selectedOption;
   final _searchController = TextEditingController();
 
   List<Recipes> recipeList = Hive.box<Recipes>('recipe_list').values.toList();
@@ -52,13 +52,13 @@ class _SearchScreenState extends State<SearchScreen> {
                         },
                       ),
                     ),
-                    IconButton(
-                      onPressed: () {
-                        print('object');
-                      },
-                      icon: const Icon(Icons.filter_alt_outlined),
-                      iconSize: 35,
-                    )
+                    // IconButton(
+                    //   onPressed: () {
+                    //     print('object');
+                    //   },
+                    //   icon: const Icon(Icons.filter_alt_outlined),
+                    //   iconSize: 35,
+                    // )
                   ],
                 ),
               ),

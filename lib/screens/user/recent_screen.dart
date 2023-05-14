@@ -33,7 +33,7 @@ class _RecentsScreenState extends State<RecentsScreen> {
           itemBuilder: (context, index) {
             return recentCard(recent[index], context, index);
           },
-          itemCount: recent.length,
+          itemCount: 10,
         ),
       ),
     );

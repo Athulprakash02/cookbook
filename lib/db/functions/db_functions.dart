@@ -1,8 +1,12 @@
+// import 'package:cookbook/db/functions/shared_prefs.dart';
 import 'package:cookbook/db/model/login_model.dart';
 import 'package:cookbook/main.dart';
+import 'package:cookbook/screens/user/home_screen.dart';
+// import 'package:cookbook/screens/splash_screen.dart';
 import 'package:cookbook/screens/user/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future signUp(LoginData value) async {
   final signed = await Hive.openBox<LoginData>('login_db');
@@ -51,20 +55,33 @@ Future exists(String mailId, ctx, _name, _password, _confirmPassword) async {
 }
 
 
- Future<String> getUser(String email) async{
-  print('entered');
-    final userBox =await Hive.openBox<LoginData>('login_db');
+//  Future<String> getUserName() async{
+//   print('entered');
     
     
-    var users = userBox.values.firstWhere(((user) => user.email == email));
-    print(users);
+    
+//     final userName = await SharedPrefs.getUserName();
+
    
-      return users.fullName;
-      // emailLoggedIn = users.fullName;
-      // print('name ${users.fullName}');
-      // return user;
+//       return userName!;
+      
    
+//   }
+
+
+  loggedUserInfo() async {
+    print('hello');
+
+    final prefs = await  SharedPreferences.getInstance();
+
+    final getName = prefs.getString('emailLoggedIn');
+    print(getName);
+    final user = getName ?? 'user';
+    print(user);
+
+    
   }
+
 
 
 

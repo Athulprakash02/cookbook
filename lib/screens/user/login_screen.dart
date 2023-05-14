@@ -1,4 +1,5 @@
 import 'package:cookbook/db/functions/db_functions.dart';
+// import 'package:cookbook/db/functions/shared_prefs.dart';
 import 'package:cookbook/db/model/login_model.dart';
 import 'package:cookbook/main.dart';
 
@@ -23,6 +24,8 @@ class _LoginScreenState extends State<LoginScreen> {
   late LoginData loggedPerson;
   final _email = TextEditingController();
   final _password = TextEditingController();
+  
+  String get emailLoggedIn => null!;
 
   @override
   void initState() {
@@ -238,20 +241,19 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   saveLogin() async{
-    print('object');
-    final email = _email.text.trim();
-     String name = await getUser(email);
-     print('return name = $name');
+    // print('object');
+    final email = _email.text.toString().trim();
+    // //  user = await getUser(email);
+    //  print('return name = user');
     final sharedPref = await SharedPreferences.getInstance();
     await sharedPref.setBool(userLoggedIn, true);
-    await sharedPref.setString('emailLoggedIn', name);
+    await sharedPref.setString(emailLoggedIn, email);
+    // await SharedPrefs.storeUserName(email);
     // print(email);
-    
-    
-    
-    
     
 
   }
+
+  
 }
  

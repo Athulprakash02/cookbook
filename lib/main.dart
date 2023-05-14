@@ -12,6 +12,8 @@ const SAVE_KEY_NAME = 'adminLoggedIn';
 const adminMail = 'admin@gmail.com';
 const adminPass = '0000';
 const userLoggedIn = 'userLogged';
+// const USER_NAME_KEY = 'name';
+// String  user = 'User';
 //  String? emailLoggedIn;
 // String? user;
 // late LoginData user;

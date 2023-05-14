@@ -16,6 +16,8 @@ import 'package:cookbook/widgets/build_recipe_list.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -28,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // late LoginData user;
   late Box<Recipes> recipeList;
-  late int _selectedOption;
+  // late int _selectedOption;
 
   final _search = TextEditingController();
   var categoryItem = [
@@ -48,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     super.initState();
     // print('kitti $user');
+    // loggedUserInfo();
   
     getAllRecipe();
 
@@ -57,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
   
   @override
   Widget build(BuildContext context) {
+    // final userName = getUserName();
     recipeList = Hive.box<Recipes>('recipe_list');
     final items = recipeList.values.toList();
     final categories = items.map((recipe) => recipe.catogory).toSet().toList();
@@ -91,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Center(
                 child: DrawerHeader(
                   child: Text(
-                  user ?? 'user',
+                  'userName',
                     style: const TextStyle(fontSize: 20),
                   ),
                 ),
@@ -127,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         )),
                     TextButton.icon(
                         onPressed: () {
-                           Navigator.of(context).push(MaterialPageRoute(builder: (context) => ManageScreen(),));
+                           Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ManageScreen(),));
                         },
                         icon: const Icon(
                           Icons.settings,

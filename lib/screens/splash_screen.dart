@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-String? user;
+// String? user;
 class ScreenSplash extends StatefulWidget {
   const ScreenSplash({super.key});
 
@@ -19,7 +19,8 @@ class _ScreenSplashState extends State<ScreenSplash> {
 
    @override
   void initState() {
-    checkAdminLoggedIn();
+    // checkAdminLoggedIn();
+    // loggedUserInfo();
     checkUserLoggedIn();
     super.initState();
   }
@@ -56,28 +57,18 @@ class _ScreenSplashState extends State<ScreenSplash> {
   Future <void> checkUserLoggedIn() async{
     final userSharePref= await SharedPreferences.getInstance();
     final _userLoggedIn = userSharePref.getBool(userLoggedIn);
-    user =  userSharePref.getString('emailLoggedIn');
-    // print('user$user');
+    
     if(_userLoggedIn == null || _userLoggedIn == false){
       gotoLogin();
     }else{
-      // getUser();
+     
+     
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) => const HomeScreen(),));
     }
   }
 
 
-  Future <void> checkAdminLoggedIn() async{
-    final _SharedPref = await SharedPreferences.getInstance();
-    final _adminLoggedIn = _SharedPref.getBool(SAVE_KEY_NAME);
-    if (_adminLoggedIn == null || _adminLoggedIn == false){
-      gotoLogin();
-
-    }else{
-      // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) => const AdminHome(),));
-    }
-  }
-
+ 
 
 
 }

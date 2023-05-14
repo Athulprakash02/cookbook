@@ -5,6 +5,8 @@ import 'package:cookbook/db/functions/comment_functions.dart';
 import 'package:cookbook/db/model/comments_db.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/main.dart';
+import 'package:cookbook/screens/splash_screen.dart';
+import 'package:cookbook/screens/user/home_screen.dart';
 import 'package:cookbook/widgets/textfield.dart';
 import 'package:flutter/material.dart';
 
@@ -105,7 +107,7 @@ Widget inputSection(Recipes recipe) {
           padding: const EdgeInsets.all(10.0),
           child: FloatingActionButton(
             onPressed: () {
-              onClickedAddComment(commentController.text.trim(), 'user.fullName', recipe.recipeName);
+              onClickedAddComment(commentController.text.trim(), 'user', recipe.recipeName);
               print("name: ${recipe.recipeName}");
               commentController.clear();
             },
