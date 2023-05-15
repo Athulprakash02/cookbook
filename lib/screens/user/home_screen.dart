@@ -7,9 +7,11 @@ import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/main.dart';
 import 'package:cookbook/screens/managing/manage_screen.dart';
 import 'package:cookbook/screens/splash_screen.dart';
+import 'package:cookbook/screens/user/About_screen.dart';
 import 'package:cookbook/screens/user/favourites_screen.dart';
 import 'package:cookbook/screens/user/recent_screen.dart';
 import 'package:cookbook/screens/user/search_screen.dart';
+import 'package:cookbook/screens/user/terms_and_conditions_screen.dart';
 import 'package:cookbook/widgets/build_recipe_list.dart';
 
 
@@ -92,11 +94,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   bottomRight: Radius.circular(50))),
           child: ListView(
             children: [
-              Center(
+              const Center(
                 child: DrawerHeader(
-                  child: Text(
-                  'userName',
-                    style: const TextStyle(fontSize: 20),
+                 
+                  child: Padding(
+                    padding: EdgeInsets.all(35.0),
+                    child: Text(
+                    'userName',
+                      style: TextStyle(fontSize: 20),
+                    ),
                   ),
                 ),
               ),
@@ -134,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ManageScreen(),));
                         },
                         icon: const Icon(
-                          Icons.settings,
+                          Icons.food_bank_outlined,
                           color: Colors.black,
                         ),
                         label: const Text(
@@ -142,13 +148,27 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: TextStyle(fontSize: 18, color: Colors.black),
                         )),
                     TextButton.icon(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const TermsAndConditions(),));
+                        },
+                        icon: const Icon(
+                          Icons.list_alt,
+                          color: Colors.black,
+                        ),
+                        label: const Text(
+                          'Terms and Conditions',
+                          style: TextStyle(fontSize: 18, color: Colors.black),
+                        )),
+                        TextButton.icon(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AboutScreen(),));
+                        },
                         icon: const Icon(
                           Icons.info_outline,
                           color: Colors.black,
                         ),
                         label: const Text(
-                          'About',
+                          'About Us',
                           style: TextStyle(fontSize: 18, color: Colors.black),
                         )),
                     TextButton.icon(

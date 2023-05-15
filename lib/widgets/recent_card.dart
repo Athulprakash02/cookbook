@@ -29,7 +29,7 @@ Widget recentCard(Recipes recipe,BuildContext ctx,int index){
 
         ),
       ),
-      title:  Text(recipe.recipeName,style: TextStyle(fontSize: 20),),
+      title:  Text(recipe.recipeName,style: const TextStyle(fontSize: 20),),
       subtitle: Text(recipe.catogory),
   
     ),
