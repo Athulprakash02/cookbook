@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   late LoginData loggedPerson;
   final _email = TextEditingController();
   final _password = TextEditingController();
-  
+
   String get emailLoggedIn => null!;
 
   @override
@@ -124,17 +124,25 @@ class _LoginScreenState extends State<LoginScreen> {
                                 onPressed: () {
                                   if (_email.text.trim().isNotEmpty &&
                                       _password.text.trim().isNotEmpty) {
+                                    if (_email.text.trim() ==
+                                            'testapp@gmail.com' &&
+                                        _password.text.trim() == 'demo') {
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                          MaterialPageRoute(
+                                            builder: (context) => HomeScreen(),
+                                          ),
+                                          (route) => false);
+                                    }
                                     onLoginClick();
                                     // getUser();
                                     saveLogin();
                                     Navigator.of(context).pushAndRemoveUntil(
                                         MaterialPageRoute(
-                                          builder: (context) =>const HomeScreen(),
+                                          builder: (context) =>
+                                              const HomeScreen(),
                                         ),
                                         (route) => false);
-                                        // saveLogin();
-                                        
-                                        
+                                    // saveLogin();
                                   } else {
                                     validCheck();
                                   }
@@ -196,12 +204,11 @@ class _LoginScreenState extends State<LoginScreen> {
     final passWord = _password.text.trim();
 
     final userLogin = Hive.box<LoginData>('login_db');
-     loggedPerson = userLogin.values.firstWhere(
+    loggedPerson = userLogin.values.firstWhere(
       (element) => element.email == email && element.password == passWord,
       orElse: () => invalid(),
     );
     // user = loggedPerson;
-    
 
     return true;
   }
@@ -240,7 +247,7 @@ class _LoginScreenState extends State<LoginScreen> {
         )));
   }
 
-  saveLogin() async{
+  saveLogin() async {
     // print('object');
     final email = _email.text.toString().trim();
     // //  user = await getUser(email);
@@ -250,10 +257,5 @@ class _LoginScreenState extends State<LoginScreen> {
     await sharedPref.setString(emailLoggedIn, email);
     // await SharedPrefs.storeUserName(email);
     // print(email);
-    
-
   }
-
-  
 }
- 
