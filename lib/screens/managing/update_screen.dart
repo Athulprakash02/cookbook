@@ -56,7 +56,6 @@ class _UpdateScreenState extends State<UpdateScreen> {
     'Chinese'
   ];
   String dropDownValue = 'Category';
-  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {

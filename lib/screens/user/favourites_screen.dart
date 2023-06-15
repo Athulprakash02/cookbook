@@ -1,10 +1,7 @@
-import 'package:cookbook/db/functions/db_recipe_functions.dart';
 import 'package:cookbook/db/functions/favourite_function.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/widgets/favourites_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class FavouritesScreen extends StatefulWidget {
@@ -32,17 +29,12 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         title: const Text('Favourited recipes'),
         centerTitle: true,
       ),
-      body: SafeArea(child: ValueListenableBuilder(
-        valueListenable: recipeListNotifier,
-        builder: (context, List<Recipes> favourites, child) {
-         return ListView.builder(
-          physics: const BouncingScrollPhysics(),
-          itemBuilder: (context, index) {
-          return favouritesCard(favourites[index], context, index);
-        },itemCount: favourites.length,);
-        },
-      ),),
+      body: SafeArea(child: ListView.builder(
+       physics: const BouncingScrollPhysics(),
+       itemBuilder: (context, index) {
+       return favouritesCard(favourites[index], context, index);
+        },itemCount: favourites.length,),),
 
-    );;
+    );
   }
 }

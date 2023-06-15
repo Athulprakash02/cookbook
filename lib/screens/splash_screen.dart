@@ -1,6 +1,4 @@
-import 'package:cookbook/db/functions/db_functions.dart';
 import 'package:cookbook/main.dart';
-import 'package:cookbook/screens/managing/manage_screen.dart';
 import 'package:cookbook/screens/user/home_screen.dart';
 import 'package:cookbook/screens/user/login_screen.dart';
 import 'package:flutter/material.dart';

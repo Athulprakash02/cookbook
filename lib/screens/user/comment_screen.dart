@@ -1,10 +1,7 @@
 
 import 'package:cookbook/db/functions/comment_functions.dart';
-import 'package:cookbook/db/functions/db_functions.dart';
 import 'package:cookbook/db/model/comments_db.dart';
 import 'package:cookbook/db/model/recipies.dart';
-import 'package:cookbook/main.dart';
-import 'package:cookbook/screens/user/home_screen.dart';
 import 'package:cookbook/widgets/comment.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';

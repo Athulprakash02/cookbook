@@ -1,5 +1,4 @@
 import 'package:cookbook/db/functions/db_recipe_functions.dart';
-import 'package:cookbook/db/functions/login_functions.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/screens/managing/add_screen.dart';
 
@@ -89,11 +88,7 @@ class _ManageScreenState extends State<ManageScreen> {
                 thickness: 2,
               ),
               Expanded(
-                  child: ValueListenableBuilder(
-                valueListenable: recipeListNotifier,
-                builder: (ctx, List<Recipes> recipeData, child) {
-                  // recipeData=recipeList;
-                  return ListView.builder(
+                  child: ListView.builder(
                     physics: const BouncingScrollPhysics(),
                     itemCount: recipeData.length,
                     itemBuilder: (ctx, index) {
@@ -114,9 +109,7 @@ class _ManageScreenState extends State<ManageScreen> {
                         child: viewCard(ctx, data, index),
                       );
                     },
-                  );
-                },
-              )),
+                  )),
             ],
           ),
         ),

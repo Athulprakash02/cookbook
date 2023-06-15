@@ -45,10 +45,10 @@ recently = recentlyViewedList.reversed.toList();
 Future<void> getAllRecents() async {
   final recipeDB = await Hive.openBox<Recipes>('favourites_list');
   
-  recipeListNotifier.value.clear();
+  // recipeListNotifier.value.clear();
   for (var std in recipeDB.values) {
-    recipeListNotifier.value.add(std);
+    // recipeListNotifier.value.add(std);
   }
-  recipeListNotifier.notifyListeners();
+  // recipeListNotifier.notifyListeners();
 }
 

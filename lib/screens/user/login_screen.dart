@@ -1,4 +1,3 @@
-import 'package:cookbook/db/functions/db_functions.dart';
 // import 'package:cookbook/db/functions/shared_prefs.dart';
 import 'package:cookbook/db/model/login_model.dart';
 import 'package:cookbook/main.dart';
@@ -25,6 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _email = TextEditingController();
   final _password = TextEditingController();
 
+  // ignore: null_check_always_fails
   String get emailLoggedIn => null!;
 
   @override

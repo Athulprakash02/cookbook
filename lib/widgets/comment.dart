@@ -1,13 +1,8 @@
 
 
-import 'package:comment_box/comment/comment.dart';
 import 'package:cookbook/db/functions/comment_functions.dart';
 import 'package:cookbook/db/model/comments_db.dart';
 import 'package:cookbook/db/model/recipies.dart';
-import 'package:cookbook/main.dart';
-import 'package:cookbook/screens/splash_screen.dart';
-import 'package:cookbook/screens/user/home_screen.dart';
-import 'package:cookbook/widgets/textfield.dart';
 import 'package:flutter/material.dart';
 
 final commentController = TextEditingController();

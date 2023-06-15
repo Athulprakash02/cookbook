@@ -23,7 +23,6 @@ class _AddScreenState extends State<AddScreen> {
   final List<String> _ingredientsList = [];
   final TextEditingController _recipeNameController = TextEditingController();
   final TextEditingController _durationController = TextEditingController();
-  final TextEditingController _categoryController = TextEditingController();
   final TextEditingController _directionController = TextEditingController();
   final TextEditingController _ingredientsController = TextEditingController();
   final TextEditingController _youtubeLink = TextEditingController();

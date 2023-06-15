@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
@@ -9,14 +8,14 @@ class AboutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('About Us'),
+        title: const Text('About Us'),
         centerTitle: true,
       ),
       body: SafeArea(
           child: ListView(
-        children: [
+        children: const [
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(20.0),
             child: Text("""
           About CookBook App
           

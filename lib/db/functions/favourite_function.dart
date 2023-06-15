@@ -19,7 +19,7 @@ Future<void> addToFavourite(Recipes favourited) async {
   // int index=0;
   box.put(recipe.recipeName, recipe);
   // favouriteNotifier.value.add(recipe);
-  recipeListNotifier.notifyListeners();
+  // recipeListNotifier.notifyListeners();
   // print('Added');
   // print(favourited.recipeName);
   
@@ -30,7 +30,7 @@ Future<void> addToFavourite(Recipes favourited) async {
 Future<void> removeFavorite(String recipename) async {
   print(recipename);
   await box.delete(recipename);
-  recipeListNotifier.notifyListeners();
+  // recipeListNotifier.notifyListeners();
   print('deleted');
   print('box');
  
@@ -39,11 +39,11 @@ Future<void> removeFavorite(String recipename) async {
 
 Future<void> getAllFavourites() async {
   final recipeDB = await Hive.openBox<Recipes>('favourites_list');
-  recipeListNotifier.value.clear();
+  // recipeListNotifier.value.clear();
   for (var std in recipeDB.values) {
-    recipeListNotifier.value.add(std);
+    // recipeListNotifier.value.add(std);
   }
-  recipeListNotifier.notifyListeners();
+  // recipeListNotifier.notifyListeners();
 }
 
 
