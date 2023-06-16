@@ -3,6 +3,7 @@ import 'package:cookbook/db/functions/db_recipe_functions.dart';
 import 'package:cookbook/db/functions/login_functions.dart';
 import 'package:cookbook/db/model/login_model.dart';
 import 'package:cookbook/db/model/recipies.dart';
+import 'package:cookbook/screens/managing/add_screen.dart';
 import 'package:cookbook/screens/managing/manage_screen.dart';
 import 'package:cookbook/screens/user/About_screen.dart';
 import 'package:cookbook/screens/user/favourites_screen.dart';
@@ -241,6 +242,12 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
+              ),
+              floatingActionButton: FloatingActionButton(onPressed: () {
+                 Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const AddScreen(),));
+              },
+              child: Icon(Icons.add,size: 35,color: Colors.black,),
               ),
             ));
       },

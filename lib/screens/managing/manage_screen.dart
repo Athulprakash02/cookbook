@@ -33,18 +33,18 @@ class ManageScreen extends StatelessWidget {
             elevation: 0,
             title: const Text('CookBook'),
             centerTitle: true,
-            actions: [
-              IconButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const AddScreen(),
-                    ));
-                  },
-                  icon: const Icon(
-                    Icons.add_box_outlined,
-                    size: 30,
-                  )),
-            ],
+            // actions: [
+            //   IconButton(
+            //       onPressed: () {
+            //         Navigator.of(context).push(MaterialPageRoute(
+            //           builder: (context) => const AddScreen(),
+            //         ));
+            //       },
+            //       icon: const Icon(
+            //         Icons.add_box_outlined,
+            //         size: 30,
+            //       )),
+            // ],
           ),
           body: SafeArea(
             child: Container(
