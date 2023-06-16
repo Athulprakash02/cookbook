@@ -289,7 +289,7 @@ class _AddScreenState extends State<AddScreen> {
         directions: direction,
         url: link);
 
-    addRecipe(recipeDetails);
+    addRecipe(recipeDetails,context);
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (context) => HomeScreen(),

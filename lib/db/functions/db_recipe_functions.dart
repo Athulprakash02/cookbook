@@ -1,17 +1,21 @@
+// import 'package:cookbook/bloc/bloc/add_recipe_bloc.dart';
+import 'package:cookbook/bloc/home_screen_bloc/bloc/home_bloc.dart';
 import 'package:cookbook/db/model/recipies.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 List<Recipes> recipeList = [];
 
-Future<void> addRecipe(Recipes value) async {
+ addRecipe(Recipes value, BuildContext context)  {
   print('haii');
-  final upload = await Hive.openBox<Recipes>('recipe_list');
-  final _details = await upload.add(value);
-  value.id = _details;
+  final recipeDB =  Hive.box<Recipes>('recipe_list');
+  BlocProvider.of<HomeBloc>(context).add(AddRecipe(list: value));
+  recipeDB.add(value);
+  // value.id = _details;
   getAllRecipe();
   // recipeListNotifier.value.add(value);
   // recipeListNotifier.notifyListeners();
@@ -25,12 +29,15 @@ Future<void> launchURL(url) async {
   }
 }
 
-Future<void> getAllRecipe() async {
-  final recipeDB = await Hive.openBox<Recipes>('recipe_list');
+getAllRecipe() {
+  print('vilichu');
+  final recipeDB =  Hive.box<Recipes>('recipe_list');
+  recipeList.clear();
+  recipeList.addAll(recipeDB.values);
   // recipeListNotifier.value.clear();
-  for (var std in recipeDB.values) {
-    // recipeListNotifier.value.add(std);
-  }
+  // for (var std in recipeDB.values) {
+  //   // recipeListNotifier.value.add(std);
+  // }
   // recipeListNotifier.notifyListeners();
 }
 
@@ -45,7 +52,7 @@ deleteAlert(BuildContext context, key) {
       actions: [
         TextButton(
             onPressed: () {
-              deleteRecipe(key);
+              deleteRecipe(key, context);
               Navigator.of(ctx).pop();
             },
             child: const Text(
@@ -66,8 +73,9 @@ deleteAlert(BuildContext context, key) {
 }
 
 
-Future<void> deleteRecipe(int id) async{
-  final recipeDB = await Hive.openBox<Recipes>('recipe_list');
+deleteRecipe(int id,BuildContext context) async{
+  final recipeDB =  Hive.box<Recipes>('recipe_list');
+  BlocProvider.of<HomeBloc>(context).add(DeleteRecipe(recipeId: id));
 
   await recipeDB.delete(id);
   getAllRecipe();
