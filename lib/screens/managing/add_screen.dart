@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cookbook/bloc/image/bloc/image_bloc.dart';
+import 'package:cookbook/bloc/ingredients_add_bloc/bloc/add_textfeild_bloc.dart';
 import 'package:cookbook/db/functions/db_recipe_functions.dart';
 import 'package:cookbook/db/model/recipies.dart';
 // import 'package:cookbook/screens/admin/manage_screen.dart';
@@ -11,6 +12,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
+final List<GlobalKey> textKeys = [];
+final List<Widget> textfields = [];
+final List<TextEditingController> controllers = [];
+final List<String> ingredientsList = [];
+
 class AddScreen extends StatefulWidget {
   const AddScreen({super.key});
 
@@ -19,10 +25,10 @@ class AddScreen extends StatefulWidget {
 }
 
 class _AddScreenState extends State<AddScreen> {
-  final List<GlobalKey> _textKeys = [];
-  final List<Widget> _textfields = [];
-  final List<TextEditingController> _controllers = [];
-  final List<String> _ingredientsList = [];
+  // List<GlobalKey> textKeys = [];
+  // List<Widget> textfields = [];
+  // List<TextEditingController> controllers = [];
+  // List<String> ingredientsList = [];
   final TextEditingController _recipeNameController = TextEditingController();
   final TextEditingController _durationController = TextEditingController();
   final TextEditingController _directionController = TextEditingController();
@@ -46,16 +52,6 @@ class _AddScreenState extends State<AddScreen> {
     'Chinese'
   ];
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    print('object');
-    for (int i = 0; i < _controllers.length; i++) {
-      _controllers.add(TextEditingController());
-    }
-  }
-
   imagePick(BuildContext context) async {
     final imagePicked =
         await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -70,6 +66,11 @@ class _AddScreenState extends State<AddScreen> {
 
   @override
   Widget build(BuildContext context) {
+    textfields.clear();
+    textKeys.clear();
+    controllers.clear();
+    ingredientsList.clear();
+
     print('build');
     return Scaffold(
       backgroundColor: const Color.fromARGB(238, 255, 255, 255),
@@ -159,21 +160,27 @@ class _AddScreenState extends State<AddScreen> {
                 ),
               ),
               szdBox(),
-              Column(
-                children: [
-                  Row(
+              BlocBuilder<AddTextfeildBloc, AddTextfeildState>(
+                builder: (context, state) {
+                  print('ivdeym keri');
+                  print(textfields.length);
+                  return Column(
                     children: [
-                      Expanded(
-                          child: recipeText(
-                              _ingredientsController, 'Add ingredients', 1)),
-                      IconButton(
-                          iconSize: 35,
-                          onPressed: () => addTextField(_textfields.length),
-                          icon: const Icon(Icons.add_box_outlined))
+                      Row(
+                        children: [
+                          Expanded(
+                              child: recipeText(_ingredientsController,
+                                  'Add ingredients', 1)),
+                          IconButton(
+                              iconSize: 35,
+                              onPressed: () => addTextField(context),
+                              icon: const Icon(Icons.add_box_outlined))
+                        ],
+                      ),
+                      ...textfields
                     ],
-                  ),
-                  ..._textfields
-                ],
+                  );
+                },
               ),
               szdBox(),
               recipeText(_directionController, 'Directions for Cook', 10),
@@ -206,78 +213,47 @@ class _AddScreenState extends State<AddScreen> {
     );
   }
 
-  void addTextField(key) {
-    setState(() {
-      // print('1');
-      GlobalKey key = GlobalKey();
-      _controllers.add(TextEditingController());
-      _textKeys.add(key);
-      _textfields.add(addIngredients(key));
-      // _ingredientsList.clear();
-      _ingredientsList.add('');
-    });
+  addTextField(BuildContext context) {
+    print('function keri');
+    BlocProvider.of<AddTextfeildBloc>(context).add(AddIngredientsTextFeild(
+      textFields: textfields,
+      controllers: controllers,
+      textKeys: textKeys,
+      ingredientsList: ingredientsList,
+    ));
+    textfields.add(addIngredients(GlobalKey()));
+    ingredientsList.add('');
+    print("vannu =${textKeys.length}");
+    // setState(() {
+    //   // print('1');
+    //   GlobalKey key = GlobalKey();
+    //   controllers.add(TextEditingController());
+    //   textKeys.add(key);
+    //   textfields.add(addIngredients(key));
+    //   // _ingredientsList.clear();
+    //   ingredientsList.add('');
+    // });
   }
 
   void removeTextField(GlobalKey key) {
     setState(() {
-      int index = _textKeys.indexOf(key);
+      int index = textKeys.indexOf(key);
       // _controllers[index].dispose();
-      _controllers.removeAt(index);
-      _textfields.removeAt(index);
-      _textKeys.removeAt(index);
-      _ingredientsList.removeAt(index);
+      controllers.removeAt(index);
+      textfields.removeAt(index);
+      textKeys.removeAt(index);
+      ingredientsList.removeAt(index);
     });
   }
 
-  Widget addIngredients([GlobalKey? key]) {
-    ObjectKey keys = const ObjectKey({});
-    int index = _ingredientsList.length;
-    // Object _latestTextFieldIndex = -1;
-    // bool isVisible = index == _latestTextFieldIndex;
-    return Padding(
-      padding: const EdgeInsets.only(top: 4, bottom: 4),
-      child: SizedBox(
-        height: 52,
-        child: Row(
-          children: [
-            Expanded(
-              child: TextField(
-                autofocus: true,
-                maxLines: 1,
-                controller: _controllers[index],
-                onChanged: (value) {
-                  setState(() {
-                    _ingredientsList[index] = value;
-                  });
-                },
-                key: keys,
-                decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                        onPressed: () {
-                          if (key != null) {
-                            removeTextField(key);
-                          }
-                        },
-                        icon: const Icon(Icons.clear)),
-                    hintText: 'Add ingredients',
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10))),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Future<void> onAddButtonClicked() async {
+  onAddButtonClicked() {
     print('Clicked');
 
     final recipeName = _recipeNameController.text.trim();
     final duration = _durationController.text.trim();
     final category = dropDownValue;
     final ingredients = _ingredientsController.text.trim();
-    final extraIngredients = _ingredientsList;
+    final extraIngredients = ingredientsList;
     final direction = _directionController.text.trim();
     final link = _youtubeLink.text.trim();
 
@@ -300,6 +276,7 @@ class _AddScreenState extends State<AddScreen> {
         extraIngredients: extraIngredients,
         directions: direction,
         url: link);
+    print(ingredientsList);
 
     addRecipe(recipeDetails, context);
     Navigator.of(context).pushAndRemoveUntil(
@@ -353,4 +330,45 @@ class _AddScreenState extends State<AddScreen> {
           style: TextStyle(fontSize: 17),
         )));
   }
+}
+
+Widget addIngredients([GlobalKey? key]) {
+  ObjectKey keys = const ObjectKey({});
+  int index = ingredientsList.length;
+  // Object _latestTextFieldIndex = -1;
+  // bool isVisible = index == _latestTextFieldIndex;
+  return Padding(
+    padding: const EdgeInsets.only(top: 4, bottom: 4),
+    child: SizedBox(
+      height: 52,
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              autofocus: true,
+              maxLines: 1,
+              controller: controllers[index],
+              onChanged: (value) {
+                // setState(() {
+                //   ingredientsList[index] = value;
+                // });
+              },
+              key: keys,
+              decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                      onPressed: () {
+                        // if (key != null) {
+                        //   removeTextField(key);
+                        // }
+                      },
+                      icon: const Icon(Icons.clear)),
+                  hintText: 'Add ingredients',
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10))),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }
