@@ -18,7 +18,7 @@ final List<TextEditingController> controllers = [];
 final List<String> ingredientsList = [];
 
 class AddScreen extends StatefulWidget {
-  const AddScreen({super.key});
+   AddScreen({super.key});
 
   @override
   State<AddScreen> createState() => _AddScreenState();
@@ -26,21 +26,23 @@ class AddScreen extends StatefulWidget {
 
 class _AddScreenState extends State<AddScreen> {
   // List<GlobalKey> textKeys = [];
-  // List<Widget> textfields = [];
-  // List<TextEditingController> controllers = [];
-  // List<String> ingredientsList = [];
   final TextEditingController _recipeNameController = TextEditingController();
+
   final TextEditingController _durationController = TextEditingController();
+
   final TextEditingController _directionController = TextEditingController();
+
   final TextEditingController _ingredientsController = TextEditingController();
+
   final TextEditingController _youtubeLink = TextEditingController();
+
   late String category;
 
   String? imagePath;
 
   String dropDownValue = 'Category';
-  // var isVisible = true;
 
+  // var isVisible = true;
   var items = [
     'Category',
     'Breakfast',
@@ -198,10 +200,10 @@ class _AddScreenState extends State<AddScreen> {
                         _ingredientsController.text.isNotEmpty &&
                         _directionController.text.isNotEmpty &&
                         _youtubeLink.text.isNotEmpty) {
-                      onAddButtonClicked();
-                      addedSuccesully();
+                      onAddButtonClicked(context);
+                      addedSuccesully(context);
                     } else {
-                      validCheck();
+                      validCheck(context);
                     }
                   },
                   icon: const Icon(Icons.add),
@@ -235,19 +237,9 @@ class _AddScreenState extends State<AddScreen> {
     // });
   }
 
-  void removeTextField(GlobalKey key) {
-    setState(() {
-      int index = textKeys.indexOf(key);
-      // _controllers[index].dispose();
-      controllers.removeAt(index);
-      textfields.removeAt(index);
-      textKeys.removeAt(index);
-      ingredientsList.removeAt(index);
-    });
-  }
-
-  onAddButtonClicked() {
+  onAddButtonClicked(BuildContext context) {
     print('Clicked');
+    print(ingredientsList);
 
     final recipeName = _recipeNameController.text.trim();
     final duration = _durationController.text.trim();
@@ -286,7 +278,7 @@ class _AddScreenState extends State<AddScreen> {
         (route) => false);
   }
 
-  validCheck() {
+  validCheck(BuildContext context) {
     var errorMessage = '';
     if (imagePath == null &&
         _recipeNameController.text.isEmpty &&
@@ -320,7 +312,7 @@ class _AddScreenState extends State<AddScreen> {
         )));
   }
 
-  void addedSuccesully() {
+  void addedSuccesully(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         behavior: SnackBarBehavior.floating,
         margin: EdgeInsets.all(10),
@@ -349,6 +341,7 @@ Widget addIngredients([GlobalKey? key]) {
               maxLines: 1,
               controller: controllers[index],
               onChanged: (value) {
+                ingredientsList[index] = value;
                 // setState(() {
                 //   ingredientsList[index] = value;
                 // });

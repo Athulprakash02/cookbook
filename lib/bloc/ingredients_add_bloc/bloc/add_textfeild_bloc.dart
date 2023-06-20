@@ -17,8 +17,9 @@ class AddTextfeildBloc extends Bloc<AddTextfeildEvent, AddTextfeildState> {
       print(textKeys.length);
       textfields.add(addIngredients(GlobalKey()));
       print("uhbshb${textfields.length}");
-      // _ingredientsList.clear();
+      // ingredientsList.clear();
       ingredientsList.add('');
+      print(ingredientsList);
       
 
       return emit(AddTextfeildState(textFields: textfields, controllers: controllers, textKeys: textKeys, ingredientsList: ingredientsList));

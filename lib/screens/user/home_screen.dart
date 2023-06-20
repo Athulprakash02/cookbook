@@ -246,7 +246,7 @@ class HomeScreen extends StatelessWidget {
               ),
               floatingActionButton: FloatingActionButton(onPressed: () {
                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const AddScreen(),));
+                      builder: (context) =>  AddScreen(),));
               },
               child: Icon(Icons.add,size: 35,color: Colors.black,),
               ),
