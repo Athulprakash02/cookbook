@@ -38,12 +38,13 @@ class HomeScreen extends StatelessWidget {
   // @override
   @override
   Widget build(BuildContext context) {
-    getAllRecipe();
+    
 
     // final userName = getUserName();
 
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
+        getAllRecipe();
         // recipeList = Hive.box<Recipes>('recipe_list');
         final items = state.recipeList.toList();
         final categories =
@@ -239,7 +240,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ],
+                    ], 
                   ),
                 ),
               ),

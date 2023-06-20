@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cookbook/bloc/image/bloc/image_bloc.dart';
 import 'package:cookbook/db/functions/db_recipe_functions.dart';
 import 'package:cookbook/db/model/recipies.dart';
 // import 'package:cookbook/screens/admin/manage_screen.dart';
@@ -7,6 +8,7 @@ import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/screens/user/home_screen.dart';
 import 'package:cookbook/widgets/add_ingredients.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddScreen extends StatefulWidget {
@@ -48,23 +50,27 @@ class _AddScreenState extends State<AddScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print('object');
     for (int i = 0; i < _controllers.length; i++) {
       _controllers.add(TextEditingController());
     }
   }
 
-  Future<void> imagePick() async {
+  imagePick(BuildContext context) async {
     final imagePicked =
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (imagePicked != null) {
-      setState(() {
-        imagePath = imagePicked.path;
-      });
+      BlocProvider.of<ImageBloc>(context)
+          .add(AddImage(imagePath: imagePicked.path));
+      // setState(() {
+      //   imagePath = imagePicked.path;
+      // });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    print('build');
     return Scaffold(
       backgroundColor: const Color.fromARGB(238, 255, 255, 255),
       appBar: AppBar(
@@ -80,41 +86,47 @@ class _AddScreenState extends State<AddScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Center(
-                child: Stack(
-                  children: [
-                    Container(
-                      width: 200,
-                      height: 120,
-                      decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(20),
-                          image: DecorationImage(
-                              opacity: imagePath == null ? 0 : 1,
-                              image: imagePath == null
-                                  ? const AssetImage(
-                                          'assets/images/cookbooklogo.png')
-                                      as ImageProvider
-                                  : FileImage(File(imagePath!)))),
-                      child: Visibility(
-                        visible: imagePath == null,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            IconButton(
-                                onPressed: () => imagePick(),
-                                icon: const Icon(
-                                  Icons.add_box_outlined,
-                                  size: 30,
-                                )),
-                            const Text(
-                              'Tap to add Recipe Image',
-                              style: TextStyle(fontSize: 14),
-                            )
-                          ],
+                child: BlocBuilder<ImageBloc, ImageState>(
+                  builder: (context, state) {
+                    print('bloc');
+                    imagePath = state.image;
+                    return Stack(
+                      children: [
+                        Container(
+                          width: 200,
+                          height: 120,
+                          decoration: BoxDecoration(
+                              border: Border.all(),
+                              borderRadius: BorderRadius.circular(20),
+                              image: DecorationImage(
+                                  opacity: imagePath == null ? 0 : 1,
+                                  image: imagePath == null
+                                      ? const AssetImage(
+                                              'assets/images/cookbooklogo.png')
+                                          as ImageProvider
+                                      : FileImage(File(imagePath!)))),
+                          child: Visibility(
+                            visible: imagePath == null,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                IconButton(
+                                    onPressed: () => imagePick(context),
+                                    icon: const Icon(
+                                      Icons.add_box_outlined,
+                                      size: 30,
+                                    )),
+                                const Text(
+                                  'Tap to add Recipe Image',
+                                  style: TextStyle(fontSize: 14),
+                                )
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ],
+                      ],
+                    );
+                  },
                 ),
               ),
               szdBox(),
@@ -289,7 +301,7 @@ class _AddScreenState extends State<AddScreen> {
         directions: direction,
         url: link);
 
-    addRecipe(recipeDetails,context);
+    addRecipe(recipeDetails, context);
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (context) => HomeScreen(),
