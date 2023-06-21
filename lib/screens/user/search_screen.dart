@@ -1,7 +1,9 @@
+import 'package:cookbook/bloc/search_screen_bloc/bloc/search_bloc.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/screens/recipe_screen.dart';
 import 'package:cookbook/widgets/card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -20,6 +22,8 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<SearchBloc>(context)
+        .add(OnSearch(recipeList: recipeList, value: ''));
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(color: Colors.white),
@@ -47,9 +51,9 @@ class _SearchScreenState extends State<SearchScreen> {
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20)),
                             hintText: 'Search Recipe...'),
-                        onChanged: (value) {
-                          _recipeSearch(value);
-                        },
+                        onChanged: (value) =>
+                            BlocProvider.of<SearchBloc>(context).add(
+                                OnSearch(recipeList: recipeList, value: value)),
                       ),
                     ),
                     // IconButton(
@@ -62,11 +66,12 @@ class _SearchScreenState extends State<SearchScreen> {
                   ],
                 ),
               ),
-              Expanded(
-                  child: recipes.isNotEmpty
+              Expanded(child: BlocBuilder<SearchBloc, SearchState>(
+                builder: (context, state) {
+                  return recipeList.isNotEmpty
                       ? ListView.builder(
                           physics: const BouncingScrollPhysics(),
-                          itemCount: recipes.length,
+                          itemCount: state.searchList.length,
                           itemBuilder: (context, index) {
                             return GestureDetector(
                                 onTap: () {
@@ -78,16 +83,18 @@ class _SearchScreenState extends State<SearchScreen> {
                                   }
                                   Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => RecipeScreen(
-                                        passValue: recipes[index],
+                                        passValue: state.searchList[index],
                                         idPass: index),
                                   ));
                                 },
-                                child: userCard(recipes[index]));
+                                child: userCard(state.searchList[index]));
                           },
                         )
                       : const Center(
                           child: Text("Couldn't find results"),
-                        ))
+                        );
+                },
+              ))
             ],
           ),
         )),

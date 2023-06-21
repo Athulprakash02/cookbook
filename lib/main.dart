@@ -4,6 +4,7 @@ import 'package:cookbook/bloc/fav_screen_bloc/bloc/favourite_screen_bloc.dart';
 import 'package:cookbook/bloc/home_screen_bloc/bloc/home_bloc.dart';
 import 'package:cookbook/bloc/image/bloc/image_bloc.dart';
 import 'package:cookbook/bloc/ingredients_add_bloc/bloc/add_textfeild_bloc.dart';
+import 'package:cookbook/bloc/search_screen_bloc/bloc/search_bloc.dart';
 import 'package:cookbook/db/model/comments_db.dart';
 import 'package:cookbook/db/model/login_model.dart';
 import 'package:cookbook/db/model/recipies.dart';
@@ -64,6 +65,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => FavouriteScreenBloc(),
         ),
+        BlocProvider(
+          create: (context) => SearchBloc(),
+        )
       ],
       child: MaterialApp(
         title: 'CookBook',
