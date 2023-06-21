@@ -1,4 +1,5 @@
 // import 'package:cookbook/bloc/bloc/add_recipe_bloc.dart';
+import 'package:cookbook/bloc/add_fav_bloc/bloc/add_favourite_bloc.dart';
 import 'package:cookbook/bloc/home_screen_bloc/bloc/home_bloc.dart';
 import 'package:cookbook/bloc/image/bloc/image_bloc.dart';
 import 'package:cookbook/bloc/ingredients_add_bloc/bloc/add_textfeild_bloc.dart';
@@ -55,7 +56,8 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => AddTextfeildBloc(),
-        )
+        ),
+        BlocProvider(create: (context) => AddFavouriteBloc(),)
       ],
       child: MaterialApp(
         title: 'CookBook',

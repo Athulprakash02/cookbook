@@ -2,7 +2,6 @@ import 'package:cookbook/bloc/home_screen_bloc/bloc/home_bloc.dart';
 import 'package:cookbook/db/functions/db_recipe_functions.dart';
 import 'package:cookbook/db/functions/login_functions.dart';
 import 'package:cookbook/db/model/login_model.dart';
-import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/screens/managing/add_screen.dart';
 import 'package:cookbook/screens/managing/manage_screen.dart';
 import 'package:cookbook/screens/user/About_screen.dart';
@@ -11,10 +10,8 @@ import 'package:cookbook/screens/user/recent_screen.dart';
 import 'package:cookbook/screens/user/search_screen.dart';
 import 'package:cookbook/screens/user/terms_and_conditions_screen.dart';
 import 'package:cookbook/widgets/build_recipe_list.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -38,8 +35,6 @@ class HomeScreen extends StatelessWidget {
   // @override
   @override
   Widget build(BuildContext context) {
-    
-
     // final userName = getUserName();
 
     return BlocBuilder<HomeBloc, HomeState>(
@@ -240,15 +235,21 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ], 
+                    ],
                   ),
                 ),
               ),
-              floatingActionButton: FloatingActionButton(onPressed: () {
-                 Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>  AddScreen(),));
-              },
-              child: Icon(Icons.add,size: 35,color: Colors.black,),
+              floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => AddScreen(),
+                  ));
+                },
+                child: Icon(
+                  Icons.add,
+                  size: 35,
+                  color: Colors.black,
+                ),
               ),
             ));
       },

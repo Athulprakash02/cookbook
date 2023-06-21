@@ -1,7 +1,5 @@
 // import 'package:cookbook/db/functions/shared_prefs.dart';
 import 'package:cookbook/db/model/login_model.dart';
-import 'package:cookbook/main.dart';
-import 'package:cookbook/screens/user/home_screen.dart';
 // import 'package:cookbook/screens/splash_screen.dart';
 import 'package:cookbook/screens/user/login_screen.dart';
 import 'package:flutter/material.dart';
