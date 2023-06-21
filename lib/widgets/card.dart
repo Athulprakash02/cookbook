@@ -193,9 +193,9 @@ Widget userCard(Recipes data) {
                                   FavouritedEvent(recipeName: currentRecipe));
 
                               if (isFavourite) {
-                                removeFavorite(currentRecipe);
+                                removeFavorite(currentRecipe, context);
                               } else {
-                                addToFavourite(data);
+                                addToFavourite(data, context);
                               }
                             },
                             icon: Icon(

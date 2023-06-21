@@ -33,7 +33,7 @@ Widget favouritesCard(Recipes recipe,BuildContext ctx,int index){
       title:  Text(recipe.recipeName,style: const TextStyle(fontSize: 20),),
       subtitle: Text(recipe.catogory),
       trailing:IconButton(onPressed: () {
-        removeFavorite(recipe.recipeName);
+        removeFavorite(recipe.recipeName, ctx);
         getAllFavourites();
       }, icon:  const Icon(Icons.highlight_remove_rounded,size: 35,color: Colors.red,)),
   

@@ -1,11 +1,16 @@
+import 'package:cookbook/bloc/fav_screen_bloc/bloc/favourite_screen_bloc.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-ValueNotifier<List<Recipes>> favouriteNotifier = ValueNotifier([]);
+List<Recipes> favouriteNotifier = [];
 
 final box = Hive.box<Recipes>('favourites_list');
-Future<void> addToFavourite(Recipes favourited) async {
+
+
+ addToFavourite(Recipes favourited, BuildContext context) {
+
   print('added');
   Recipes recipe = Recipes(
       imagePath: favourited.imagePath,
@@ -16,7 +21,9 @@ Future<void> addToFavourite(Recipes favourited) async {
       extraIngredients: favourited.extraIngredients,
       directions: favourited.directions,
       url: favourited.url);
+  
   // int index=0;
+  BlocProvider.of<FavouriteScreenBloc>(context).add(AddToFavourite(list: favourited));
   box.put(recipe.recipeName, recipe);
   // favouriteNotifier.value.add(recipe);
   // recipeListNotifier.notifyListeners();
@@ -27,8 +34,9 @@ Future<void> addToFavourite(Recipes favourited) async {
 
 
 
-Future<void> removeFavorite(String recipename) async {
+removeFavorite(String recipename,BuildContext context) async {
   print(recipename);
+  BlocProvider.of<FavouriteScreenBloc>(context).add(RemoveFromFavourite(recipeName: recipename));
   await box.delete(recipename);
   // recipeListNotifier.notifyListeners();
   print('deleted');
@@ -37,12 +45,14 @@ Future<void> removeFavorite(String recipename) async {
 }
 
 
-Future<void> getAllFavourites() async {
-  final recipeDB = await Hive.openBox<Recipes>('favourites_list');
+getAllFavourites() {
+  favouriteNotifier.clear();
+  favouriteNotifier.addAll(box.values);
+  // final recipeDB =  Hive.openBox<Recipes>('favourites_list');
   // recipeListNotifier.value.clear();
-  for (var std in recipeDB.values) {
-    // recipeListNotifier.value.add(std);
-  }
+  // for (var std in recipeDB.values) {
+  //   // recipeListNotifier.value.add(std);
+  // }
   // recipeListNotifier.notifyListeners();
 }
 
