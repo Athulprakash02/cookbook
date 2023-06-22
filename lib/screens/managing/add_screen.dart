@@ -164,8 +164,7 @@ class _AddScreenState extends State<AddScreen> {
               szdBox(),
               BlocBuilder<AddTextfeildBloc, AddTextfeildState>(
                 builder: (context, state) {
-                  print('ivdeym keri');
-                  print(textfields.length);
+                  
                   return Column(
                     children: [
                       Row(
@@ -226,15 +225,7 @@ class _AddScreenState extends State<AddScreen> {
     textfields.add(addIngredients(GlobalKey()));
     ingredientsList.add('');
     print("vannu =${textKeys.length}");
-    // setState(() {
-    //   // print('1');
-    //   GlobalKey key = GlobalKey();
-    //   controllers.add(TextEditingController());
-    //   textKeys.add(key);
-    //   textfields.add(addIngredients(key));
-    //   // _ingredientsList.clear();
-    //   ingredientsList.add('');
-    // });
+    
   }
 
   onAddButtonClicked(BuildContext context) {

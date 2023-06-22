@@ -27,7 +27,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
     // TODO: implement initState
 
     super.initState();
-    recentlyViewed(widget.passValue);
+    recentlyViewed(widget.passValue,context);
     ingredientsList.add(widget.passValue.ingredients);
     ingredientsList.addAll(widget.passValue.extraIngredients);
     // print(ingredientsList);

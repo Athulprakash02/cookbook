@@ -1,10 +1,15 @@
+import 'package:cookbook/bloc/recent_screen_bloc/bloc/recent_screen_bloc.dart';
 import 'package:cookbook/db/model/recipies.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+List<Recipes> recently = [];
+final box =  Hive.box<Recipes>('recently_viewed');
 
-Future<void> recentlyViewed(Recipes passvalue) async {
+recentlyViewed(Recipes passvalue,BuildContext context) {
     print('entered recenlyviewed');
-    final box = await Hive.openBox<Recipes>('recently_viewed');
+    
     Recipes recipe = Recipes(
         imagePath: passvalue.imagePath,
         recipeName: passvalue.recipeName,
@@ -18,6 +23,7 @@ Future<void> recentlyViewed(Recipes passvalue) async {
     int index=0;
     for (var element in box.values) {
       if (recipe.recipeName == element.recipeName) {
+        BlocProvider.of<RecentScreenBloc>(context).add(AddtoRecent(recipe: recipe));
         box.deleteAt(index);
         box.add(recipe);
         break;
@@ -26,29 +32,32 @@ Future<void> recentlyViewed(Recipes passvalue) async {
       }
       index++;
     }
+    BlocProvider.of<RecentScreenBloc>(context).add(AddtoRecent(recipe: recipe));
      box.add(recipe);
-    recents();
+    // recents();
   }
-List <Recipes>recently = [];
 
-Future recents() async{
+recents() {
  
   print(' entered recents');
-  final box =await Hive.openBox<Recipes>('recently_viewed');
+  
   List<Recipes> recentlyViewedList = box.values.toList();
 recently = recentlyViewedList.reversed.toList();
 // recently.clear();
  
 }
 
-Future<void> getAllRecents() async {
+getAllRecents()  {
+  recently.clear();
+  List<Recipes> recentlyViewedList = box.values.toList();
+  recently.addAll(recentlyViewedList.reversed);
   // final recipeDB = await Hive.openBox<Recipes>('favourites_list');
-  final recipeDB = await Hive.openBox<Recipes>('recently_viewed');
+ 
   
   // recipeListNotifier.value.clear();
-  for (var std in recipeDB.values) {
-    // recipeListNotifier.value.add(std);
-  }
+  // for (var std in recipeDB.values) {
+  //   // recipeListNotifier.value.add(std);
+  // }
   // recipeListNotifier.notifyListeners();
 }
 
