@@ -34,7 +34,7 @@ recentlyViewed(Recipes passvalue,BuildContext context) {
     }
     BlocProvider.of<RecentScreenBloc>(context).add(AddtoRecent(recipe: recipe));
      box.add(recipe);
-    // recents();
+    recents();
   }
 
 recents() {
@@ -47,7 +47,7 @@ recently = recentlyViewedList.reversed.toList();
  
 }
 
-getAllRecents()  {
+getAllRecents() {
   recently.clear();
   List<Recipes> recentlyViewedList = box.values.toList();
   recently.addAll(recentlyViewedList.reversed);

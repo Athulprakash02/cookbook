@@ -1,5 +1,7 @@
 
 
+
+
 import 'package:cookbook/db/functions/comment_functions.dart';
 import 'package:cookbook/db/model/comments_db.dart';
 import 'package:cookbook/db/model/recipies.dart';
@@ -8,43 +10,7 @@ import 'package:flutter/material.dart';
 final commentController = TextEditingController();
 List commentsList = [];
 
-// Widget reviewWidget() {
-//   return Expanded(
-//     child: ListView(
-//       children: [
-//         for (var i = 0; i < commentsList.length; i++)
-//           Padding(
-//             padding: const EdgeInsets.fromLTRB(2.0, 8.0, 2.0, 0.0),
-//             child: ListTile(
-//               leading: GestureDetector(
-//                 onTap: () async {
-//                   // Display the image in large form.
-//                   print("Comment Clicked");
-//                 },
-//                 child: Container(
-//                   height: 50.0,
-//                   width: 50.0,
-//                   decoration: const BoxDecoration(
-//                       color: Colors.blue,
-//                       borderRadius: BorderRadius.all(Radius.circular(50))),
-//                   child: CircleAvatar(
-//                       radius: 50,
-//                       backgroundImage:
-//                           CommentBox.commentImageParser(imageURLorPath: 'pic')),
-//                 ),
-//               ),
-//               title: const Text(
-//                 'name',
-//                 style: TextStyle(fontWeight: FontWeight.bold),
-//               ),
-//               subtitle: Text(commentsList[i]),
-//               trailing: const Text('date', style: TextStyle(fontSize: 10)),
-//             ),
-//           )
-//       ],
-//     ),
-//   );
-// }
+
 
 Widget commentBubble(CommentsData reviews){
   return Padding(
@@ -77,7 +43,7 @@ Widget commentBubble(CommentsData reviews){
   );
 }
 
-Widget inputSection(Recipes recipe) {
+Widget inputSection(Recipes recipe,BuildContext context) {
   return Container(
     width: double.infinity,
     height: 80,
@@ -102,7 +68,7 @@ Widget inputSection(Recipes recipe) {
           padding: const EdgeInsets.all(10.0),
           child: FloatingActionButton(
             onPressed: () {
-              onClickedAddComment(commentController.text.trim(), 'user', recipe.recipeName);
+              onClickedAddComment(commentController.text.trim(), 'user', recipe.recipeName,context);
               print("name: ${recipe.recipeName}");
               commentController.clear();
             },

@@ -5,21 +5,10 @@ import 'package:cookbook/widgets/recent_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class RecentsScreen extends StatefulWidget {
+class RecentsScreen extends StatelessWidget {
   const RecentsScreen({super.key});
 
-  @override
-  State<RecentsScreen> createState() => _RecentsScreenState();
-}
-
-class _RecentsScreenState extends State<RecentsScreen> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getAllRecents();
-  }
-
+  // @override
   @override
   Widget build(BuildContext context) {
     List<Recipes> recent = recently.toSet().toList();

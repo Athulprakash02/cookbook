@@ -1,4 +1,5 @@
 import 'package:cookbook/bloc/search_screen_bloc/bloc/search_bloc.dart';
+import 'package:cookbook/db/functions/favourite_function.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/screens/recipe_screen.dart';
 import 'package:cookbook/widgets/card.dart';
@@ -6,18 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+class SearchScreen extends StatelessWidget {
+  SearchScreen({super.key});
 
-  @override
-  State<SearchScreen> createState() => _SearchScreenState();
-}
-
-class _SearchScreenState extends State<SearchScreen> {
   // late int _selectedOption;
   final _searchController = TextEditingController();
 
   List<Recipes> recipeList = Hive.box<Recipes>('recipe_list').values.toList();
+
   late List<Recipes> recipes = List<Recipes>.from(recipeList);
 
   @override
@@ -73,6 +70,9 @@ class _SearchScreenState extends State<SearchScreen> {
                           physics: const BouncingScrollPhysics(),
                           itemCount: state.searchList.length,
                           itemBuilder: (context, index) {
+                            // final data = state.searchList[index];
+                            // var isFavourite = fetchFavs(data);
+
                             return GestureDetector(
                                 onTap: () {
                                   FocusScopeNode currentFocus =
@@ -87,7 +87,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                         idPass: index),
                                   ));
                                 },
-                                child: userCard(state.searchList[index]));
+                                child: userCard(state.searchList[index],context));
                           },
                         )
                       : const Center(
@@ -102,18 +102,7 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  void _recipeSearch(String recipeName) {
-    setState(() {
-      recipes = recipeList
-          .where((element) =>
-              element.recipeName
-                  .toLowerCase()
-                  .contains(recipeName.toLowerCase()) ||
-              element.catogory.toLowerCase().contains(recipeName.toLowerCase()))
-          .toList();
-    });
-  }
-
+  // void _recipeSearch(String recipeName) {
   void clearText() {
     _searchController.clear();
   }

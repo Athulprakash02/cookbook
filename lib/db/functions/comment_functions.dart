@@ -1,37 +1,44 @@
-import 'package:cookbook/db/functions/db_recipe_functions.dart';
+
+import 'package:cookbook/bloc/comment_Screen_bloc/bloc/comment_screen_bloc.dart';
 import 'package:cookbook/db/model/comments_db.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-ValueNotifier<List<CommentsData>> commentsListNotifier = ValueNotifier([]);
-Future<void> addComment(CommentsData value) async {
-  final commentsDB = await Hive.openBox<CommentsData>('comments_db');
-  final comments = await commentsDB.add(value);
-  value.id = comments;
+List<CommentsData> commentsList = [];
+
+addComment(CommentsData value, BuildContext context) {
+  final commentsDB = Hive.box<CommentsData>('comments_db');
+  BlocProvider.of<CommentScreenBloc>(context).add(AddComment(comment: value));
+
+ commentsDB.add(value);
+  
   getAllComments();
-  commentsListNotifier.value.add(value);
-  commentsListNotifier.notifyListeners();
+  // commentsListNotifier.value.add(value);
+  // commentsListNotifier.notifyListeners();
 }
 
-Future<void> getAllComments() async {
-  final commentsDB = await Hive.openBox<CommentsData>('comments_db');
-  commentsListNotifier.value.clear();
-  commentsListNotifier.value.addAll(commentsDB.values);
-  commentsListNotifier.notifyListeners();
+getAllComments()  {
+  final commentsDB =  Hive.box<CommentsData>('comments_db');
+  commentsList.clear();
+  commentsList.addAll(commentsDB.values);
+//   commentsListNotifier.value.clear();
+//   commentsListNotifier.value.addAll(commentsDB.values);
+//   commentsListNotifier.notifyListeners();
 }
 
-onClickedAddComment(String commentTextController, username, recipename) {
+onClickedAddComment(String commentTextController, username, recipename,BuildContext context) {
   final commentText = commentTextController;
   final userName = username;
   final recipeName = recipename;
 
   print('clicked');
 
-  final Comment = CommentsData(
+  final comment = CommentsData(
       userName: userName,
       recipeName: recipeName,
       comment: commentTextController);
-      addComment(Comment);
+  addComment(comment,context);
 
   // // comments.clear();
   // commentsList.add(commentController.text);

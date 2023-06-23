@@ -1,5 +1,6 @@
 // import 'package:cookbook/bloc/bloc/add_recipe_bloc.dart';
 import 'package:cookbook/bloc/add_fav_bloc/bloc/add_favourite_bloc.dart';
+import 'package:cookbook/bloc/comment_Screen_bloc/bloc/comment_screen_bloc.dart';
 import 'package:cookbook/bloc/fav_screen_bloc/bloc/favourite_screen_bloc.dart';
 import 'package:cookbook/bloc/home_screen_bloc/bloc/home_bloc.dart';
 import 'package:cookbook/bloc/image/bloc/image_bloc.dart';
@@ -71,7 +72,8 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => RecentScreenBloc(),
-        )
+        ),
+        BlocProvider(create: (context) => CommentScreenBloc(),)
       ],
       child: MaterialApp(
         title: 'CookBook',

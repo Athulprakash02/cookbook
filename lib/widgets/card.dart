@@ -113,14 +113,16 @@ Widget viewCard(BuildContext ctx, Recipes data, int index) {
   );
 }
 
-Widget userCard(Recipes data) {
+Widget userCard(Recipes data,BuildContext context) {
   var currentRecipe = data.recipeName;
-  // print(' curr = $currentIndex');
-  // final isFavourited = box.get(currentRecipe) != null;
+  final isFavourite = fetchFavs(data,context);
+ 
   return BlocBuilder<AddFavouriteBloc, AddFavouriteState>(
     builder: (context, state) {
-    final favouriteStatus = state.favouriteStatus;
-    final isFavourite = favouriteStatus[currentRecipe] ?? false;
+      
+
+      // final favouriteStatus = state.favouriteStatus;
+      // final isFavourite = favouriteStatus[currentRecipe] ?? false;
       return Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
@@ -199,7 +201,7 @@ Widget userCard(Recipes data) {
                               }
                             },
                             icon: Icon(
-                              isFavourite 
+                              isFavourite
                                   ? Icons.favorite
                                   : Icons.favorite_outline,
                               size: 25,

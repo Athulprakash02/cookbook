@@ -6,20 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class FavouritesScreen extends StatefulWidget {
+class FavouritesScreen extends StatelessWidget {
   const FavouritesScreen({super.key});
 
-  @override
-  State<FavouritesScreen> createState() => _FavouritesScreenState();
-}
-
-class _FavouritesScreenState extends State<FavouritesScreen> {
   // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   getAllFavourites();
-  // }
   @override
   Widget build(BuildContext context) {
     // final box = Hive.box<Recipes>('favourites_list');

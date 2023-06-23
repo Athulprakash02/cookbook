@@ -1,3 +1,4 @@
+import 'package:cookbook/bloc/add_fav_bloc/bloc/add_favourite_bloc.dart';
 import 'package:cookbook/bloc/fav_screen_bloc/bloc/favourite_screen_bloc.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +55,21 @@ getAllFavourites() {
   //   // recipeListNotifier.value.add(std);
   // }
   // recipeListNotifier.notifyListeners();
+}
+fetchFavs(Recipes recipe,BuildContext context){
+  var currentRecipe = recipe.recipeName;
+  var isFavourite;
+  BlocProvider.of<AddFavouriteBloc>(context).add(FavouritedEvent(recipeName: currentRecipe));
+  final favs = favouriteNotifier
+          .where((element) => element.recipeName == currentRecipe)
+          .isNotEmpty;
+          if(favs){
+            isFavourite = true;
+            print(isFavourite);
+          }else{
+            isFavourite = false;
+          }
+          return favs;
 }
 
 

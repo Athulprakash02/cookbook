@@ -1,3 +1,4 @@
+import 'package:cookbook/db/functions/favourite_function.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/screens/recipe_screen.dart';
 import 'package:cookbook/widgets/card.dart';
@@ -10,6 +11,8 @@ Widget buildCategoryRecipeList(List<Recipes> items, String category) {
         physics: const BouncingScrollPhysics(),
         itemBuilder: (context, index) {
           final data = categoryRecipes[index];
+          // var isFavourite = fetchFavs(data);
+          
           return GestureDetector(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
@@ -17,7 +20,7 @@ Widget buildCategoryRecipeList(List<Recipes> items, String category) {
                       RecipeScreen(passValue: data, idPass: index),
                 ));
               },
-              child: userCard(data));
+              child: userCard(data,context));
         },
         itemCount: categoryRecipes.length,
       );

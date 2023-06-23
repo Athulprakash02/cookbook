@@ -1,13 +1,15 @@
 
+import 'package:cookbook/bloc/comment_Screen_bloc/bloc/comment_screen_bloc.dart';
 import 'package:cookbook/db/functions/comment_functions.dart';
 import 'package:cookbook/db/model/comments_db.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/widgets/comment.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class ReviewScreen extends StatefulWidget {
-   ReviewScreen({required this.recipe, super.key});
+   const ReviewScreen({required this.recipe, super.key});
 
   final Recipes recipe;
 
@@ -20,7 +22,7 @@ class ReviewScreen extends StatefulWidget {
 class _ReviewScreenState extends State<ReviewScreen> {
   late Box<CommentsData> commentList;
 
-
+ 
   List<CommentsData> commentLists = Hive.box<CommentsData>('comments_db').values.toList();
   late List<CommentsData> reviews = List<CommentsData>.from(commentLists);
 
@@ -48,23 +50,26 @@ class _ReviewScreenState extends State<ReviewScreen> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               // reviewWidget(),
-              Expanded(child: ValueListenableBuilder(
-                valueListenable: commentsListNotifier,
-                builder: (context, List<CommentsData> reviews, child) {
-                      final matchingReviews = reviews.where((review) => review.recipeName == widget.recipe.recipeName).toList();
+              Expanded(child: 
+                      // final matchingReviews = reviews.where((review) => review.recipeName == widget.recipe.recipeName).toList();
 
-                  return ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    final data = matchingReviews[index];
-                  return commentBubble(data);
-                },
-                itemCount: matchingReviews.length,);
-                }  
+                   BlocBuilder<CommentScreenBloc, CommentScreenState>(
+                     builder: (context, state) {
+                       final matchingReviews = state.commentList.where((review) => review.recipeName == widget.recipe.recipeName).toList();
+                       return ListView.builder(
+                                     physics: const BouncingScrollPhysics(),
+                                     itemBuilder: (context, index) {
+                                       final data = matchingReviews[index];
+                                     return commentBubble(data);
+                                   },
+                                   itemCount: matchingReviews.length,);
+                     },
+                   )
+              //   }  
                 
-              )
+              // )
               ),
-              inputSection(widget.recipe)
+              inputSection(widget.recipe,context)
               
             ],
           ),
