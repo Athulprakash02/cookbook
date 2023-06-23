@@ -113,16 +113,15 @@ Widget viewCard(BuildContext ctx, Recipes data, int index) {
   );
 }
 
-Widget userCard(Recipes data,BuildContext context) {
-  var currentRecipe = data.recipeName;
-  final isFavourite = fetchFavs(data,context);
- 
+Widget userCard(Recipes data, BuildContext context) {
+  // var currentRecipe = data.recipeName;
+  // final isFavourite = fetchFavs(data, context);
+
   return BlocBuilder<AddFavouriteBloc, AddFavouriteState>(
     builder: (context, state) {
-      
-
-      // final favouriteStatus = state.favouriteStatus;
-      // final isFavourite = favouriteStatus[currentRecipe] ?? false;
+      var currentRecipe = data.recipeName;
+      final favouriteStatus = state.favouriteStatus;
+      final isFavourite = favouriteStatus[currentRecipe] ?? false;
       return Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
@@ -191,12 +190,14 @@ Widget userCard(Recipes data,BuildContext context) {
                         child: IconButton(
                             onPressed: () {
                               // print(isFavourite);
-                              BlocProvider.of<AddFavouriteBloc>(context).add(
-                                  FavouritedEvent(recipeName: currentRecipe));
 
                               if (isFavourite) {
+                                BlocProvider.of<AddFavouriteBloc>(context).add(
+                                    FavouritedEvent(recipeName: currentRecipe));
                                 removeFavorite(currentRecipe, context);
                               } else {
+                                BlocProvider.of<AddFavouriteBloc>(context).add(
+                                    FavouritedEvent(recipeName: currentRecipe));
                                 addToFavourite(data, context);
                               }
                             },

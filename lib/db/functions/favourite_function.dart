@@ -35,10 +35,10 @@ final box = Hive.box<Recipes>('favourites_list');
 
 
 
-removeFavorite(String recipename,BuildContext context) async {
+removeFavorite(String recipename,BuildContext context)  {
   print(recipename);
   BlocProvider.of<FavouriteScreenBloc>(context).add(RemoveFromFavourite(recipeName: recipename));
-  await box.delete(recipename);
+   box.delete(recipename);
   // recipeListNotifier.notifyListeners();
   print('deleted');
   // print('box');
