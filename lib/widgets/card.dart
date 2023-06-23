@@ -119,6 +119,7 @@ Widget userCard(Recipes data, BuildContext context) {
 
   return BlocBuilder<AddFavouriteBloc, AddFavouriteState>(
     builder: (context, state) {
+      
       var currentRecipe = data.recipeName;
       final favouriteStatus = state.favouriteStatus;
       final isFavourite = favouriteStatus[currentRecipe] ?? false;

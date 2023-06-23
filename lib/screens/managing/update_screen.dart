@@ -1,13 +1,17 @@
 import 'dart:io';
 
+import 'package:cookbook/bloc/update_image_bloc/bloc/update_image_bloc.dart';
 import 'package:cookbook/db/functions/db_recipe_functions.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/screens/managing/manage_screen.dart';
 import 'package:cookbook/widgets/add_ingredients.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+
+String tempPath = '';
 
 class UpdateScreen extends StatefulWidget {
   final int index;
@@ -91,7 +95,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
       // _ingredientsList.add(_controllers[i].text);
       // print(
       //     "_length ${_ingredientsList.length}, i = $i, ${recipe.extraIngredients[i]}");
-      setTextField( recipe.extraIngredients[i]);
+      setTextField(recipe.extraIngredients[i]);
 
       // print(_controllers[i].text);
     }
@@ -104,9 +108,12 @@ class _UpdateScreenState extends State<UpdateScreen> {
         await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (pickedImage != null) {
-      setState(() {
-        imagePath = pickedImage.path;
-      });
+      var tempPath = pickedImage.path;
+      BlocProvider.of<UpdateImageBloc>(context)
+          .add(OnImageChange(imagePath: tempPath));
+      // setState(() {
+      //   imagePath = pickedImage.path;
+      // });
     }
   }
 
@@ -129,15 +136,20 @@ class _UpdateScreenState extends State<UpdateScreen> {
               children: [
                 Center(
                   child: InkWell(
-                    child: Container(
-                      width: 200,
-                      height: 120,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: imagePath == null
-                                  ? FileImage(File(recipe.imagePath))
-                                  : FileImage(
-                                      File(imagePath ?? recipe.imagePath)))),
+                    child: BlocBuilder<UpdateImageBloc, UpdateImageState>(
+                      builder: (context, state) {
+                        tempPath = (tempPath != recipe.imagePath ? state.imagePath :tempPath)!;
+                        return Container(
+                          width: 200,
+                          height: 120,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: imagePath == null
+                                      ? FileImage(File(recipe.imagePath))
+                                      : FileImage(File(
+                                          imagePath ?? recipe.imagePath)))),
+                        );
+                      },
                     ),
                     onTap: () {
                       imagePick();
@@ -227,7 +239,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
     );
   }
 
-  setTextField( [String? textIngredients]) {
+  setTextField([String? textIngredients]) {
     setState(() {
       GlobalKey key = GlobalKey();
       // print("key $key");
@@ -345,12 +357,13 @@ class _UpdateScreenState extends State<UpdateScreen> {
           style: TextStyle(fontSize: 17),
         )));
   }
-  demo(){
+
+  demo() {
     // _ingredientsList.clear();
-    for(int i=0;i<_controllers.length;i++){
+    for (int i = 0; i < _controllers.length; i++) {
       print(_controllers[i].text);
-       _ingredientsList.add(_controllers[i].text);
-       print("_ingredientsListvalue = ${_ingredientsList[i]}");
+      _ingredientsList.add(_controllers[i].text);
+      print("_ingredientsListvalue = ${_ingredientsList[i]}");
     }
   }
 
@@ -360,7 +373,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
     // recipe.extraIngredients.clear();
     // _ingredientsList.clear();
     // await demo();
-    
+
     //  for(int i=0;i<_controllers.length;i++){
     //   print("text ${_controllers[i].text}");
     //    _ingredientsList.add(_controllers[i].text);
@@ -394,6 +407,5 @@ class _UpdateScreenState extends State<UpdateScreen> {
     // final recipeDB = await Hive.openBox<Recipes>('recipe_list');
     recipeBox.putAt(index, _updatedRecipe);
     getAllRecipe();
-    
   }
 }
