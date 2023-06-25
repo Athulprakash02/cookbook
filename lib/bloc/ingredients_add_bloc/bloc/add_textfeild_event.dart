@@ -16,3 +16,11 @@ class AddIngredientsTextFeild extends AddTextfeildEvent {
     required this.ingredientsList,
   });
 }
+
+class RemoveIngredientsTextField extends AddTextfeildEvent{
+  final int index;
+
+  RemoveIngredientsTextField(this.index);
+
+  
+}

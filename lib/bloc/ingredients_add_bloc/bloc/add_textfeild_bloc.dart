@@ -20,12 +20,32 @@ class AddTextfeildBloc extends Bloc<AddTextfeildEvent, AddTextfeildState> {
       // ingredientsList.clear();
       ingredientsList.add('');
       print(ingredientsList);
-      
 
-      return emit(AddTextfeildState(textFields: textfields, controllers: controllers, textKeys: textKeys, ingredientsList: ingredientsList));
-      
+      return emit(AddTextfeildState(
+          textFields: textfields,
+          controllers: controllers,
+          textKeys: textKeys,
+          ingredientsList: ingredientsList));
+    });
 
+    on<RemoveIngredientsTextField>((event, emit) {
+      final updatedTextFeilds = state.textFields.toList();
+      final updatedControllers = state.controllers.toList();
+      final updatedTextKeys = state.textKeys.toList();
+      final updatedIngredientsList = state.ingredientsList.toList();
 
+      if (event.index >= 0 && event.index < updatedTextFeilds.length) {
+        updatedTextFeilds.removeAt(event.index);
+        updatedControllers.removeAt(event.index);
+        updatedTextKeys.removeAt(event.index);
+        updatedIngredientsList.removeAt(event.index);
+      }
+
+      emit(AddTextfeildState(
+          textFields: updatedTextFeilds,
+          controllers: updatedControllers,
+          textKeys: updatedTextKeys,
+          ingredientsList: updatedIngredientsList));
     });
   }
 }

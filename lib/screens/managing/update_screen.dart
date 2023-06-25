@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:cookbook/bloc/update/bloc/update_screen_bloc.dart';
 import 'package:cookbook/bloc/update_image_bloc/bloc/update_image_bloc.dart';
 import 'package:cookbook/db/functions/db_recipe_functions.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/screens/managing/manage_screen.dart';
+import 'package:cookbook/screens/user/home_screen.dart';
 import 'package:cookbook/widgets/add_ingredients.dart';
 
 import 'package:flutter/material.dart';
@@ -23,10 +25,10 @@ class UpdateScreen extends StatefulWidget {
 }
 
 class _UpdateScreenState extends State<UpdateScreen> {
-  final List<GlobalKey> _textKeys = [];
-  final List<Widget> _textfields = [];
-  final List<TextEditingController> _controllers = [];
-  late List<String> _ingredientsList = [];
+  final List<GlobalKey> textKeys = [];
+  final List<Widget> textfields = [];
+  final List<TextEditingController> controllers = [];
+  late List<String> ingredientsList = [];
   late TextEditingController _recipeNameController;
   late TextEditingController _durationController;
   late TextEditingController _categoryController;
@@ -90,8 +92,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
       // print(recipe.extraIngredients[i]);
       // _ingredientsList.add(recipe.extraIngredients[i]);
       // print(_ingredientsList);
-      _controllers.add(TextEditingController());
-      _controllers[i].text = recipe.extraIngredients[i];
+      controllers.add(TextEditingController());
+      controllers[i].text = recipe.extraIngredients[i];
       // _ingredientsList.add(_controllers[i].text);
       // print(
       //     "_length ${_ingredientsList.length}, i = $i, ${recipe.extraIngredients[i]}");
@@ -138,7 +140,9 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   child: InkWell(
                     child: BlocBuilder<UpdateImageBloc, UpdateImageState>(
                       builder: (context, state) {
-                        tempPath = (tempPath != recipe.imagePath ? state.imagePath :tempPath)!;
+                        tempPath = (tempPath != recipe.imagePath
+                            ? state.imagePath
+                            : tempPath)!;
                         return Container(
                           width: 200,
                           height: 120,
@@ -187,23 +191,27 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   ),
                 ),
                 szdBox(),
-                Column(
-                  children: [
-                    Row(
+                BlocBuilder<UpdateScreenBloc, UpdateScreenState>(
+                  builder: (context, state) {
+                    return Column(
                       children: [
-                        Expanded(
-                            child: recipeText(
-                                _ingredientsController, 'Add ingredients', 1)),
-                        IconButton(
-                            iconSize: 35,
-                            onPressed: () {
-                              addTextField(_controllers.length);
-                            },
-                            icon: Icon(Icons.add_box_outlined)),
+                        Row(
+                          children: [
+                            Expanded(
+                                child: recipeText(_ingredientsController,
+                                    'Add ingredients', 1)),
+                            IconButton(
+                                iconSize: 35,
+                                onPressed: () {
+                                  addTextField(state.controllers.length);
+                                },
+                                icon: Icon(Icons.add_box_outlined)),
+                          ],
+                        ),
+                        ...textfields,
                       ],
-                    ),
-                    ..._textfields,
-                  ],
+                    );
+                  },
                 ),
                 szdBox(),
                 recipeText(_directionController, 'Directions for cook', 15),
@@ -222,7 +230,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         // demo(widget.index);
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
-                              builder: (ctx) => ManageScreen(),
+                              builder: (ctx) => HomeScreen(),
                             ),
                             (route) => false);
                       } else {
@@ -233,7 +241,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                     label: Text('Update'))
               ],
             ),
-          )
+          ) 
         ],
       )),
     );
@@ -243,42 +251,49 @@ class _UpdateScreenState extends State<UpdateScreen> {
     setState(() {
       GlobalKey key = GlobalKey();
       // print("key $key");
-      _controllers.add(TextEditingController(text: textIngredients));
-      _textKeys.add(key);
-      _textfields.add(addIngredients(key));
-      _ingredientsList.add(textIngredients!);
+      controllers.add(TextEditingController(text: textIngredients));
+      textKeys.add(key);
+      textfields.add(addIngredients(key));
+      ingredientsList.add(textIngredients!);
       // _ingredientsList.add(textIngredients!);
     });
   }
 
   void addTextField(key) {
-    print("legth = ${_textfields.length}");
-    setState(() {
-      // print('1');
-      GlobalKey key = GlobalKey();
-      _controllers.add(TextEditingController());
-      _textKeys.add(key);
-      _textfields.add(addIngredients(key));
-      // _ingredientsList.clear();
-      _ingredientsList.add('');
-    });
+    print("legth = ${textfields.length}");
+    BlocProvider.of<UpdateScreenBloc>(context).add(IncreaseIngredientsTextFeild(
+        textFields: textfields,
+        controllers: controllers,
+        textKeys: textKeys,
+        ingredientsList: ingredientsList));
+        textfields.add(addIngredients(key));
+        ingredientsList.add('');
+    // setState(() {
+    //   // print('1');
+    //   GlobalKey key = GlobalKey();
+    //   _controllers.add(TextEditingController());
+    //   _textKeys.add(key);
+    //   _textfields.add(addIngredients(key));
+    //   // _ingredientsList.clear();
+    //   _ingredientsList.add('');
+    // });
   }
 
   void removeTextField(GlobalKey key) {
     setState(() {
-      int index = _textKeys.indexOf(key);
+      int index = textKeys.indexOf(key);
       // _controllers[index].dispose();
-      _controllers.removeAt(index);
-      _textfields.removeAt(index);
-      _textKeys.removeAt(index);
-      _ingredientsList.removeAt(index);
+      controllers.removeAt(index);
+      textfields.removeAt(index);
+      textKeys.removeAt(index);
+      ingredientsList.removeAt(index);
     });
   }
 
   Widget addIngredients(GlobalKey? key) {
     print('Entered');
     ObjectKey keys = const ObjectKey({});
-    int index1 = _ingredientsList.length;
+    int index1 = ingredientsList.length;
     // print(index1);
 
     return Padding(
@@ -290,10 +305,10 @@ class _UpdateScreenState extends State<UpdateScreen> {
             Expanded(
               child: TextField(
                 maxLines: 1,
-                controller: _controllers[index1],
+                controller: controllers[index1],
                 onChanged: (value) {
                   setState(() {
-                    _ingredientsList[index1] = value;
+                    ingredientsList[index1] = value;
                   });
                 },
                 key: keys,
@@ -360,16 +375,16 @@ class _UpdateScreenState extends State<UpdateScreen> {
 
   demo() {
     // _ingredientsList.clear();
-    for (int i = 0; i < _controllers.length; i++) {
-      print(_controllers[i].text);
-      _ingredientsList.add(_controllers[i].text);
-      print("_ingredientsListvalue = ${_ingredientsList[i]}");
+    for (int i = 0; i < controllers.length; i++) {
+      print(controllers[i].text);
+      ingredientsList.add(controllers[i].text);
+      print("_ingredientsListvalue = ${ingredientsList[i]}");
     }
   }
 
-  Future<void> onUpdateButtonClicked(int index) async {
+   onUpdateButtonClicked(int index) {
     print(index);
-    print(" $_ingredientsList");
+    print(" $ingredientsList");
     // recipe.extraIngredients.clear();
     // _ingredientsList.clear();
     // await demo();
@@ -400,7 +415,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
         cookingTime: duration,
         catogory: category,
         ingredients: ingredients,
-        extraIngredients: _ingredientsList,
+        extraIngredients: ingredientsList,
         directions: direction,
         url: link);
     // print(_updatedRecipe.extraIngredients);

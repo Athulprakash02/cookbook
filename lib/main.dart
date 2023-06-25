@@ -7,6 +7,7 @@ import 'package:cookbook/bloc/image/bloc/image_bloc.dart';
 import 'package:cookbook/bloc/ingredients_add_bloc/bloc/add_textfeild_bloc.dart';
 import 'package:cookbook/bloc/recent_screen_bloc/bloc/recent_screen_bloc.dart';
 import 'package:cookbook/bloc/search_screen_bloc/bloc/search_bloc.dart';
+import 'package:cookbook/bloc/update/bloc/update_screen_bloc.dart';
 import 'package:cookbook/bloc/update_image_bloc/bloc/update_image_bloc.dart';
 import 'package:cookbook/db/model/comments_db.dart';
 import 'package:cookbook/db/model/login_model.dart';
@@ -79,6 +80,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => UpdateImageBloc(),
+        ),
+        BlocProvider(
+          create: (context) => UpdateScreenBloc(),
         )
       ],
       child: MaterialApp(

@@ -222,7 +222,7 @@ class _AddScreenState extends State<AddScreen> {
       textKeys: textKeys,
       ingredientsList: ingredientsList,
     ));
-    textfields.add(addIngredients(GlobalKey()));
+    textfields.add(addIngredients(GlobalKey(),context));
     ingredientsList.add('');
     print("vannu =${textKeys.length}");
     
@@ -315,9 +315,11 @@ class _AddScreenState extends State<AddScreen> {
   }
 }
 
-Widget addIngredients([GlobalKey? key]) {
+Widget addIngredients([GlobalKey? key,BuildContext? context]) {
+  
   ObjectKey keys = const ObjectKey({});
   int index = ingredientsList.length;
+  
   // Object _latestTextFieldIndex = -1;
   // bool isVisible = index == _latestTextFieldIndex;
   return Padding(
@@ -341,9 +343,12 @@ Widget addIngredients([GlobalKey? key]) {
               decoration: InputDecoration(
                   suffixIcon: IconButton(
                       onPressed: () {
-                        // if (key != null) {
-                        //   removeTextField(key);
-                        // }
+                        
+                        if (key != null && context != null) {
+                          BlocProvider.of<AddTextfeildBloc>(context).add(RemoveIngredientsTextField(index));
+                          // removeTextField(key);
+                        }
+                        
                       },
                       icon: const Icon(Icons.clear)),
                   hintText: 'Add ingredients',

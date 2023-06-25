@@ -5,12 +5,17 @@ class AddTextfeildState {
   final List controllers;
   final List textKeys;
   final List ingredientsList;
+  // final int index;
+  // final BuildContext? context;
 
   AddTextfeildState(
       {required this.textFields,
       required this.controllers,
       required this.textKeys,
-      required this.ingredientsList});
+      required this.ingredientsList,
+      // required this.index
+      // this.context
+       });
 }
 
 class AddTextfeildInitial extends AddTextfeildState {
@@ -19,5 +24,7 @@ class AddTextfeildInitial extends AddTextfeildState {
             controllers: controllers,
             ingredientsList: ingredientsList,
             textFields: textfields,
-            textKeys: textKeys);
+            textKeys: textKeys,
+            // index: 0
+            );
 }
