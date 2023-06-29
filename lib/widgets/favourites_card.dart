@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:cookbook/db/functions/favourite_function.dart';
 import 'package:cookbook/db/model/recipies.dart';
-import 'package:cookbook/screens/recipe_screen.dart';
+import 'package:cookbook/screens/user/recipe_screen.dart';
 import 'package:flutter/material.dart';
 
 Widget favouritesCard(Recipes recipe,BuildContext ctx,int index){

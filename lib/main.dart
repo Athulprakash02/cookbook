@@ -1,7 +1,7 @@
 import 'package:cookbook/db/model/comments_db.dart';
 import 'package:cookbook/db/model/login_model.dart';
 import 'package:cookbook/db/model/recipies.dart';
-import 'package:cookbook/screens/splash_screen.dart';
+import 'package:cookbook/screens/user/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';

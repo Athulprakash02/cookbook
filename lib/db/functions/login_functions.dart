@@ -18,9 +18,9 @@ confirmation(BuildContext context) async {
             
             backgroundColor: const Color.fromARGB(255, 210, 209, 209),
             shape:
-                BeveledRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             
-            content: const Text('Do you want to logout?'),
+            content: const Text('Do you want to logout?',style: TextStyle(fontSize: 18),),
             actions: [
               ElevatedButton(
                 onPressed: () {

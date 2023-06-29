@@ -1,6 +1,6 @@
 import 'package:cookbook/db/functions/db_recipe_functions.dart';
 import 'package:cookbook/db/model/recipies.dart';
-import 'package:cookbook/screens/recipe_screen.dart';
+import 'package:cookbook/screens/user/recipe_screen.dart';
 import 'package:cookbook/widgets/card.dart';
 import 'package:flutter/material.dart';
 

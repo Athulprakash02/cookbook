@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:cookbook/db/functions/recently_viewed_functions.dart';
 import 'package:cookbook/db/model/recipies.dart';
-import 'package:cookbook/screens/recipe_screen.dart';
+import 'package:cookbook/screens/user/recipe_screen.dart';
 import 'package:flutter/material.dart';
 
 Widget recentCard(Recipes recipe,BuildContext ctx,int index){

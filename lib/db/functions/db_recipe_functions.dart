@@ -70,6 +70,7 @@ Future<void> deleteRecipe(int id) async{
   final recipeDB = await Hive.openBox<Recipes>('recipe_list');
 
   await recipeDB.delete(id);
+  // recipeListNotifier.notifyListeners();
   getAllRecipe();
   // recipeListNotifier.notifyListeners();
 }

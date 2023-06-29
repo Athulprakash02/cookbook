@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cookbook/db/functions/db_recipe_functions.dart';
 import 'package:cookbook/db/model/recipies.dart';
 import 'package:cookbook/screens/managing/manage_screen.dart';
+import 'package:cookbook/screens/user/home_screen.dart';
 import 'package:cookbook/widgets/add_ingredients.dart';
 
 import 'package:flutter/material.dart';
@@ -188,7 +189,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                             onPressed: () {
                               addTextField(_controllers.length);
                             },
-                            icon: Icon(Icons.add_box_outlined)),
+                            icon: const Icon(Icons.add_box_outlined)),
                       ],
                     ),
                     ..._textfields,
@@ -211,15 +212,15 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         // demo(widget.index);
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
-                              builder: (ctx) => ManageScreen(),
+                              builder: (ctx) => const HomeScreen(),
                             ),
                             (route) => false);
                       } else {
                         validCheck();
                       }
                     },
-                    icon: Icon(Icons.update),
-                    label: Text('Update'))
+                    icon: const Icon(Icons.update),
+                    label: const Text('Update'))
               ],
             ),
           )
